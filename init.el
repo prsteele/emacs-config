@@ -19,5 +19,4 @@
 		      "prsteele-octave"
 		      "prsteele-python"
 		      "prsteele-sass"
-		      "prsteele-yasnippet"
 		      ))
