@@ -9,7 +9,8 @@
        (normal-top-level-add-subdirs-to-load-path))
 
 ;; Load all my configuration files
-(mapc 'load-library '("prsteele-c++"
+(mapc 'load-library '("prsteele-auto-complete"
+		      "prsteele-c++"
 		      "prsteele-elisp"
 		      "prsteele-general"
 		      "prsteele-go"
@@ -18,4 +19,5 @@
 		      "prsteele-octave"
 		      "prsteele-python"
 		      "prsteele-sass"
+		      "prsteele-yasnippet"
 		      ))
