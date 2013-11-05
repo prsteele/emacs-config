@@ -13,4 +13,5 @@
 					   (ac-stop)
 					   (newline-and-indent))))
 
-
+;; Apparently flyspell makes auto-complete go very slow
+(ac-flyspell-workaround)
