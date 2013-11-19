@@ -35,6 +35,6 @@
 (tool-bar-mode -1)
 (set-scroll-bar-mode 'nil)
 
-(color-theme-initialize)
+(require 'color-theme)
 (color-theme-billw)
-(message "asdf")
+
