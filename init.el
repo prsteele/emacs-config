@@ -16,6 +16,7 @@
 		      "prsteele-go"
 		      "prsteele-haskell"
 		      "prsteele-latex"
+		      "prsteele-markdown"
 		      "prsteele-octave"
 		      "prsteele-python"
 		      "prsteele-sass"
