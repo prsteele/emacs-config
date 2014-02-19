@@ -13,6 +13,7 @@
 		      "prsteele-c++"
 		      "prsteele-elisp"
 		      "prsteele-general"
+                      "prsteele-color-themes"
 		      "prsteele-go"
 		      "prsteele-haskell"
 		      "prsteele-latex"
@@ -22,3 +23,4 @@
 		      "prsteele-sass"
 		      "prsteele-scons"
 		      ))
+
