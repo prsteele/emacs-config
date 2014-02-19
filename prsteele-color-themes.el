@@ -10,6 +10,9 @@
 (defvar prsteele-default-color-theme 'color-theme-comidia
   "The color scheme loaded when Emacs starts.")
 
+(if (not (display-graphic-p))
+    (setq prsteele-default-color-theme 'color-theme-emacs-nw))
+
 ;; The list of all color themes we cycle through. See variable
 ;; color-themes for a list of all installed color themes.
 (defvar prsteele-color-themes '(color-theme-calm-forest
@@ -18,6 +21,7 @@
                                 color-theme-clarity
                                 color-theme-comidia
                                 color-theme-dark-laptop
+                                color-theme-emacs-nw
                                 color-theme-euphoria
                                 color-theme-hober
                                 color-theme-late-night
