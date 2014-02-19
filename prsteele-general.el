@@ -24,17 +24,14 @@
 ;; like spawn a shell
 (global-set-key "\C-z" '(lambda () (interactive) (ansi-term "/bin/bash")))
 
-;; Enable upcase-region command
+;; Enable upcase-region and downcase-region command
 (put 'upcase-region 'disabled nil)
-
-;; Hide the top toolbar
-(tool-bar-mode nil)
+(put 'downcase-region 'disabled nil)
 
 ;; Remove the toolbar; has to be done down here, rather than at the
 ;; top for some reason.
 (tool-bar-mode -1)
 (set-scroll-bar-mode 'nil)
 
-(require 'color-theme)
-(color-theme-billw)
-
+;; Don't use tabs
+(setq-default indent-tabs-mode nil)
