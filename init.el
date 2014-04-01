@@ -10,12 +10,13 @@
 
 ;; Load all my configuration files
 (mapc 'load-library '("prsteele-auto-complete"
-		      "prsteele-c++"
-		      "prsteele-elisp"
 		      "prsteele-general"
                       "prsteele-color-themes"
+                      "prsteele-c++"
+		      "prsteele-elisp"
 		      "prsteele-go"
 		      "prsteele-haskell"
+                      "prsteele-javascript"
 		      "prsteele-latex"
 		      "prsteele-markdown"
 		      "prsteele-octave"
