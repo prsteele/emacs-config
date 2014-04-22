@@ -28,8 +28,8 @@
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
 
-;; Remove the toolbar; has to be done down here, rather than at the
-;; top for some reason.
+;; Remove the toolbar, scroll bars, and menu bar; has to be done down
+;; here, rather than at the top for some reason.
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (set-scroll-bar-mode 'nil)
