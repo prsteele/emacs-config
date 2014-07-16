@@ -23,6 +23,7 @@
 		      "prsteele-markdown"
 		      "prsteele-octave"
 		      "prsteele-python"
+                      "prsteele-rust"
 		      "prsteele-sass"
 		      "prsteele-scons"
 		      ))
