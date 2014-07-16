@@ -1,4 +1,3 @@
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;; Cycle color themes, adapted from code from
@@ -8,8 +7,11 @@
 (require 'color-theme)
 
 ;; The default color theme to apply
-(defvar prsteele-default-color-theme 'color-theme-ld-dark
+(defvar prsteele-default-color-theme 'color-theme-comidia
   "The color scheme loaded when Emacs starts.")
+
+(if (not (display-graphic-p))
+    (setq prsteele-default-color-theme 'color-theme-emacs-nw))
 
 ;; The list of all color themes we cycle through. See variable
 ;; color-themes for a list of all installed color themes.
@@ -37,10 +39,6 @@
 
 A complete list of installed color themes can be found in the 
 variable color-themes.")
-
-(setq prsteele-color-themes (mapcar 'car color-themes))
-
-
 
 (defun prsteele-theme-init ()
   "Applies the default theme, adding it to prsteele-color-themes 
@@ -73,4 +71,3 @@ if necessary, and cycles it to the front of the list."
   (prsteele-theme-apply))
 
 (prsteele-theme-init)
-(global-set-key [f12] 'prsteele-theme-next)
