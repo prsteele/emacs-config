@@ -12,9 +12,7 @@
 (transient-mark-mode 't)
 
 ;; Auto-indent new lines
-(setq indent-line-function `indent-relative-maybe)
-
-;; Make Emacs automatically match parenthesis, etc
+(setq indent-line-function `indent-relative);; Make Emacs automatically match parenthesis, etc
 (show-paren-mode 't)
 
 ;; Turn on column numbering
@@ -36,3 +34,7 @@
 
 ;; Don't use tabs
 (setq-default indent-tabs-mode nil)
+
+;; Ubuntu 14.04 has a miserable default font in Emacs.
+(add-to-list 'default-frame-alist '(font . "Ubuntu Mono 13"))
+(set-frame-font "Ubuntu Mono 13" nil t)
