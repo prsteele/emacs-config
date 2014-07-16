@@ -6,6 +6,8 @@
 
 (require 'color-theme)
 
+(color-theme-initialize)
+
 ;; The default color theme to apply
 (defvar prsteele-default-color-theme 'color-theme-comidia
   "The color scheme loaded when Emacs starts.")
