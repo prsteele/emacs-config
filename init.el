@@ -1,6 +1,6 @@
 (require 'package)
 (add-to-list 'package-archives
-	     '("marmalade" . "http://marmalade-repo.org/packages/"))
+	     '("melpa" . "http://melpa.milkbox.net/packages/"))
 (package-initialize)
 
 ;; Find local libraries
@@ -16,6 +16,8 @@
 		      "prsteele-elisp"
 		      "prsteele-go"
 		      "prsteele-haskell"
+                      "prsteele-helm"
+                      "prsteele-helm-gtags"
                       "prsteele-javascript"
 		      "prsteele-latex"
                       "prsteele-java"

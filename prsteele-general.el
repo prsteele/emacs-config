@@ -18,10 +18,6 @@
 ;; Turn on column numbering
 (column-number-mode 't)
 
-;; Stop C-z from backgrounding emacs and make it do something useful
-;; like spawn a shell
-(global-set-key "\C-z" '(lambda () (interactive) (ansi-term "/bin/bash")))
-
 ;; Enable upcase-region and downcase-region command
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
@@ -31,6 +27,8 @@
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (set-scroll-bar-mode 'nil)
+
+(global-set-key (kbd "C-z") 'eshell)
 
 ;; Don't use tabs
 (setq-default indent-tabs-mode nil)
