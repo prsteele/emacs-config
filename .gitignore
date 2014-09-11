@@ -2,3 +2,7 @@
 *.elc
 *.elc~
 auto-save-list
+ac-comphist.dat
+elpa/
+eshell/
+tramp
