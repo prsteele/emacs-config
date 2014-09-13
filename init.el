@@ -1,6 +1,7 @@
 (require 'package)
 (add-to-list 'package-archives
-	     '("marmalade" . "http://marmalade-repo.org/packages/"))
+	     '("melpa" . "http://melpa.milkbox.net/packages/"))
+
 (package-initialize)
 
 ;; Find local libraries
@@ -9,19 +10,22 @@
        (normal-top-level-add-subdirs-to-load-path))
 
 ;; Load all my configuration files
-(mapc 'load-library '("prsteele-auto-complete"
+(mapc 'load-library '("prsteele-company"
 		      "prsteele-general"
                       "prsteele-color-themes"
                       "prsteele-c++"
 		      "prsteele-elisp"
 		      "prsteele-go"
 		      "prsteele-haskell"
+                      "prsteele-helm"
+                      "prsteele-helm-gtags"
                       "prsteele-javascript"
 		      "prsteele-latex"
                       "prsteele-java"
 		      "prsteele-markdown"
 		      "prsteele-octave"
-		      "prsteele-python"
+                      "prsteele-projectile"
+                      "prsteele-python"
                       "prsteele-rust"
 		      "prsteele-sass"
 		      "prsteele-scons"
