@@ -19,7 +19,6 @@
                       "prsteele-javascript"
 		      "prsteele-latex"
                       "prsteele-java"
-                      "prsteele-js"
 		      "prsteele-markdown"
 		      "prsteele-octave"
 		      "prsteele-python"
