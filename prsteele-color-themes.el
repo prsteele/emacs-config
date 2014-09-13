@@ -5,11 +5,12 @@
 ;;
 
 (require 'color-theme)
+(color-theme-initialize)
 
 (color-theme-initialize)
 
 ;; The default color theme to apply
-(defvar prsteele-default-color-theme 'color-theme-comidia
+(defvar prsteele-default-color-theme 'color-theme-dark-laptop
   "The color scheme loaded when Emacs starts.")
 
 (if (not (display-graphic-p))
