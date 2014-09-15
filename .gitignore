@@ -1,8 +1,8 @@
 *~
 *.elc
-*.elc~
 auto-save-list
-ac-comphist.dat
 elpa/
+projectile-bookmarks.eld
+ac-comphist.dat
 eshell/
 tramp
