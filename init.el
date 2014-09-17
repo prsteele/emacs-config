@@ -21,7 +21,6 @@
 		      "prsteele-haskell"
                       "prsteele-helm"
                       "prsteele-helm-gtags"
-                      "prsteele-javascript"
 		      "prsteele-latex"
                       "prsteele-java"
 		      "prsteele-markdown"
