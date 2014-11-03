@@ -28,7 +28,9 @@
 (tool-bar-mode -1)
 (set-scroll-bar-mode 'nil)
 
-(global-set-key (kbd "C-z") 'eshell)
+(global-set-key (kbd "C-z") (lambda ()
+                              (interactive)
+                              (ansi-term "/bin/bash")))
 
 ;; Don't use tabs
 (setq-default indent-tabs-mode nil)
