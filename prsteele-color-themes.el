@@ -72,4 +72,6 @@ if necessary, and cycles it to the front of the list."
   (prsteele-theme-cycle)
   (prsteele-theme-apply))
 
-(prsteele-theme-init)
+;(prsteele-theme-init)
+(require 'moe-theme)
+(moe-dark)
