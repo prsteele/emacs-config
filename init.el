@@ -39,6 +39,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-safe-themes (quote ("53e29ea3d0251198924328fd943d6ead860e9f47af8d22f0b764d11168455a8e" default)))
  '(elpy-rpc-python-command "python3")
  '(haskell-literate-default (quote tex))
  '(send-mail-function (quote mailclient-send-it)))
@@ -48,4 +49,5 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(font-latex-subscript-face ((t nil)))
- '(font-latex-superscript-face ((t nil))))
+ '(font-latex-superscript-face ((t nil)))
+ '(org-document-title ((t (:background "#303030" :foreground "#afd7ff" :weight bold)))))

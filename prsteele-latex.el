@@ -15,6 +15,4 @@
 (setq font-latex-script-display 'nil)
 (setq font-latex-fontify-sectioning 'color)
 
-(custom-set-faces
- '(font-latex-subscript-face ((t nil)))
- '(font-latex-superscript-face ((t nil))))
+(setenv "TEXINPUTS" ".:~/share//:")
