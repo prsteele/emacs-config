@@ -3,6 +3,9 @@
 (require 'org-install)
 (require 'ob-tangle)
 (require 'ob-latex)
+
+; We need to load tex.el first...
+(load "tex.el")
 (require 'org-latex)
 
 (setq org-src-fontify-natively t)
