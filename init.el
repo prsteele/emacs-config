@@ -26,6 +26,7 @@
 		      "prsteele-markdown"
 		      "prsteele-octave"
                       "prsteele-org"
+                      "prsteele-openwith"
                       "prsteele-pdf"
                       "prsteele-projectile"
                       "prsteele-python"
@@ -33,6 +34,8 @@
 		      "prsteele-sass"
 		      "prsteele-scons"
 		      ))
+
+(load-library "/home/prsteele/Documents/Development/ampl-mode/mathprog-mode")
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
