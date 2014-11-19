@@ -3,16 +3,7 @@
 ;; General configuration
 ;;
 
-;; Define <RET> to behave like C-j
-(defun RET-behaves-as-LFD ()
-  (let ((x (key-binding "\C-j")))
-    (local-set-key "\C-m" x)))
-
-;; Highlight selections
-(transient-mark-mode 't)
-
-;; Auto-indent new lines
-(setq indent-line-function `indent-relative);; Make Emacs automatically match parenthesis, etc
+;; Make Emacs automatically match parenthesis, etc
 (show-paren-mode 't)
 
 ;; Turn on column numbering
@@ -28,6 +19,7 @@
 (tool-bar-mode -1)
 (set-scroll-bar-mode 'nil)
 
+;; Spawn a shell
 (global-set-key (kbd "C-z") (lambda ()
                               (interactive)
                               (ansi-term "/bin/bash")))
