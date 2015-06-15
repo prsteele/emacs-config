@@ -17,12 +17,14 @@
                       "prsteele-color-themes"
                       "prsteele-c++"
 		      "prsteele-elisp"
+		      "prsteele-ispell"
 		      "prsteele-haskell"
                       "prsteele-helm"
                       "prsteele-helm-gtags"
 		      "prsteele-latex"
                       "prsteele-java"
 		      "prsteele-markdown"
+		      "prsteele-magit"
                       "prsteele-org"
                       "prsteele-openwith"
                       "prsteele-projectile"
@@ -50,4 +52,5 @@
  ;; If there is more than one, they won't work right.
  '(font-latex-subscript-face ((t nil)))
  '(font-latex-superscript-face ((t nil)))
+ '(haskell-interactive-face-compile-error ((t (:foreground "#ff4b4b" :weight bold))))
  '(org-document-title ((t (:background "#303030" :foreground "#afd7ff" :weight bold)))))
