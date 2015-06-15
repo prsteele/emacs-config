@@ -28,5 +28,5 @@
 (setq-default indent-tabs-mode nil)
 
 ;; Ubuntu 14.04 has a miserable default font in Emacs.
-(add-to-list 'default-frame-alist '(font . "Ubuntu Mono 13"))
-(set-frame-font "Ubuntu Mono 13" nil t)
+(add-to-list 'default-frame-alist '(font . "Ubuntu Mono 12"))
+(set-frame-font "Ubuntu Mono 12" nil t)
