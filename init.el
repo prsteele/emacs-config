@@ -17,7 +17,6 @@
                       "prsteele-color-themes"
                       "prsteele-c++"
 		      "prsteele-elisp"
-		      "prsteele-ispell"
 		      "prsteele-haskell"
                       "prsteele-helm"
                       "prsteele-helm-gtags"
@@ -33,8 +32,6 @@
 		      "prsteele-sass"
 		      "prsteele-scons"
 		      ))
-
-(load-library "/home/prsteele/Documents/Development/ampl-mode/mathprog-mode")
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
