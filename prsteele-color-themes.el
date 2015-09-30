@@ -73,6 +73,7 @@ if necessary, and cycles it to the front of the list."
   (prsteele-theme-apply))
 
 ;(prsteele-theme-init)
+(require 'powerline)
 (require 'moe-theme)
 (moe-dark)
-
+(powerline-moe-theme)
