@@ -34,7 +34,7 @@
 		      "prsteele-scons"
 		      ))
 
-(load-library "/home/prsteele/Documents/Development/ampl-mode/mathprog-mode")
+(load-library "/home/prsteele/Documents/Development/ampl-mode/ampl-mode")
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
