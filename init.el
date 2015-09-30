@@ -24,8 +24,10 @@
 		      "prsteele-latex"
                       "prsteele-java"
 		      "prsteele-markdown"
+		      "prsteele-mathprog"
 		      "prsteele-octave"
                       "prsteele-org"
+                      "prsteele-openwith"
                       "prsteele-pdf"
                       "prsteele-projectile"
                       "prsteele-python"
@@ -40,6 +42,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes (quote ("53e29ea3d0251198924328fd943d6ead860e9f47af8d22f0b764d11168455a8e" default)))
+ '(ecb-options-version "2.40")
  '(elpy-rpc-python-command "python3")
  '(haskell-literate-default (quote tex))
  '(send-mail-function (quote mailclient-send-it)))
