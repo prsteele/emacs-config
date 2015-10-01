@@ -6,3 +6,8 @@ projectile-bookmarks.eld
 ac-comphist.dat
 eshell/
 tramp
+.python-environments
+abbrev_defs
+bookmarks
+projectile.cache
+semanticdb
