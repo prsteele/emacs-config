@@ -16,6 +16,8 @@
 
 ;; (setq elpy-rpc-python-command "python3")
 
+(require 'python-mode)
+
 (define-key python-mode-map (kbd "<RET>") 'newline-and-indent)
 
 (require 'company-jedi)

@@ -6,7 +6,7 @@
 
 ; We need to load tex.el first...
 (load "tex.el")
-(require 'org-latex)
+;;(require 'org-latex)
 
 (setq org-src-fontify-natively t)
 
