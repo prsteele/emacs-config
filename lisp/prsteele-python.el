@@ -22,6 +22,11 @@
 (eval-after-load "python"
   '(define-key python-mode-map (kbd "<RET>") 'newline-and-indent))
 (add-hook 'python-mode-hook 'jedi:setup)
+
+(setq jedi:environment-root "jedi")
+(setq jedi:environment-virtualenv
+      (append python-environment-virtualenv
+              '("--python" "/usr/bin/python3")))
 (setq jedi:setup-keys t)
 (setq jedi:complete-on-dot t)
 
