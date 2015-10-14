@@ -21,7 +21,7 @@
 (require 'powerline)
 (require 'smart-mode-line)
 
-(setq sml/theme 'respectful)
+(setq sml/theme 'dark)
 ;(setq sml/theme 'powerline)
 (setq sml/vc-mode-show-backend t)
 ;(setq sml/shorten-directory t)
