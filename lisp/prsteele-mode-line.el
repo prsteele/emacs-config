@@ -7,37 +7,49 @@
                 " Doc" 
                 " Interactive" 
                 " $" 
-                " Helm"))
+                " Helm"
+                " ElDoc"))
+
+;; (defun prsteele--projectile-mode-line ()
+;;   (concat " Proj[" (projectile-project-name) "]"))
+
+;; (setq
+;;  rm-text-properties '(("Projectile.*" 'display (prsteele--projectile-mode-line))))
+(setq
+ rm-text-properties '(("Projectile.*" 'display "")))
 
 (require 'powerline)
 (require 'smart-mode-line)
 
 (setq sml/theme 'respectful)
+;(setq sml/theme 'powerline)
+(setq sml/vc-mode-show-backend t)
 ;(setq sml/shorten-directory t)
-;(setq sml/shorten-modes t)
-;(setq sml/name-width 40)
-;(setq sml/mode-width 'full)
+(setq sml/shorten-modes t)
+(setq sml/name-width 30)
+(setq sml/mode-width 'full)
 
 (sml/setup)
 
-;; (require 'cyphejor)
+(require 'cyphejor)
 
-;; (setq
-;;  cyphejor-rules
-;;  '(("projectile" "P")
-;;    ("buffer"      "β")
-;;    ("diff"        "Δ")
-;;    ("inferior"    "i" :prefix)
-;;    ("interaction" "i" :prefix)
-;;    ("Interactive" "i" :prefix)
-;;    ("lisp"        "λ" :postfix)
-;;    ("haskell"     "λ=" :postfix)
-;;    ("mode"        "")
-;;    ("python"      "π")
-;;    ("text"        "ξ")
-;;    ))
+(setq
+ cyphejor-rules
+ '(("projectile" "P")
+   ("buffer"      "β")
+   ("diff"        "Δ")
+   ("inferior"    "i" :prefix)
+   ("interaction" "i" :prefix)
+   ("Interactive" "i" :prefix)
+   ("lisp"        "λ" :postfix)
+   ("haskell"     "λ=" :postfix)
+   ("mode"        "")
+   ("python"      "π")
+   ("text"        "ξ")
+   ("emacs"       "ε")
+   ))
 
-;; (cyphejor-mode 1)
+(cyphejor-mode 1)
 
 
 
