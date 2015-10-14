@@ -15,8 +15,10 @@
 
 ;; (setq
 ;;  rm-text-properties '(("Projectile.*" 'display (prsteele--projectile-mode-line))))
+
 (setq
- rm-text-properties '(("Projectile.*" 'display "")))
+ rm-text-properties '(("Projectile.*" 'display "")
+                      ("Fly" 'display " abc")))
 
 (require 'powerline)
 (require 'smart-mode-line)
