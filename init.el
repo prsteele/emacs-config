@@ -1,3 +1,6 @@
+;;; Custom variables and faces.
+;;
+;; This section should be modified only programmatically.
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -23,6 +26,7 @@
  '(haskell-interactive-face-compile-error ((t (:foreground "#ff4b4b" :weight bold))))
  '(org-document-title ((t (:background "#303030" :foreground "#afd7ff" :weight bold)))))
 
+;;; Import paths
 (require 'package)
 (add-to-list 'package-archives
 	     '("melpa" . "http://melpa.milkbox.net/packages/"))
