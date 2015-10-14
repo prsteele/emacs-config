@@ -5,10 +5,13 @@
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    (quote
-    ("c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223" "26614652a4b3515b4bbbb9828d71e206cc249b67c9142c06239ed3418eff95e2" "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "53e29ea3d0251198924328fd943d6ead860e9f47af8d22f0b764d11168455a8e" default)))
+    ("c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223" default)))
  '(ecb-options-version "2.40")
  '(elpy-rpc-python-command "python3")
  '(haskell-literate-default (quote tex))
+ '(haskell-process-auto-import-loaded-modules t)
+ '(haskell-process-log t)
+ '(haskell-process-suggest-remove-import-lines t)
  '(send-mail-function (quote mailclient-send-it)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -35,8 +38,8 @@
 
 ;; Load all my configuration files
 (mapc 'load-library '("prsteele-company"
-		      "prsteele-general"
-                      "prsteele-color-themes"
+		      "prsteele-color-themes"
+                      "prsteele-general"
                       "prsteele-c++"
 		      "prsteele-elisp"
 		      "prsteele-haskell"
@@ -46,7 +49,7 @@
                       "prsteele-java"
 		      "prsteele-markdown"
 		      "prsteele-magit"
-
+                      "prsteele-mode-line"
                       "prsteele-org"
                       "prsteele-openwith"
                       "prsteele-projectile"
@@ -54,7 +57,6 @@
                       "prsteele-rust"
 		      "prsteele-sass"
 		      "prsteele-scons"
-                      "prsteele-mode-line"
 		      ))
 
-(load-library "/home/prsteele/Documents/Development/ampl-mode/ampl-mode")
+;(load-library "/home/prsteele/Documents/Development/ampl-mode/ampl-mode")
