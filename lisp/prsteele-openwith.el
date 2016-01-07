@@ -8,4 +8,4 @@
 
 (require 'openwith)
 (openwith-mode t)
-(setq openwith-associations '(("\\.pdf\\'" "okular" (file))))
+(setq openwith-associations '(("\\.pdf\\'" "evince" (file))))
