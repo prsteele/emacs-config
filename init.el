@@ -58,6 +58,7 @@
                       "prsteele-openwith"
                       "prsteele-projectile"
                       "prsteele-python"
+                      "prsteele-rst"
                       "prsteele-rust"
 		      "prsteele-sass"
 		      "prsteele-scons"
