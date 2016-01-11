@@ -29,4 +29,4 @@
 
 ;; Ubuntu 14.04 has a miserable default font in Emacs.
 (add-to-list 'default-frame-alist '(font . "Ubuntu Mono 13"))
-(set-frame-font "Ubuntu Mono 13" nil t)
+(set-frame-font "Ubuntu Mono 14" nil t)
