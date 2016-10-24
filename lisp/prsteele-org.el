@@ -22,7 +22,8 @@
 (setq org-log-done 'time)
 
 (setq org-agenda-files (list "~/org/agenda.org"
-                             "~/org/todo.org"))
+                             "~/org/todo.org"
+                             "~/Documents/LegalServer/legalserver.org"))
 
 
 (setq org-refile-targets (quote ((nil :maxlevel . 9)
@@ -33,4 +34,8 @@
          "* TODO %?\n\nCreated at %U")
         ("j" "Journal" entry (file+datetree "~/org/journal.org")
          "* %?\nEntered on %U\n  %i\n  %a")
-        ("r" "Research" entry (file+headline "~/org/research.org" "Research"))))
+        ("r" "Research" entry (file+headline "~/org/research.org" "Research"))
+        ("l" "LegalServer" entry (file+headline "~/Documents/LegalServer/.org" "LegalServer"))))
+
+(setq org-clock-persist 'history)
+(org-clock-persistence-insinuate)
