@@ -8,8 +8,8 @@
 (mapc '(lambda (hook)
          (add-hook 'haskell-mode-hook hook))
       '(interactive-haskell-mode
-        turn-on-haskell-indentation
-        turn-on-haskell-doc-mode))
+        haskell-indentation-mode
+        haskell-doc-mode))
 
 (customize-set-variable 'haskell-process-suggest-remove-import-lines t)
 (customize-set-variable 'haskell-process-auto-import-loaded-modules t)
