@@ -22,7 +22,10 @@
 (setq org-log-done 'time)
 
 (setq org-agenda-files (list "~/org/agenda.org"
-                             "~/org/todo.org"))
+                             "~/org/todo.org"
+                             "~/org/journal.org"
+                             "~/org/research.org"
+                             "~/org/courses.org"))
 
 
 (setq org-refile-targets (quote ((nil :maxlevel . 9)
@@ -33,4 +36,5 @@
          "* TODO %?\n\nCreated at %U")
         ("j" "Journal" entry (file+datetree "~/org/journal.org")
          "* %?\nEntered on %U\n  %i\n  %a")
-        ("r" "Research" entry (file+headline "~/org/research.org" "Research"))))
+        ("r" "Research" entry (file+headline "~/org/research.org" "Research"))
+        ("c" "Courses" entry (file+headline "~/org/courses.org" "Courses"))))
