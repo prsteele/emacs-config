@@ -10,7 +10,6 @@
       '(interactive-haskell-mode
         haskell-indentation-mode
         haskell-doc-mode))
-
 ;; Set up ghc-mod
 (let ((my-cabal-path (expand-file-name "~/.cabal/bin")))
   (setenv "PATH" (concat my-cabal-path ":" (getenv "PATH")))
