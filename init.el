@@ -62,6 +62,7 @@
                       "prsteele-rust"
 		      "prsteele-sass"
 		      "prsteele-scons"
+		      "prsteele-text"
 		      ))
 
 ;(load-library "/home/prsteele/Documents/Development/ampl-mode/ampl-mode")
