@@ -8,9 +8,8 @@
 (mapc '(lambda (hook)
          (add-hook 'haskell-mode-hook hook))
       '(interactive-haskell-mode
-        turn-on-haskell-indentation
-        turn-on-haskell-doc-mode))
-
+        haskell-indentation-mode
+        haskell-doc-mode))
 ;; Set up ghc-mod
 (let ((my-cabal-path (expand-file-name "~/.cabal/bin")))
   (setenv "PATH" (concat my-cabal-path ":" (getenv "PATH")))
@@ -35,7 +34,6 @@
 (define-key haskell-mode-map (kbd "C-c C-c") 'haskell-process-cabal-build)
 (define-key haskell-mode-map (kbd "C-c C-k") 'haskell-interactive-mode-clear)
 (define-key haskell-mode-map (kbd "C-c c") 'haskell-process-cabal)
-(define-key haskell-mode-map (kbd "SPC") 'haskell-mode-contextual-space)
 
 (define-key haskell-mode-map "\C-ch" 'haskell-hoogle)
 (setq haskell-hoogle-command "hoogle")
