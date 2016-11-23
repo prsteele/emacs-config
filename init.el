@@ -41,7 +41,8 @@
        (normal-top-level-add-subdirs-to-load-path))
 
 ;; Load all my configuration files
-(mapc 'load-library '("prsteele-company"
+(mapc 'load-library '("prsteele-ace-jump"
+                      "prsteele-company"
 		      "prsteele-color-themes"
                       "prsteele-general"
                       "prsteele-c++"
