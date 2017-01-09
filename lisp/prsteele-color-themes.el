@@ -1,3 +1,6 @@
-(require 'moe-theme)
+(add-to-list
+ 'custom-theme-load-path
+ "~/.emacs/lisp/emacs-color-theme-solarized")
 
-(moe-dark)
+(require 'solarized-theme)
+(load-theme 'solarized t)
