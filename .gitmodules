@@ -5,5 +5,5 @@
 	path = ropemacs
 	url = ./ropemacs/
 [submodule "lisp/emacs-color-theme-solarized"]
-	path = lisp/emacs-color-theme-solarized
+	path = themes/emacs-color-theme-solarized
 	url = https://github.com/sellout/emacs-color-theme-solarized.git
