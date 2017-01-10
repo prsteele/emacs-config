@@ -10,17 +10,10 @@
                 " Helm"
                 " ElDoc"))
 
-;; (defun prsteele--projectile-mode-line ()
-;;   (concat " Proj[" (projectile-project-name) "]"))
-
-;; (setq
-;;  rm-text-properties '(("Projectile.*" 'display (prsteele--projectile-mode-line))))
-
 (setq
  rm-text-properties '(("Projectile.*" 'display "")
                       ("Fly" 'display " abc")))
 
-(require 'powerline)
 (require 'smart-mode-line)
 
 (setq sml/theme 'respectful)
