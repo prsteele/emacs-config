@@ -9,7 +9,10 @@
  '(custom-theme-directory "~/.emacs.d/themes/")
  '(haskell-process-auto-import-loaded-modules t)
  '(haskell-process-log t)
- '(haskell-process-suggest-remove-import-lines t))
+ '(haskell-process-suggest-remove-import-lines t)
+ '(package-selected-packages
+   (quote
+    (ace-jump-mode smart-mode-line powerline openwith moe-theme markdown-mode magit jedi helm-projectile helm-gtags helm-company haskell-mode cyphejor company-jedi circe auctex))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -35,7 +38,8 @@
        (normal-top-level-add-subdirs-to-load-path))
 
 ;; Load all my configuration files
-(mapc 'load-library '("prsteele-company"
+(mapc 'load-library '("prsteele-ace-jump"
+                      "prsteele-company"
 		      "prsteele-color-themes"
                       "prsteele-general"
                       "prsteele-c++"
