@@ -27,7 +27,7 @@
 (define-key haskell-mode-map "\C-ch" 'haskell-hoogle)
 (setq haskell-hoogle-command "hoogle")
 
-(define-key haskell-mode-map (kbd "C-c C-l") 'haskell-process-load-or-reload)
+(define-key haskell-mode-map (kbd "C-c C-l") 'haskell-process-load-file)
 (define-key haskell-mode-map (kbd "C-`") 'haskell-interactive-bring)
 (define-key haskell-mode-map (kbd "C-c C-t") 'haskell-process-do-type)
 (define-key haskell-mode-map (kbd "C-c C-i") 'haskell-process-do-info)
