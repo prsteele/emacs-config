@@ -1,3 +1,2 @@
-(require 'moe-theme)
-
-(moe-dark)
+(require 'solarized-theme)
+(load-theme 'solarized t)
