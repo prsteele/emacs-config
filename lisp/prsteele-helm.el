@@ -52,4 +52,4 @@
 (projectile-global-mode)
 
 (define-key projectile-mode-map (kbd "C-c p f") 'helm-projectile)
-(global-set-key (kbd "C-c p p") 'helm-projectile-switch-project)
+(define-key projectile-mode-map (kbd "C-c p p") 'helm-projectile-switch-project)
