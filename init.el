@@ -12,7 +12,7 @@
  '(haskell-process-suggest-remove-import-lines t)
  '(package-selected-packages
    (quote
-    (ace-jump-mode smart-mode-line powerline openwith moe-theme markdown-mode magit jedi helm-projectile helm-gtags helm-company haskell-mode cyphejor company-jedi circe auctex))))
+    (virtualenvwrapper ghc company-ghc helm-ghc ace-jump-mode smart-mode-line powerline openwith moe-theme markdown-mode magit jedi helm-projectile helm-gtags helm-company haskell-mode cyphejor company-jedi circe auctex))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
