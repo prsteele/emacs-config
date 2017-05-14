@@ -19,3 +19,7 @@
               '("--python" "/usr/bin/python3")))
 (setq jedi:setup-keys t)
 (setq jedi:complete-on-dot t)
+
+(setq python-shell-interpreter "ipython"
+      python-shell-interpreter-args "-i --simple-prompt")
+
