@@ -1,0 +1,2 @@
+(setq sql-product "postgres")
+
