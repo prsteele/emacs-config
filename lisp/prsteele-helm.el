@@ -20,9 +20,6 @@
 (define-key helm-grep-mode-map (kbd "n")  'helm-grep-mode-jump-other-window-forward)
 (define-key helm-grep-mode-map (kbd "p")  'helm-grep-mode-jump-other-window-backward)
 
-(when (executable-find "curl")
-  (setq helm-google-suggest-use-curl-p t))
-
 (setq helm-quick-update                     t ; do not display invisible
                                               ; candidates
       helm-split-window-in-side-p           t ; open helm buffer inside current
@@ -46,3 +43,12 @@
      (define-key company-active-map (kbd "C-;") 'helm-company)))
 
 (helm-mode 1)
+
+(require 'projectile)
+(require 'helm-projectile)
+(projectile-global-mode)
+
+(define-key projectile-mode-map (kbd "C-c p f") 'helm-projectile)
+(define-key projectile-mode-map (kbd "C-c p p") 'helm-projectile-switch-project)
+
+(define-key projectile-mode-map (kbd "C-c p g") 'helm-projectile-grep)
