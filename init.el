@@ -1,25 +1,5 @@
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   (quote
-    ("3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223" default)))
- '(custom-theme-directory "~/.emacs.d/themes/")
- '(frame-background-mode (quote dark))
- '(haskell-process-auto-import-loaded-modules t)
- '(haskell-process-log t)
- '(haskell-process-suggest-remove-import-lines t)
- '(package-selected-packages
-   (quote
-    (intero jinja2-mode rainbow-delimiters sql-indent virtualenvwrapper ghc company-ghc helm-ghc ace-jump-mode smart-mode-line powerline openwith moe-theme markdown-mode magit jedi helm-projectile helm-gtags helm-company haskell-mode cyphejor company-jedi circe auctex))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((((background dark) (type graphic)) (:foreground "#839496" :background "#002b36")) (((background dark) (type tty) (min-colors 256)) (:foreground "brightblue" :background "brightblack")) (((background dark) (type tty) (min-colors 16)) (:foreground "brightblue" :background "brightblack")) (((background dark) (type tty) (min-colors 8)) (:foreground nil :background nil)) (((background light) (type graphic)) (:foreground "#657b83" :background "#fdf6e3")) (((background light) (type tty) (min-colors 256)) (:foreground "brightyellow" :background "brightwhite")) (((background light) (type tty) (min-colors 16)) (:foreground "brightyellow" :background "brightwhite")) (((background light) (type tty) (min-colors 8)) (:foreground nil :background nil)))))
+(setq custom-file "~/.emacs.d/custom.el")
+(load custom-file)
 
 ;; Pull in the system environment
 (setq exec-path (append exec-path (list (getenv "PATH"))))
