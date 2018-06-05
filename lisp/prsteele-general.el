@@ -31,3 +31,4 @@
 (add-to-list 'default-frame-alist '(font . "mononoki 11"))
 (set-frame-font "mononoki 12" nil t)
 
+(electric-pair-mode)
