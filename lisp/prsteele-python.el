@@ -3,7 +3,7 @@
 ;; Python
 ;;
 
-;; Suppose for company
+;; Support for company
 (require 'company-jedi)
 (add-to-list 'company-backends 'company-jedi)
 
@@ -16,7 +16,7 @@
 (setq jedi:environment-root "jedi")
 (setq jedi:environment-virtualenv
       (append python-environment-virtualenv
-              '("--python" "/usr/bin/python3")))
+              '("--python" "/usr/bin/python3.6")))
 (setq jedi:setup-keys t)
 (setq jedi:complete-on-dot t)
 
