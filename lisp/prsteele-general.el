@@ -32,3 +32,5 @@
 (set-frame-font "mononoki 12" nil t)
 
 (electric-pair-mode)
+
+(add-hook 'prog-mode-hook '(lambda () (setq display-line-numbers 't)))
