@@ -23,7 +23,10 @@
  (setq sml/name-width 30)
  (setq sml/mode-width 'full)
 
- (sml/setup))
+ (sml/setup)
+
+ ;; Make the header line a reasonable copy of the mode line
+ (copy-face 'mode-line 'header-line))
 
 (safely-configure
  'cyphejor
