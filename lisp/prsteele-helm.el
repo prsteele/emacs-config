@@ -53,3 +53,5 @@
 
 (define-key projectile-mode-map (kbd "C-c p g") 'helm-projectile-grep)
 (global-set-key (kbd "C-x b") 'helm-buffers-list)
+
+(setq helm-buffer-max-length 'nil)
