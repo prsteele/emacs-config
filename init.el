@@ -45,6 +45,5 @@
 		      "prsteele-text"
 		      ))
 
-;(load-library "/home/prsteele/Documents/Development/ampl-mode/ampl-mode")
 
 (put 'narrow-to-region 'disabled nil)
