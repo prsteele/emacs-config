@@ -44,6 +44,3 @@
    ))
 
 (cyphejor-mode 1)
-
-
-
