@@ -1,7 +1,4 @@
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;; LaTeX and AuxTeX Mode
-;;
+;;;; LaTeX configuration
 
 ;; Turn on auto-fill-mode, flyspell-mode
 (mapc (lambda (hook) (progn (add-hook hook 'auto-fill-mode)

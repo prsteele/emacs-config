@@ -1,8 +1,5 @@
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;; Haskell
-;;
+;;;; Haskell configuration
 
-(require 'haskell-mode)
-(require 'intero)
-(add-hook 'haskell-mode-hook 'intero-mode)
+(safely-configure
+ '(haskell-mode intero)
+ (add-hook 'haskell-mode-hook 'intero-mode))
