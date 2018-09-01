@@ -53,7 +53,7 @@ loaded successfully."
  'load-library
  '("prsteele-ace-jump"
    "prsteele-company"
-   "prsteele-color-themes"
+   "prsteele-appearance"
    "prsteele-general"
    "prsteele-c++"
    "prsteele-elisp"
