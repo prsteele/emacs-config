@@ -28,7 +28,7 @@ library is loaded successfully and nil otherwise."
       (progn (require library) 't)
     (file-missing
      (display-warning
-      'init
+      'safely-require
       (format "Cannot load library %s" library)
       :warning
       "*Warnings*")
