@@ -20,9 +20,7 @@
 (set-scroll-bar-mode 'nil)
 
 ;; Spawn a shell
-(global-set-key (kbd "C-z") (lambda ()
-                              (interactive)
-                              (ansi-term "/bin/bash")))
+(global-set-key (kbd "C-z") 'shell)
 
 ;; Don't use tabs
 (setq-default indent-tabs-mode nil)
