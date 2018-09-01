@@ -35,6 +35,7 @@
                       "prsteele-mode-line"
                       "prsteele-org"
                       "prsteele-openwith"
+                      "prsteele-prog-mode"
                       "prsteele-python"
                       "prsteele-rst"
                       "prsteele-rust"

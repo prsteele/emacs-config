@@ -1,34 +1,31 @@
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;; General configuration
-;;
+;;;; General configuration
 
-;; Make Emacs automatically match parenthesis, etc
+;; Remove the menu bar
+(menu-bar-mode -1)
+
+;; Remove the tool bar
+(tool-bar-mode -1)
+
+;; Remove scroll bars
+(set-scroll-bar-mode 'nil)
+
+;; Visually match delimiters
 (show-paren-mode 't)
 
-;; Turn on column numbering
+;; Show column numbers in the mode line
 (column-number-mode 't)
 
 ;; Enable upcase-region and downcase-region command
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
 
-;; Remove the toolbar, scroll bars, and menu bar; has to be done down
-;; here, rather than at the top for some reason.
-(menu-bar-mode -1)
-(tool-bar-mode -1)
-(set-scroll-bar-mode 'nil)
-
-;; Spawn a shell
+;; Spawn a shell on C-z
 (global-set-key (kbd "C-z") 'shell)
 
-;; Don't use tabs
+;; Use spaces, not tabs
 (setq-default indent-tabs-mode nil)
 
-;; Ubuntu 14.04 has a miserable default font in Emacs.
-(add-to-list 'default-frame-alist '(font . "mononoki 11"))
-(set-frame-font "mononoki 12" nil t)
-
-(electric-pair-mode)
-
-(add-hook 'prog-mode-hook '(lambda () (setq display-line-numbers 't)))
+;; Use the Mononoki font
+(let ((myfont "mononoki 11"))
+  (add-to-list 'default-frame-alist `(font . ,myfont))
+  (set-frame-font myfont nil t))
