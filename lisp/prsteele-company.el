@@ -1,3 +1,5 @@
+;;;; Configuration for company
+
 (safely-configure
  'company
  (add-hook 'after-init-hook 'global-company-mode)

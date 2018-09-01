@@ -1,6 +1,9 @@
-(require 'solarized-theme)
-(load-theme 'solarized t)
+;;;; Configuration for appearances
 
-(require 'rainbow-delimiters)
-(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+(safely-configure
+ 'solarized-theme
+ (load-theme 'solarized t))
 
+(safely-configure
+ 'rainbow-delimiters
+ (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
