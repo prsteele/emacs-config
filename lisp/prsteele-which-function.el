@@ -12,15 +12,22 @@
 
 (which-function-mode)
 
-(setq which-func-unknown '(:propertize "---" 'face 'font-lock-comment-face))
+(defconst
+ my-which-func-current
+ '(:eval (replace-regexp-in-string
+	  "%" "%%"
+          (let ((current-function (gethash (selected-window) which-func-table)))
+            (if current-function
+                (propertize
+                 current-function
+                 'face 'font-lock-function-name-face)
+              (propertize "---" 'face 'shadow))))))
 
 (setq
  my-which-func-format
- '(""
-   "λ["
-   (:propertize which-func-current
+ `("λ["
+   (:propertize my-which-func-current
 		local-map ,which-func-keymap
-		face font-lock-function-name-face
 		mouse-face mode-line-highlight
 		help-echo "mouse-1: go to beginning\n\
 mouse-2: toggle rest visibility\n\
@@ -34,4 +41,6 @@ mouse-3: go to end")
   (lambda ()
     (setq
      header-line-format
-     `("" ,my-which-func-format " ")))))
+     `("" ,my-which-func-format)))))
+
+(format-mode-line header-line-format)
