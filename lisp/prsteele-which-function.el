@@ -1,17 +1,5 @@
 ;;;; which-function-mode configuration
 
-;; We need to remove the which-function-mode configuration from the
-;; mode line. It currently resides in mode-line-misc-info
-(setq
- mode-line-misc-info
- (delete
-  (assoc 'which-function-mode mode-line-misc-info)
-  mode-line-misc-info))
-
-(copy-face 'which-func 'font-lock-constant-face)
-
-(which-function-mode)
-
 (defconst
  my-which-func-current
  '(:eval (replace-regexp-in-string
@@ -23,7 +11,7 @@
                  'face 'font-lock-function-name-face)
               (propertize "---" 'face 'shadow))))))
 
-(setq
+(defconst
  my-which-func-format
  `("λ["
    (:propertize my-which-func-current
@@ -34,13 +22,25 @@ mouse-2: toggle rest visibility\n\
 mouse-3: go to end")
    "]"))
 
+(defconst my-which-func-header-line-format
+  '(which-function-mode ("" my-which-func-format)))
+
+(defadvice which-func-ff-hook (after header-line activate)
+  (when which-func-mode
+    ;; We need to remove the which-function-mode configuration from the
+    ;; mode line. It currently resides in mode-line-misc-info
+    (setq
+     mode-line-misc-info
+     (delete
+      (assoc 'which-function-mode mode-line-misc-info)
+      mode-line-misc-info))
+    ;; Set the header line
+    (setq
+     header-line-format
+     my-which-func-header-line-format)))
+
 (safely-configure
  'cc-mode
  (add-hook
   'prog-mode-hook
-  (lambda ()
-    (setq
-     header-line-format
-     `("" ,my-which-func-format)))))
-
-(format-mode-line header-line-format)
+  'which-function-mode))
