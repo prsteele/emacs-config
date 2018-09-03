@@ -76,4 +76,5 @@ loaded successfully."
    "prsteele-scons"
    "prsteele-sql"
    "prsteele-text"
+   "prsteele-which-function"
    ))
