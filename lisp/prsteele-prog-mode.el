@@ -5,4 +5,5 @@
   'prog-mode-hook
   '(lambda ()
      (display-line-numbers-mode 't)
-     (electric-pair-mode))))
+     (electric-pair-mode)
+     (setq show-trailing-whitespace 't))))
