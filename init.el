@@ -17,6 +17,9 @@
 (progn (cd "~/.emacs.d")
        (normal-top-level-add-subdirs-to-load-path))
 
+;; We use use-package to configure all packages
+(require 'use-package)
+
 (defun safely-require (library)
   "A variant of `require' that won't throw an error for missing files.
 
