@@ -18,5 +18,9 @@
  (setq jedi:setup-keys t)
  (setq jedi:complete-on-dot t)
 
- (setq python-shell-interpreter "ipython"
-       python-shell-interpreter-args "-i --simple-prompt"))
+ (setq python-shell-interpreter "python"
+       python-shell-interpreter-args "-i"))
+
+(safely-configure
+ 'python-black
+ (add-hook 'python-mode-hook 'python-black-on-save-mode))
