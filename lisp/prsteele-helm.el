@@ -15,11 +15,11 @@
  (define-key helm-map (kbd "C-z") 'helm-select-action)
 
  (global-set-key (kbd "C-h SPC") 'helm-all-mark-rings)
- 
+
  (define-key helm-grep-mode-map (kbd "<return>")  'helm-grep-mode-jump-other-window)
  (define-key helm-grep-mode-map (kbd "n")  'helm-grep-mode-jump-other-window-forward)
  (define-key helm-grep-mode-map (kbd "p")  'helm-grep-mode-jump-other-window-backward)
- 
+
  (setq
   helm-quick-update t
   helm-split-window-in-side-p t
@@ -37,18 +37,18 @@
        (define-key company-active-map (kbd "C-:") 'helm-company)
        (define-key company-mode-map (kbd "C-;") 'helm-company)
        (define-key company-active-map (kbd "C-;") 'helm-company))))
-  
+
  (helm-mode 1)
 
  (safely-configure
   '(projectile
     helm-projectile)
-  (projectile-global-mode))
- 
- (define-key projectile-mode-map (kbd "C-c p f") 'helm-projectile)
- (define-key projectile-mode-map (kbd "C-c p p") 'helm-projectile-switch-project)
- 
- (define-key projectile-mode-map (kbd "C-c p g") 'helm-projectile-grep)
+  (projectile-global-mode)
+
+  (define-key projectile-mode-map (kbd "C-c p f") 'helm-projectile)
+  (define-key projectile-mode-map (kbd "C-c p p") 'helm-projectile-switch-project)
+  (define-key projectile-mode-map (kbd "C-c p g") 'helm-projectile-grep)
+  (define-key projectile-mode-map (kbd "C-c p c") 'projectile-compile-project))
  (global-set-key (kbd "C-x b") 'helm-buffers-list)
- 
+
  (setq helm-buffer-max-length 'nil))
