@@ -6,10 +6,10 @@
 
 ;; Configure the packages repositories
 (require 'package)
+
 (add-to-list 'package-archives
-	     '("melpa" . "http://melpa.milkbox.net/packages/"))
-(add-to-list 'package-archives
-	     '("marmalade" . "http://marmalade-repo.org/packages/") t)
+             (cons "melpa-stable" "https://stable.melpa.org/packages/") t)
+
 (package-initialize)
 
 ;; Find local libraries
@@ -54,6 +54,7 @@ loaded successfully."
  '("prsteele-ace-jump"
    "prsteele-appearance"
    "prsteele-c++"
+   "prsteele-compilation"
    "prsteele-company"
    "prsteele-elisp"
    "prsteele-general"
