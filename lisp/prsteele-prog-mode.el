@@ -1,9 +1,12 @@
-;;;; Settings for prog-mode and its children
-(safely-configure
- 'cc-mode
- (add-hook
-  'prog-mode-hook
-  '(lambda ()
-     (display-line-numbers-mode 't)
-     (electric-pair-mode)
-     (setq show-trailing-whitespace 't))))
+(use-package prog-mode
+  :hook
+  ((prog-mode-hook . display-line-numbers-mode)
+   (prog-mode-hook . electric-pair-mode)
+   (prog-mode-hook . which-function-mode))
+
+  :bind
+  (:map prog-mode-map
+        ("<return>" . newline-and-indent))
+
+  :custom
+  (show-trailing-whitespace 't))

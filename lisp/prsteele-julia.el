@@ -1,4 +1,4 @@
-;;;; Julia configuration
-(safely-configure
- 'julia-mode
- (define-key julia-mode-map (kbd "C-c C-l") 'julia-shell-save-and-go))
+(use-package julia-mode
+  :bind
+  (:map julia-mode-map
+        ("C-c C-l" . julia-shell-save-and-go)))

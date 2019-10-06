@@ -1,34 +1,26 @@
 ;;;; org-mode configuration
 
-(safely-configure
- '(org-install
-   ob-tangle
-   ob-latex)
+(use-package org
+  :bind
+  (("C-c l" . org-store-link)
+   ("C-c a" . org-agenda)
+   ("C-c c" . org-capture))
 
- (setq org-src-fontify-natively t)
+  :hook
+  ((org-mode-hook . auto-fill-mode)
+   (org-mode-hook . flyspell-mode))
 
- (global-set-key (kbd "C-c l") 'org-store-link)
- (global-set-key (kbd "C-c a") 'org-agenda)
- (global-set-key (kbd "C-c b") 'org-iswitchb)
- (define-key global-map (kbd "C-c c") 'org-capture)
-
- (add-hook 'org-mode-hook 'auto-fill-mode)
- (add-hook 'org-mode-hook 'flyspell-mode)
-
- ;; Add timestamps to completed TODOs
- (setq org-log-done 'time)
-
- (setq org-agenda-files (list "~/org/agenda.org"
+  :custom
+  (org-log-done 'time)
+  (org-agenda-files (list "~/org/agenda.org"
                               "~/org/todo.org"
                               "~/org/journal.org"
                               "~/org/research.org"
                               "~/org/courses.org"))
+  (org-refile-targets (quote ((nil :maxlevel . 9)
+                              (org-agenda-files :maxlevel . 9))))
 
-
- (setq org-refile-targets (quote ((nil :maxlevel . 9)
-                                  (org-agenda-files :maxlevel . 9))))
-
- (setq org-capture-templates
+  (org-capture-templates
        '(("t" "Todo" entry (file+headline "~/org/todo.org" "Tasks")
           "* TODO %?\n\nCreated at %U")
          ("j" "Journal" entry (file+datetree "~/org/journal.org")

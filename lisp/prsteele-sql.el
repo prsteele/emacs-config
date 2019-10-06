@@ -1,3 +1,3 @@
-(safely-configure
- 'sql
- (setq sql-product "postgres"))
+(use-package sql
+  :custom
+  (sql-product "postgres"))

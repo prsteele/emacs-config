@@ -1,4 +1,4 @@
-(mapc '(lambda (hook)
-         (add-hook 'text-mode-hook hook))
-      '(auto-fill-mode
-        flyspell-mode))
+(use-package text-mode
+  :hook
+  ((text-mode-hook . auto-fill-mode)
+   (text-mode-hook . flyspell-mode)))

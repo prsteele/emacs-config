@@ -1,6 +1,4 @@
-;;;; ReStructuredText configuration
-(safely-configure
- 'rst
- (mapc '(lambda (hook) (add-hook 'rst-mode-hook hook))
-       '(flyspell-mode
-         auto-fill-mode)))
+(use-package rst
+  :hook
+  ((rst-mode-hook . flyspell-mode)
+   (rst-mode-hook . auto-fill-mode)))

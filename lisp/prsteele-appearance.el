@@ -10,10 +10,10 @@
   (add-to-list 'default-frame-alist `(font . ,myfont))
   (set-frame-font myfont nil t))
 
-(safely-configure
- 'solarized-theme
- (load-theme 'solarized t))
+(use-package solarized-theme
+  :init
+  (load-theme 'solarized-dark t))
 
-(safely-configure
- 'rainbow-delimiters
- (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
+(use-package rainbow-delimiters
+  :hook
+  (prog-mode . rainbow-delimiters-mode))

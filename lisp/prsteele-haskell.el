@@ -1,11 +1,11 @@
 ;;;; Haskell configuration
 
-(safely-configure
- '(haskell-mode intero)
- (add-hook 'haskell-mode-hook 'intero-mode)
+(use-package intero)
 
- (setq haskell-mode-stylish-haskell-path "stylish-haskell")
-
- )
+(use-package haskell-mode
+  :hook
+  (haskell-mode . intero-mode)
+  :config
+  (setq haskell-mode-stylish-haskell-path "stylish-haskell"))
 
 ;; Use customize to set haskell-stylish-on-save to 't

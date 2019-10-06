@@ -5,7 +5,9 @@
 ;;
 ;;   (openwith-mode 0)
 
-(safely-configure
- 'openwith
- (openwith-mode t)
- (setq openwith-associations '(("\\.pdf\\'" "evince" (file)))))
+(use-package openwith
+  :config
+  (openwith-mode t)
+
+  :custom
+  (openwith-associations '(("\\.pdf\\'" "evince" (file)))))
