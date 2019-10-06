@@ -1,4 +1,4 @@
 (use-package text-mode
   :hook
-  ((text-mode-hook . auto-fill-mode)
-   (text-mode-hook . flyspell-mode)))
+  ((text-mode . auto-fill-mode)
+   (text-mode . flyspell-mode)))

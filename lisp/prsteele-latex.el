@@ -11,5 +11,5 @@
   (tex-font-lock-suscript 'ignore)
 
   :hook
-  ((latex-mode-hook . auto-fill-mode)
-   (latex-mode-hook . flyspell-mode)))
+  ((latex-mode . auto-fill-mode)
+   (latex-mode . flyspell-mode)))

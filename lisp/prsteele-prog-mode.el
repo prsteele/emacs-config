@@ -1,8 +1,8 @@
 (use-package prog-mode
   :hook
-  ((prog-mode-hook . display-line-numbers-mode)
-   (prog-mode-hook . electric-pair-mode)
-   (prog-mode-hook . which-function-mode))
+  ((prog-mode . display-line-numbers-mode)
+   (prog-mode . electric-pair-mode)
+   (prog-mode . which-function-mode))
 
   :bind
   (:map prog-mode-map

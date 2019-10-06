@@ -7,8 +7,8 @@
    ("C-c c" . org-capture))
 
   :hook
-  ((org-mode-hook . auto-fill-mode)
-   (org-mode-hook . flyspell-mode))
+  ((org-mode . auto-fill-mode)
+   (org-mode . flyspell-mode))
 
   :custom
   (org-log-done 'time)
