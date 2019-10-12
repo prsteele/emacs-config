@@ -1,4 +1,5 @@
 (use-package projectile
+  :delight '(:eval (concat " " (projectile-project-name)))
   :bind
   (:map projectile-mode-map
         ("C-c p c" . projectile-compile-project))

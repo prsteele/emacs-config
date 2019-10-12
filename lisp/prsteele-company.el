@@ -1,6 +1,7 @@
 ;;;; Configuration for company
 
 (use-package company
+  :diminish company-mode
   :hook
   (after-init . global-company-mode)
 
