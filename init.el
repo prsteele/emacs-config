@@ -28,6 +28,7 @@
    "prsteele-compilation"
    "prsteele-company"
    "prsteele-elisp"
+   "prsteele-flycheck"
    "prsteele-general"
    "prsteele-haskell"
    "prsteele-helm"

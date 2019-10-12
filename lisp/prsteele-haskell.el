@@ -1,6 +1,7 @@
 ;;;; Haskell configuration
 
-(use-package intero)
+(use-package intero
+  :diminish intero-mode)
 
 (use-package haskell-mode
   :hook
