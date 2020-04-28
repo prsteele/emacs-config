@@ -1,7 +1,6 @@
 *~
 *.elc
 auto-save-list
-elpa/
 projectile-bookmarks.eld
 ac-comphist.dat
 eshell/
