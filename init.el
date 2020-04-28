@@ -38,7 +38,6 @@
    "prsteele-magit"
    "prsteele-markdown"
    "prsteele-mode-line"
-   "prsteele-openwith"
    "prsteele-org"
    "prsteele-prog-mode"
    "prsteele-projectile"
