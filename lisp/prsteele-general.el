@@ -8,7 +8,7 @@
 
 ;;; Enabling disabled commands
 (mapc
- '(lambda (x) (put x 'disabled nil))
+ #'(lambda (x) (put x 'disabled nil))
  '(upcase-region
    downcase-region
    narrow-to-region))

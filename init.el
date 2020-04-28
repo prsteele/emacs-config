@@ -8,7 +8,7 @@
 (require 'package)
 
 (add-to-list 'package-archives
-             (cons "melpa-stable" "https://stable.melpa.org/packages/") t)
+             (cons "melpa" "https://stable.melpa.org/packages/") t)
 
 (package-initialize)
 
