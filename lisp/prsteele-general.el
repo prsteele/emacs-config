@@ -12,3 +12,5 @@
  '(upcase-region
    downcase-region
    narrow-to-region))
+
+(add-to-list 'exec-path "/home/prsteele/.local/bin")
