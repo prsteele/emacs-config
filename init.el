@@ -14,8 +14,7 @@
 
 ;; Find local libraries
 (add-to-list 'load-path "~/.emacs.d/lisp")
-(progn (cd "~/.emacs.d")
-       (normal-top-level-add-subdirs-to-load-path))
+(add-to-list 'load-path "~/.emacs.d/submodules/lsp-haskell")
 
 ;; We use use-package to configure all packages
 (require 'use-package)
@@ -35,6 +34,7 @@
    "prsteele-helm-gtags"
    "prsteele-julia"
    "prsteele-latex"
+   "prsteele-lsp"
    "prsteele-magit"
    "prsteele-markdown"
    "prsteele-mode-line"

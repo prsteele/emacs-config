@@ -14,3 +14,5 @@
    narrow-to-region))
 
 (add-to-list 'exec-path "/home/prsteele/.local/bin")
+
+(setenv "PATH" (concat (getenv "PATH") ":/home/prsteele/.local/bin"))
