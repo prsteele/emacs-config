@@ -20,4 +20,16 @@
  :config
  (setq lsp-haskell-process-path-hie "ghcide")
  (setq lsp-haskell-process-args-hie '())
- )
+
+ :custom
+ (lsp-ui-doc-include-signature 't)
+ (lsp-ui-doc-delay 0.75)
+
+ :bind
+ (("C-c ?" . 'lsp-ui-doc-show)
+  ("C-." . 'lsp-ui-peek-find-definitions)
+  ("M-." . 'lsp-ui-peek-find-references)
+  ("C-," . 'xref-pop-marker-stack)
+  ))
+
+(define-key lsp-mode-map [remap xref-find-apropos] #'helm-lsp-workspace-symbol)
