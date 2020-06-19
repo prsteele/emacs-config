@@ -7,6 +7,8 @@
 ;; Configure the packages repositories
 (require 'package)
 
+(setq load-prefer-newer t)
+
 (add-to-list 'package-archives
              (cons "melpa" "https://stable.melpa.org/packages/") t)
 
