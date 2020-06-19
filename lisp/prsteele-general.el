@@ -15,4 +15,4 @@
 
 (add-to-list 'exec-path "/home/prsteele/.local/bin")
 
-(setenv "PATH" (concat (getenv "PATH") ":/home/prsteele/.local/bin"))
+(setenv "PATH" (concat "/home/prsteele/.local/bin:" (getenv "PATH")))
