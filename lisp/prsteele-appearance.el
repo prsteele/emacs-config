@@ -6,9 +6,7 @@
 (show-paren-mode 't)
 (column-number-mode 't)
 
-(let ((myfont "mononoki 11"))
-  (add-to-list 'default-frame-alist `(font . ,myfont))
-  (set-frame-font myfont nil t))
+(add-to-list 'default-frame-alist '(font . "Mononoki 11"))
 
 (use-package solarized-theme
   :init
