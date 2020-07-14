@@ -15,7 +15,14 @@
   (lsp-signature-auto-activate nil))
 
 (use-package lsp-ui
-  :commands lsp-ui-mode)
+  :commands lsp-ui-mode
+
+ :bind
+ (:map lsp-ui-mode-map
+       ("C-c ?" . 'lsp-ui-doc-show)
+       ("C-." . 'lsp-ui-peek-find-definitions)
+       ("M-." . 'lsp-ui-peek-find-references)
+       ("C-," . 'xref-pop-marker-stack)))
 
 (use-package lsp-haskell
  :config
@@ -24,13 +31,6 @@
 
  :custom
  (lsp-ui-doc-include-signature 't)
- (lsp-ui-doc-delay 0.75)
-
- :bind
- (("C-c ?" . 'lsp-ui-doc-show)
-  ("C-." . 'lsp-ui-peek-find-definitions)
-  ("M-." . 'lsp-ui-peek-find-references)
-  ("C-," . 'xref-pop-marker-stack)
-  ))
+ (lsp-ui-doc-delay 0.75))
 
 (define-key lsp-mode-map [remap xref-find-apropos] #'helm-lsp-workspace-symbol)
