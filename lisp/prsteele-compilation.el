@@ -54,3 +54,7 @@
 
   (add-hook 'comint-output-filter-functions
             'filter-non-sgr-control-sequences-in-output))
+
+(use-package compile
+  :hook
+  ((compilation-mode . disable-trailing-whitespace)))
