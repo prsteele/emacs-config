@@ -35,7 +35,6 @@
    "prsteele-general"
    "prsteele-haskell"
    "prsteele-helm"
-   "prsteele-helm-gtags"
    "prsteele-julia"
    "prsteele-latex"
    "prsteele-lsp"
