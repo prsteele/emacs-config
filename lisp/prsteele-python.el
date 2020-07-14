@@ -1,8 +1,12 @@
 (use-package python-environment)
 
-(use-package lsp-pyls
+(use-package eglot
   :hook
-  ((python-mode . lsp)))
+  ((python-mode . eglot-ensure))
+  :bind
+  (:map eglot-mode-map
+        ("C-." . 'xref-find-definitions)
+        ("C-," . 'xref-pop-marker-stack)))
 
 (use-package virtualenvwrapper
   :custom
