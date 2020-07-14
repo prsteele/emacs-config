@@ -14,5 +14,7 @@
    narrow-to-region))
 
 (add-to-list 'exec-path "/home/prsteele/.local/bin")
+(add-to-list 'exec-path "/home/prsteele/.ghcup/bin")
 
 (setenv "PATH" (concat "/home/prsteele/.local/bin:" (getenv "PATH")))
+(setenv "PATH" (concat "/home/prsteele/.ghcup/bin:" (getenv "PATH")))
