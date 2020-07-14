@@ -21,6 +21,8 @@
 ;; We use use-package to configure all packages
 (require 'use-package)
 
+(defun disable-trailing-whitespace () (setq show-trailing-whitespace nil))
+
 ;; Load all my configuration files
 (mapc
  'load-library
@@ -47,6 +49,7 @@
    "prsteele-rst"
    "prsteele-sass"
    "prsteele-scons"
+   "prsteele-shell"
    "prsteele-sql"
    "prsteele-text"
    "prsteele-which-function"
