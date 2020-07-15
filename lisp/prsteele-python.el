@@ -1,3 +1,15 @@
+(use-package python
+  :after (reformatter)
+  :hook
+  ((python-mode . isort-format-on-save-mode))
+  :config
+  (defvar-local isort-command "isort" "The command to run when applying isort formatting")
+
+  (reformatter-define isort-format
+    :program isort-command
+    :args '("-")
+    :lighter " isort"))
+
 (use-package python-environment)
 
 (use-package eglot
@@ -17,5 +29,6 @@
 
 (use-package python-black
   :after python
+  :diminish (python-black-on-save-mode . "black")
   :hook
   ((python-mode . python-black-on-save-mode)))
