@@ -1,3 +1,2 @@
-;; (use-package flymake
-;;   :custom
-;;   (flymake-run-in-place . nil))
+(use-package flymake
+  :diminish)

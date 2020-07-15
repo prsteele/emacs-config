@@ -33,6 +33,7 @@
    "prsteele-eldoc"
    "prsteele-elisp"
    "prsteele-flycheck"
+   "prsteele-flymake"
    "prsteele-general"
    "prsteele-haskell"
    "prsteele-helm"
