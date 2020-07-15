@@ -30,6 +30,7 @@
    "prsteele-appearance"
    "prsteele-compilation"
    "prsteele-company"
+   "prsteele-eldoc"
    "prsteele-elisp"
    "prsteele-flycheck"
    "prsteele-general"
