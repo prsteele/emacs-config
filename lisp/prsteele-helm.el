@@ -1,7 +1,7 @@
 (use-package helm-config)
 
 (use-package helm
-  :diminish helm-mode
+  :diminish
   :bind
   (("M-x" . helm-M-x)
    ("C-x b" . helm-buffers-list)
