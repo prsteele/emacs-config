@@ -1,6 +1,8 @@
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
 
+(server-start)
+
 ;; Pull in the system environment
 (setq exec-path (append exec-path (list (getenv "PATH"))))
 
