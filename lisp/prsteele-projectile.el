@@ -11,4 +11,4 @@
   (:map projectile-mode-map
         ("C-c p f" . helm-projectile)
         ("C-c p p" . helm-projectile-switch-project)
-        ("C-c p g" . helm-projectile-grep)))
+        ("C-c p g" . helm-grep-do-git-grep)))
