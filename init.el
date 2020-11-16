@@ -25,6 +25,9 @@
 
 (defun disable-trailing-whitespace () (setq show-trailing-whitespace nil))
 
+;; Remove a stray LD_PRELOAD
+(setenv "LD_PRELOAD" "")
+
 ;; Load all my configuration files
 (mapc
  'load-library
