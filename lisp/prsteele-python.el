@@ -13,12 +13,6 @@
 
 (use-package python-environment)
 
-(use-package eglot
-  :bind
-  (:map eglot-mode-map
-        ("C-." . 'xref-find-definitions)
-        ("C-," . 'xref-pop-marker-stack)))
-
 (use-package virtualenvwrapper
   :custom
   (venv-location (expand-file-name "~/.virtualenvs"))
