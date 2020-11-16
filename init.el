@@ -54,4 +54,5 @@
    "prsteele-sql"
    "prsteele-text"
    "prsteele-which-function"
+   "prsteele-zettelkasten"
    ))
