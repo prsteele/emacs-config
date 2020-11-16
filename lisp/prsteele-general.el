@@ -17,3 +17,6 @@
   :config
   (exec-path-from-shell-initialize))
 
+;; Some libraries assume this is loaded, and I don't feel like finding
+;; out why. It doesn't hurt to load it anyway.
+(require 'tramp)
