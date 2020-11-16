@@ -43,6 +43,7 @@
    "prsteele-magit"
    "prsteele-markdown"
    "prsteele-mode-line"
+   "prsteele-nix"
    "prsteele-org"
    "prsteele-prog-mode"
    "prsteele-projectile"
