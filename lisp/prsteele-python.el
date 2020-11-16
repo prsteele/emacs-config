@@ -1,7 +1,8 @@
 (use-package python
-  :after (reformatter)
+  :after (reformatter eglot)
   :hook
   ((python-mode . isort-format-on-save-mode))
+  ((python-mode . eglot-ensure))
   :config
   (defvar-local isort-command "isort" "The command to run when applying isort formatting")
 
@@ -13,8 +14,6 @@
 (use-package python-environment)
 
 (use-package eglot
-  :hook
-  ((python-mode . eglot-ensure))
   :bind
   (:map eglot-mode-map
         ("C-." . 'xref-find-definitions)
