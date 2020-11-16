@@ -13,8 +13,7 @@
    downcase-region
    narrow-to-region))
 
-(add-to-list 'exec-path "/home/prsteele/.local/bin")
-(add-to-list 'exec-path "/home/prsteele/.ghcup/bin")
+(use-package exec-path-from-shell
+  :config
+  (exec-path-from-shell-initialize))
 
-(setenv "PATH" (concat "/home/prsteele/.local/bin:" (getenv "PATH")))
-(setenv "PATH" (concat "/home/prsteele/.ghcup/bin:" (getenv "PATH")))
