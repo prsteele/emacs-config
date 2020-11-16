@@ -10,7 +10,9 @@
 (setq load-prefer-newer t)
 
 (add-to-list 'package-archives
-             (cons "melpa" "https://stable.melpa.org/packages/") t)
+             (cons "melpa-stable" "https://stable.melpa.org/packages/") t)
+(add-to-list 'package-archives
+             (cons "melpa" "https://melpa.org/packages/") t)
 
 (package-initialize)
 
