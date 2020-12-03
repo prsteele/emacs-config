@@ -2,8 +2,13 @@
 
 (use-package helm
   :diminish
+  :config
+  (global-unset-key (kbd "C-x c"))
+  (global-unset-key (kbd "C-x C-x"))
+
   :bind
   (("M-x" . helm-M-x)
+   ("C-x C-x" . helm-M-x)
    ("C-x b" . helm-buffers-list)
    ("C-h SPC" . helm-all-mark-rings)
    ("C-x C-f" . helm-find-files)
@@ -15,8 +20,6 @@
   :bind-keymap
   ("C-c h" . helm-command-prefix)
 
-  :config
-  (global-unset-key (kbd "C-x c"))
 
   :custom
   (helm-quick-update t)
