@@ -1,5 +1,8 @@
 (use-package python
   :after (reformatter eglot)
+  :bind
+  (:map python-mode-map
+        (("C-c C-l" . python-shell-send-buffer)))
   :hook
   ((python-mode . isort-format-on-save-mode))
   ((python-mode . eglot-ensure))
