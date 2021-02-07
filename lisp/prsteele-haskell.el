@@ -13,6 +13,10 @@
 
   :config
 
+  (setq haskell-process-wrapper-function
+        (lambda (argv) (append (list "nix-shell" "-I" "." "--command" )
+                               (list (mapconcat 'identity argv " ")))))
+
   (add-to-list 'eglot-server-programs '(haskell-mode . ("ghcide" "--lsp")))
 
   (defvar-local ormolu-command "ormolu" "The command to run when applying ormolu formatting")
