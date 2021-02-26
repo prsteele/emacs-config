@@ -35,6 +35,7 @@
  'load-library
  '("prsteele-ace-jump"
    "prsteele-appearance"
+   "prsteele-coq"
    "prsteele-compilation"
    "prsteele-company"
    "prsteele-eldoc"
