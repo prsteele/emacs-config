@@ -1,3 +1,4 @@
+
 ;;; lsp-ui integration
 ;; LSP
 (use-package flycheck)
@@ -19,11 +20,7 @@
        ("C-c ?" . 'lsp-ui-doc-show)
        ("C-." . 'lsp-ui-peek-find-definitions)
        ("M-." . 'lsp-ui-peek-find-references)
-       ("C-," . 'xref-pop-marker-stack))
-
- :custom
- (lsp-ui-doc-include-signature 't)
- (lsp-ui-doc-delay 0.75))
+       ("C-," . 'xref-pop-marker-stack)))
 
 (use-package eglot
   :bind

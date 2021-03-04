@@ -6,7 +6,9 @@
 (show-paren-mode 't)
 (column-number-mode 't)
 
-(add-to-list 'default-frame-alist '(font . "Mononoki 11"))
+;(add-to-list 'default-frame-alist '(font . "Mononoki 11"))
+
+(set-frame-font "Noto Sans Mono 12")
 
 (use-package solarized-theme
   :init
