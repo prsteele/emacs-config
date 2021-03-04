@@ -30,6 +30,12 @@
 ;; Remove a stray LD_PRELOAD
 (setenv "LD_PRELOAD" "")
 
+;; Define a customization group for my own variables
+(defgroup prsteele nil
+  "My customizations."
+  :prefix "prsteele-"
+  :group 'applications)
+
 ;; Load all my configuration files
 (mapc
  'load-library
