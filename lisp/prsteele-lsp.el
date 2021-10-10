@@ -5,22 +5,36 @@
 
 (use-package lsp-mode
   :commands lsp
+  :hook
+  ((lsp-mode . lsp-enable-which-key-integration))
   :custom
   (lsp-enable-snippet nil)
   (lsp-prefer-flymake nil)
-  (lsp-signature-auto-activate nil)
-  :config
-  (define-key lsp-mode-map [remap xref-find-apropos] #'helm-lsp-workspace-symbol))
+  (lsp-signature-auto-activate nil))
 
 (use-package lsp-ui
   :commands lsp-ui-mode
 
  :bind
  (:map lsp-ui-mode-map
-       ("C-c ?" . 'lsp-ui-doc-show)
+       ("C-c ?" . 'lsp-ui-doc-show-or-focus)
        ("C-." . 'lsp-ui-peek-find-definitions)
        ("M-." . 'lsp-ui-peek-find-references)
        ("C-," . 'xref-pop-marker-stack)))
+
+(defun lsp-ui-doc-show-or-focus (arg)
+  (interactive "P")
+  (if arg
+      (lsp-ui-doc-focus-frame)
+    (lsp-ui-doc-show))
+
+(use-package lsp-ui-doc
+  :bind
+  (:map lsp-ui-doc-frame-mode-map
+        ("g" . 'lsp-ui-doc-unfocus-frame)))
+
+(use-package helm-lsp
+  :commands helm-lsp-workspace-symbol)
 
 (use-package eglot
   :bind
