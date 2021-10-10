@@ -14,6 +14,8 @@
   :init
   (load-theme 'solarized-dark t))
 
-(use-package rainbow-delimiters
-  :hook
-  (prog-mode . rainbow-delimiters-mode))
+(use-package rainbow-delimiters)
+(use-package rainbow-identifiers)
+
+;; Allow Emacs to resize properly with window managers
+(setq frame-resize-pixelwise t)
