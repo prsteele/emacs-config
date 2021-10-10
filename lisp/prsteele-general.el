@@ -20,3 +20,7 @@
 ;; Some libraries assume this is loaded, and I don't feel like finding
 ;; out why. It doesn't hurt to load it anyway.
 (require 'tramp)
+
+(use-package which-key
+  :config (which-key-mode)
+  :diminish which-key-mode)
