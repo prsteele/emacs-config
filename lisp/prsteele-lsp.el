@@ -1,4 +1,3 @@
-
 ;;; lsp-ui integration
 ;; LSP
 (use-package flycheck)
@@ -26,12 +25,19 @@
   (interactive "P")
   (if arg
       (lsp-ui-doc-focus-frame)
-    (lsp-ui-doc-show))
+    (lsp-ui-doc-show)))
 
 (use-package lsp-ui-doc
+  ;; :hook
+  ;; ((lsp-ui-doc-frame . (lambda (frame window) (message "got here"))))
   :bind
   (:map lsp-ui-doc-frame-mode-map
-        ("g" . 'lsp-ui-doc-unfocus-frame)))
+        ("C-c ?" . 'lsp-ui-doc-unfocus-frame)))
+
+(add-hook
+ 'lsp-ui-doc-frame-hook
+ (lambda (frame window)
+   (set-frame-font "Noto Sans Mono 12" nil (list frame))))
 
 (use-package helm-lsp
   :commands helm-lsp-workspace-symbol)
