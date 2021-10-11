@@ -23,23 +23,18 @@
   :args '("-")
   :lighter " black")
 
-(use-package lsp-pyright
-  :ensure t
-  :hook
-  ((python-mode . (lambda () (require 'lsp-pyright) (lsp)))))
+(use-package lsp-pyright)
 
 (use-package python
-  :after (reformatter lsp lsp-pyright)
   :bind
   (:map python-mode-map
         (("C-c C-l" . python-shell-send-buffer)))
   :hook
+  ((python-mode . lsp))
   ((python-mode . isort-format-on-save-mode))
   ((python-mode . black-format-on-save-mode))
-  ((python-mode . lsp))
   :config
-  (add-to-list 'eglot-server-programs '(python-mode . eglot-python-lsp-server-fn))
-  )
+  (add-to-list 'eglot-server-programs '(python-mode . eglot-python-lsp-server-fn)))
 
 (use-package python-environment)
 

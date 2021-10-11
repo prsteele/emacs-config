@@ -4,6 +4,7 @@
 
 (use-package lsp-mode
   :commands lsp
+  :diminish "LSP"
   :hook
   ((lsp-mode . lsp-enable-which-key-integration))
   :custom
