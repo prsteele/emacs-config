@@ -20,7 +20,8 @@
        ("C-c ?" . 'lsp-ui-doc-show-or-focus)
        ("C-." . 'lsp-ui-peek-find-definitions)
        ("M-." . 'lsp-ui-peek-find-references)
-       ("C-," . 'xref-pop-marker-stack)))
+       ("C-," . 'xref-pop-marker-stack)
+       ("C-c r" . 'lsp-rename)))
 
 (defun lsp-ui-doc-show-or-focus (arg)
   (interactive "P")
