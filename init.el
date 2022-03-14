@@ -6,6 +6,9 @@
 ;; Pull in the system environment
 (setq exec-path (append exec-path (list (getenv "PATH"))))
 
+;; Pull in NIX_PATH
+(setenv "NIX_PATH" "/home/prsteele/.nix-defexpr/channels:nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos:nixos-config=/etc/nixos/configuration.nix:/nix/var/nix/profiles/per-user/root/channels")
+
 ;; Configure the packages repositories
 (require 'package)
 
