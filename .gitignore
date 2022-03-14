@@ -11,7 +11,13 @@ bookmarks
 projectile.cache
 semanticdb
 network-security.data
-custom.el
 recentf
 .lsp-session-v1
 elpa/
+transient/
+
+# Local customization
+custom.el
+
+# Generated files
+readme.el

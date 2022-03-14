@@ -1,13 +1,11 @@
+;;; The primary configuration is in readme.org
+;;
+;; This file just loads enough packages to bootstrap the real configuration
+
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
 
 (server-start)
-
-;; Pull in the system environment
-(setq exec-path (append exec-path (list (getenv "PATH"))))
-
-;; Pull in NIX_PATH
-(setenv "NIX_PATH" "/home/prsteele/.nix-defexpr/channels:nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos:nixos-config=/etc/nixos/configuration.nix:/nix/var/nix/profiles/per-user/root/channels")
 
 ;; Configure the packages repositories
 (require 'package)
@@ -18,59 +16,26 @@
              (cons "melpa-stable" "https://stable.melpa.org/packages/") t)
 (add-to-list 'package-archives
              (cons "melpa" "https://melpa.org/packages/") t)
+(setq package-native-compile t)
+(unless (package-installed-p 'use-package)
+  (message "refreshing contents")
+  (package-refresh-contents)
+  (package-install 'use-package))
 
-(package-initialize)
+(eval-when-compile
+  (require 'use-package)
+  (require 'org-install)
+  (require 'ob-tangle))
 
-;; Find local libraries
-(add-to-list 'load-path "~/.emacs.d/lisp")
-(add-to-list 'load-path "~/.emacs.d/submodules/lsp-haskell")
+(defun reload-config ()
+  "Reload the Emacs configuration file"
+  (interactive)
+  (org-babel-load-file "~/.emacs.d/readme.org"))
 
-;; We use use-package to configure all packages
-(require 'use-package)
+(reload-config)
 
-(defun disable-trailing-whitespace () (setq show-trailing-whitespace nil))
+;; Pull in the system environment
+(setq exec-path (append exec-path (list (getenv "PATH"))))
 
-;; Remove a stray LD_PRELOAD
-(setenv "LD_PRELOAD" "")
-
-;; Define a customization group for my own variables
-(defgroup prsteele nil
-  "My customizations."
-  :prefix "prsteele-"
-  :group 'applications)
-
-;; Load all my configuration files
-(mapc
- 'load-library
- '("prsteele-ace-jump"
-   "prsteele-appearance"
-   "prsteele-coq"
-   "prsteele-compilation"
-   "prsteele-company"
-   "prsteele-eldoc"
-   "prsteele-elisp"
-   "prsteele-flycheck"
-   "prsteele-flymake"
-   "prsteele-general"
-   "prsteele-haskell"
-   "prsteele-helm"
-   "prsteele-julia"
-   "prsteele-latex"
-   "prsteele-lsp"
-   "prsteele-magit"
-   "prsteele-markdown"
-   "prsteele-mode-line"
-   "prsteele-nix"
-   "prsteele-org"
-   "prsteele-prog-mode"
-   "prsteele-projectile"
-   "prsteele-python"
-   "prsteele-rst"
-   "prsteele-sass"
-   "prsteele-scons"
-   "prsteele-shell"
-   "prsteele-sql"
-   "prsteele-text"
-   "prsteele-which-function"
-   "prsteele-zettelkasten"
-   ))
+;; Pull in NIX_PATH
+(setenv "NIX_PATH" "/home/prsteele/.nix-defexpr/channels:nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos:nixos-config=/etc/nixos/configuration.nix:/nix/var/nix/profiles/per-user/root/channels")
