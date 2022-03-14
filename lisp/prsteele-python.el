@@ -23,7 +23,9 @@
   :args '("-")
   :lighter " black")
 
-(use-package lsp-pyright)
+(use-package lsp-pyright
+  :custom
+  (lsp-pyright-multi-root nil))
 
 (use-package python
   :bind
