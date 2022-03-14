@@ -10,7 +10,10 @@
   :custom
   (lsp-enable-snippet nil)
   (lsp-prefer-flymake nil)
-  (lsp-signature-auto-activate nil))
+  (lsp-signature-auto-activate nil)
+  :config
+  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.hypothesis\\'")
+  )
 
 (use-package lsp-ui
   :commands lsp-ui-mode
