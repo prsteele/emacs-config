@@ -175,6 +175,19 @@ I don't want backup files and so on.
    create-lockfiles nil)
 #+end_src
 
+I usually want two buffers visible.
+
+#+begin_src emacs-lisp
+  (defun revert-to-two-windows ()
+    "Delete all other windows and split it into two."
+    (interactive)
+    (delete-other-windows)
+    (split-window-right))
+
+  (bind-key "C-x 1" #'revert-to-two-windows)
+  (bind-key "C-x !" #'delete-other-windows)
+#+end_src
+
 ** Appearance
 
 Show line and column numbers everywhere:
