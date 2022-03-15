@@ -2,20 +2,17 @@
 ;;
 ;; This file just loads enough packages to bootstrap the real configuration
 
-(setq custom-file "~/.emacs.d/custom.el")
-(load custom-file)
-
-(server-start)
+;; Turn off toolbars, menubars, scrollbars, and tooltips
+(when (window-system)
+  (menu-bar-mode -1)
+  (tool-bar-mode -1)
+  (scroll-bar-mode -1)
+  (tooltip-mode -1))
 
 ;; Configure the packages repositories
 (require 'package)
-
-(setq load-prefer-newer t)
-
-(add-to-list 'package-archives
-             (cons "melpa-stable" "https://stable.melpa.org/packages/") t)
-(add-to-list 'package-archives
-             (cons "melpa" "https://melpa.org/packages/") t)
+(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (setq package-native-compile t)
 (unless (package-installed-p 'use-package)
   (message "refreshing contents")
@@ -33,9 +30,3 @@
   (org-babel-load-file "~/.emacs.d/readme.org"))
 
 (reload-config)
-
-;; Pull in the system environment
-(setq exec-path (append exec-path (list (getenv "PATH"))))
-
-;; Pull in NIX_PATH
-(setenv "NIX_PATH" "/home/prsteele/.nix-defexpr/channels:nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos:nixos-config=/etc/nixos/configuration.nix:/nix/var/nix/profiles/per-user/root/channels")
