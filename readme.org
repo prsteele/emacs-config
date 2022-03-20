@@ -194,6 +194,10 @@ I usually want two buffers visible.
   (bind-key "C-x !" #'delete-other-windows)
 #+end_src
 
+#+begin_src emacs-lisp
+  (defun disable-trailing-whitespace () (setq show-trailing-whitespace nil))
+#+end_src
+
 ** Appearance
 
 Show line and column numbers everywhere:
