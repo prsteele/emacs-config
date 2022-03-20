@@ -266,6 +266,122 @@ Some modes are noisy with visible trailing whitespace, and aren't saved.
 
 #+end_src
 
+Support recursive minibuffers.
+
+#+begin_src emacs-lisp
+  (setq enable-recursive-minibuffers t)
+  (minibuffer-depth-indicate-mode)
+#+end_src
+
+#+begin_src emacs-lisp
+#+end_src
+
+** Navigation
+
+I've switched from Helm to Vertico for navigation.
+
+*** Vertico
+
+#+begin_src emacs-lisp
+  (use-package vertico
+    :init
+    (vertico-mode)
+    )
+  (use-package vertico-directory
+    :bind
+    (:map vertico-map
+          ("RET" . vertico-directory-enter)
+          ("C-l" . vertico-directory-delete-word))
+    )
+#+end_src
+
+I prefer Helm-style buffers for selection. We make Vertico create a
+new buffer in the bottom of the currently-active buffer.
+
+#+begin_src emacs-lisp
+      (use-package vertico-buffer
+      :init
+      (vertico-buffer-mode)
+      :custom
+      (vertico-buffer-display-action '(display-buffer-below-selected (window-height . 13))))
+#+end_src
+
+
+To support flexible matching a la Helm, we use Orderless:
+
+#+begin_src emacs-lisp
+  (use-package orderless
+    :init
+    (setq
+     completion-styles '(orderless)
+     completion-category-default nil
+     completion-category-overrides '((file (styles partial-completion)))
+     )
+    )
+#+end_src
+
+The Marginalia package will add helpful notes to the right of
+completion menus.
+
+#+begin_src emacs-lisp
+  (use-package marginalia
+    :config (marginalia-mode))
+#+end_src
+
+The Embark package provides a sort of right-click context menu for the
+thing-at-point.
+
+#+begin_src emacs-lisp
+  (use-package embark :bind ("C-c E" . #'embark-act))
+#+end_src
+
+The Consult package offers an improved minibuffer completion system, a
+la Helm.
+
+#+begin_src emacs-lisp
+  (use-package consult
+    :bind
+    (("C-x b" . #'consult-buffer)
+     ("C-c i" . #'consult-imenu)
+     ("C-c r" . #'consult-recent-file)
+     ("C-h a" . #'consult-apropos)
+     ("M-g g" . #'consult-goto-line))
+    :custom
+    (completion-in-region-function #'consult-completion-in-region)
+    (xref-show-xrefs-function #'consult-xref)
+    (xref-show-definitions-function #'consult-xref))
+#+end_src
+
+The Recentf package maintains a list of recently-visited files across
+Emacs sessions. Note this plays nicely with Marginalia, which shows
+how recently that file was accessed.
+
+#+begin_src emacs-lisp
+  (use-package recentf
+    :after dash
+    :config
+    (setq recentf-exclude (-concat recentf-exclude '("\\elpa"
+                                                     "private/tmp" ; to avoid custom files
+                                                     "txt/roam"
+                                                     )))
+    (recentf-mode))
+#+end_src
+
+
+** Auto-complete
+*** Company
+
+Company mode offers auto-completion capabilities.
+
+#+begin_src emacs-lisp
+  (use-package company
+    :diminish company-mode
+    :hook
+    (after-init . global-company-mode)
+    :config
+    ;; (add-to-list 'company-backends 'company-c-headers)
+    (setq company-idle-delay .2))
+#+end_src
 ** General modes
 *** Flymake
 
@@ -284,51 +400,51 @@ files can wreak havoc on sufficiently advanced IDE features.)
 I use Helm for narrowing and completion.
 
 #+begin_src emacs-lisp
-(use-package helm-config)
+  ;; (use-package helm-config)
 
-(use-package helm
-  :diminish
-  :config
-  (global-unset-key (kbd "C-x c"))
-  (global-unset-key (kbd "C-x C-x"))
+  ;; (use-package helm
+  ;;   :diminish
+  ;;   :config
+  ;;   (global-unset-key (kbd "C-x c"))
+  ;;   (global-unset-key (kbd "C-x C-x"))
 
-  :bind
-  (("M-x" . helm-M-x)
-   ("C-x C-x" . helm-M-x)
-   ("C-x b" . helm-buffers-list)
-   ("C-h SPC" . helm-all-mark-rings)
-   ("C-x C-f" . helm-find-files)
-   (:map helm-command-map
-         (("<tab>" . helm-execute-persistent-action)
-          ("C-i" . helm-execute-persistent-action)
-          ("C-z" . helm-select-action))))
+  ;;   :bind
+  ;;   (("M-x" . helm-M-x)
+  ;;    ("C-x C-x" . helm-M-x)
+  ;;    ("C-x b" . helm-buffers-list)
+  ;;    ("C-h SPC" . helm-all-mark-rings)
+  ;;    ("C-x C-f" . helm-find-files)
+  ;;    (:map helm-command-map
+  ;;          (("<tab>" . helm-execute-persistent-action)
+  ;;           ("C-i" . helm-execute-persistent-action)
+  ;;           ("C-z" . helm-select-action))))
 
-  :bind-keymap
-  ("C-c h" . helm-command-prefix)
+  ;;   :bind-keymap
+  ;;   ("C-c h" . helm-command-prefix)
 
 
-  :custom
-  (helm-quick-update t)
-  (helm-split-window-in-side-p t)
-  (helm-buffers-fuzzy-matching t)
-  (helm-move-to-line-cycle-in-source t)
-  (helm-ff-search-library-in-sexp t)
-  (helm-scroll-amount 8)
-  (helm-ff-file-name-history-use-recentf t)
-  (helm-buffer-max-length . nil)
+  ;;   :custom
+  ;;   (helm-quick-update t)
+  ;;   (helm-split-window-in-side-p t)
+  ;;   (helm-buffers-fuzzy-matching t)
+  ;;   (helm-move-to-line-cycle-in-source t)
+  ;;   (helm-ff-search-library-in-sexp t)
+  ;;   (helm-scroll-amount 8)
+  ;;   (helm-ff-file-name-history-use-recentf t)
+  ;;   (helm-buffer-max-length . nil)
 
-  :init
-  (helm-mode 1))
+  ;;   :init
+  ;;   (helm-mode 1))
 
-(use-package helm-grep
-  :bind
-  (:map helm-grep-mode-map
-        ("<return>" . helm-grep-mode-jump-other-window)
-        ("n" . helm-grep-mode-jump-other-window-forward)
-        ("p" . helm-grep-mode-jump-other-window-backward)))
+  ;; (use-package helm-grep
+  ;;   :bind
+  ;;   (:map helm-grep-mode-map
+  ;;         ("<return>" . helm-grep-mode-jump-other-window)
+  ;;         ("n" . helm-grep-mode-jump-other-window-forward)
+  ;;         ("p" . helm-grep-mode-jump-other-window-backward)))
 
-(use-package helm-eshell)
-(use-package helm-files)
+  ;; (use-package helm-eshell)
+  ;; (use-package helm-files)
 #+end_src
 
 *** LSP
@@ -384,8 +500,8 @@ follow what is suggested on [[https://github.com/emacs-lsp/lsp-mode][their home 
 We want to hook into Helm:
 
 #+begin_src emacs-lisp
-(use-package helm-lsp
-  :commands helm-lsp-workspace-symbol)
+  ;; (use-package helm-lsp
+  ;;   :commands helm-lsp-workspace-symbol)
 #+end_src
 
 I sometimes use ~eglot~ instead of ~lsp-mode~, so I leave its
@@ -432,20 +548,20 @@ Nothing exotic.
 I use [[https://github.com/bbatsov/projectile][Projectile]] for project management. It integrates nicely with Helm.
 
 #+begin_src emacs-lisp
-(use-package projectile
-  :delight '(:eval (concat " " (projectile-project-name)))
-  :bind
-  (:map projectile-mode-map
-        ("C-c p c" . projectile-compile-project))
-  :init
-  (projectile-global-mode))
+  ;; (use-package projectile
+  ;;   :delight '(:eval (concat " " (projectile-project-name)))
+  ;;   :bind
+  ;;   (:map projectile-mode-map
+  ;;         ("C-c p c" . projectile-compile-project))
+  ;;   :init
+  ;;   (projectile-global-mode))
 
-(use-package helm-projectile
-  :bind
-  (:map projectile-mode-map
-        ("C-c p f" . helm-projectile)
-        ("C-c p p" . helm-projectile-switch-project)
-        ("C-c p g" . helm-grep-do-git-grep)))
+  ;; (use-package helm-projectile
+  ;;   :bind
+  ;;   (:map projectile-mode-map
+  ;;         ("C-c p f" . helm-projectile)
+  ;;         ("C-c p p" . helm-projectile-switch-project)
+  ;;         ("C-c p g" . helm-grep-do-git-grep)))
 
 #+end_src
 
@@ -510,28 +626,6 @@ mouse-3: go to end")
        my-which-func-header-line-format))))
 #+end_src
 
-*** Company
-
-Company mode offers auto-completion capabilities.
-
-#+begin_src emacs-lisp
-(use-package company
-  :diminish company-mode
-  :hook
-  (after-init . global-company-mode)
-
-  :bind
-  (:map company-mode-map
-        ("C-:" . helm-company)
-        ("C-;" . helm-company))
-  (:map company-active-map
-        ("C-:" . helm-company)
-        ("C-;" . helm-company))
-
-  :config
-  (add-to-list 'company-backends 'company-c-headers)
-  (setq company-idle-delay .2))
-#+end_src
 *** Ace jump
 
 #+begin_src emacs-lisp
