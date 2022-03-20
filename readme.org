@@ -65,6 +65,12 @@ We keep customization variables elsewhere.
 (load custom-file)
 #+end_src
 
+The prefix ~C-x C-x~ is easier on the hands than ~M-x~.
+
+#+begin_src emacs-lisp
+  (bind-key* "C-x C-x" #'execute-extended-command)
+#+end_src
+
 It's nice to have ~PATH~ set as you might expect, and this package
 helps do so:
 
