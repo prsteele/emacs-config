@@ -543,9 +543,27 @@ Nothing exotic.
   (add-to-list 'auto-mode-alist '("\\.md" . markdown-mode)))
 #+end_src
 
-*** Projectile
+*** Project
 
-I use [[https://github.com/bbatsov/projectile][Projectile]] for project management. It integrates nicely with Helm.
+The built-in ~project~ package can replace the more full-featured
+[[https://github.com/bbatsov/projectile][Projectile]] that I used with Helm. The ~project~ package also works
+with ~marginalia-mode~.
+
+#+begin_src emacs-lisp
+  (use-package project
+    :bind (("C-c k" . #'project-kill-buffers)
+           ("C-c m" . #'project-compile)
+           ("C-x f" . #'find-file)
+           ("C-c f" . #'project-find-file)
+           ("C-c F" . #'project-switch-project))
+    :custom
+    (project-switch-commands
+     '((?f "Find file" project-find-file)
+       (?g "Magit" magit-project-status)
+       (?d "Dired" project-dired)
+       (?r "Find regexpt" project-find-regexp)))
+    (compilation-always-kill t))
+#+end_src
 
 #+begin_src emacs-lisp
   ;; (use-package projectile
