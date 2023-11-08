@@ -15,6 +15,7 @@ recentf
 .lsp-session-v1
 elpa/
 transient/
+eln-cache
 
 # Local customization
 custom.el
