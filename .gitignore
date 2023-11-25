@@ -16,9 +16,7 @@ recentf
 elpa/
 transient/
 eln-cache
+projects
 
 # Local customization
 custom.el
-
-# Generated files
-readme.el
