@@ -1,8 +1,28 @@
 ;; -*- coding: utf-8; lexical-binding: t -*-
 
+;;; Intro
+
 ;; See https://github.com/patrickt/emacs for inspiration.
 
-;; (server-start)
+;; Bootstrap straight.el
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name
+        "straight/repos/straight.el/bootstrap.el"
+        (or (bound-and-true-p straight-base-dir)
+            user-emacs-directory)))
+      (bootstrap-version 7))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+
+;; Get use-package to understand straight.el
+(straight-use-package 'use-package)
 
 ;;; Window appearance
 ;;
@@ -23,19 +43,6 @@
              (scroll-bar-mode -1)
              (tooltip-mode -1)))
 
-;;; Package configuration
-(require 'package)
-(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-(setq package-native-compile t)
-(unless (package-installed-p 'use-package)
-  (message "refreshing contents")
-  (package-refresh-contents)
-  (package-install 'use-package))
-
-(eval-when-compile
-  (require 'use-package))
-
 ;;; Preamble
 (setq gc-cons-threshold 100000000)
 (setenv "LD_PRELOAD" "")
@@ -47,7 +54,10 @@
   :group 'applications)
 
 (setq custom-file "~/.emacs.d/custom.el")
-(load custom-file)
+(if (file-exists-p custom-file)
+    (load custom-file)
+  (message "No custom.el found, creating...")
+  (touch custom-file))
 
 ;;; General
 
@@ -56,6 +66,7 @@
 
 ;; Set a reasonable default PATH
 (use-package exec-path-from-shell
+  :straight t
   :config
   (exec-path-from-shell-initialize))
 
@@ -64,6 +75,7 @@
 
 ;; Support keychains
 (use-package keychain-environment
+  :straight t
   :config
   (keychain-refresh-environment))
 
@@ -155,17 +167,27 @@
 ;; Highlight matching parenthesis
 (show-paren-mode 't)
 
-;; fonts
-(set-frame-font "Noto Sans Mono 12")
+;; Load the first avaiable font
+(letrec ((go (lambda (fonts)
+            (if-let ((font (car fonts)))
+                (condition-case nil
+                    (progn (set-frame-font font)
+                           (message (concat "set font '" font "'")))
+                  (error (funcall go (cdr fonts))))
+              (message "no fonts loaded")))))
+  (funcall go '("Noto Sans Mono 12" "SF Mono 12")))
 
 ;; use solarized
 (use-package solarized-theme
+  :straight t
   :init
   (load-theme 'solarized-dark t))
 
 ;; make delimiters and identifiers have unique colors
-(use-package rainbow-delimiters)
-(use-package rainbow-identifiers)
+(use-package rainbow-delimiters
+  :straight t)
+(use-package rainbow-identifiers
+  :straight t)
 
 ;; Fix rendering issues on some systems
 (setq frame-resize-pixelwise t)
@@ -176,16 +198,13 @@
 (add-hook 'text-mode-hook #'delete-trailing-whitespace)
 (setq require-final-newline t)
 
-;; Some more modes we don't want trailing whitespace in
-(use-package compile
-  :hook
-  ((compilation-mode . disable-trailing-whitespace)))
-
 (use-package shell
+  :straight t
   :hook
   ((shell-mode . disable-trailing-whitespace)))
 
 (use-package term
+  :straight t
   :hook
   ((term-mode . disable-trailing-whitespace)))
 
@@ -206,6 +225,7 @@
 
 ;; Minibuffer completion
 (use-package vertico
+  :straight t
   :init
   (vertico-mode)
   )
@@ -223,6 +243,7 @@
 
 ;;;; Orderless completion
 (use-package orderless
+  :straight t
   :init
   (setq
    completion-styles '(orderless)
@@ -233,18 +254,22 @@
 
 ;; Add useful notes on the right of completion menus
 (use-package marginalia
+  :straight t
   :config (marginalia-mode))
 
 ;;;; Embark
 
 ;; The Embark package provides a sort of right-click context menu for the thing-at-point.
-(use-package embark :bind ("C-c E" . #'embark-act))
+(use-package embark
+  :straight t
+  :bind ("C-c E" . #'embark-act))
 
 ;;;; Consult
 
 ;; Completion and selection
 
 (use-package consult
+  :straight t
   :bind
   (("C-x b" . #'consult-buffer)
    ("C-c i" . #'consult-imenu)
@@ -257,6 +282,7 @@
 
 ;;;; Recent files
 (use-package recentf
+  :straight t
   :after dash
   :config
   (setq recentf-exclude (-concat recentf-exclude '("\\elpa"
@@ -268,6 +294,7 @@
 ;;; Auto-complete
 
 (use-package company
+  :straight t
   :diminish company-mode
   :hook
   (after-init . global-company-mode)
@@ -279,6 +306,7 @@
 
 ;;;; Ace jump
 (use-package ace-jump-mode
+  :straight t
   :bind (("C-c SPC" . 'ace-jump-mode)))
 
 ;;;; Compilation mode
@@ -294,6 +322,7 @@
 ;; https://oleksandrmanzyuk.wordpress.com/2011/11/05/better-emacs-shell-part-i
 
 (use-package ansi-color
+  :straight t
   :init
   (defun endless/colorize-compilation ()
     "Colorize from `compilation-filter-start' to `point'."
@@ -346,6 +375,7 @@
 
 ;;;; Coq
 (use-package proof-general
+  :straight t
   :bind
   (:map coq-mode-map
         (("RET" . newline-and-indent)))
@@ -359,6 +389,7 @@
 
 ;;;; Eldoc
 (use-package eldoc
+  :straight t
   :diminish)
 
 ;;;; elisp
@@ -368,11 +399,13 @@
 ;;;; Flycheck
 
 (use-package flycheck
+  :straight t
   :diminish flycheck-mode)
 
 ;;;; Flymake
 
 (use-package flymake
+  :straight t
   :diminish
   :custom
   (flymake-run-in-place nil))
@@ -391,6 +424,7 @@
       (error "no project"))))
 
 (use-package eglot
+  :straight t
   :bind
   (:map eglot-mode-map
         ("C-." . 'xref-find-definitions)
@@ -400,7 +434,8 @@
   :config
   (add-to-list 'eglot-server-programs `(haskell-mode . project-local-lsp-server-fn)))
 
-(use-package eldoc-box)
+(use-package eldoc-box
+  :straight t)
 (add-hook 'eglot-managed-mode-hook #'eldoc-box-hover-mode t)
 
 ;;;; Haskell
@@ -420,6 +455,7 @@
   :lighter " ormolu")
 
 (use-package haskell-mode
+  :straight t
   :hook
   ((haskell-mode . (lambda ()
                      (hack-local-variables)
@@ -452,6 +488,7 @@
 
 ;;;; Magit
 (use-package magit
+  :straight t
   :bind
   ("C-c m" . magit-status)
 
@@ -460,6 +497,7 @@
 
 ;;;; Markdown
 (use-package markdown-mode
+  :straight t
   :hook
   ((markdown-mode . flyspell-mode)
    (markdown-mode . auto-fill-mode))
@@ -473,6 +511,7 @@
 ;;
 ;; https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.html
 (use-package org
+  :straight t
   :bind
   (("C-c l" . org-store-link)
    ("C-c a" . org-agenda)
@@ -530,6 +569,7 @@
 
 ;;;; Project
 (use-package project
+  :straight t
   :bind (("C-c k" . #'project-kill-buffers)
          ("C-c m" . #'project-compile)
          ("C-x f" . #'find-file)
@@ -542,6 +582,10 @@
      (?d "Dired" project-dired)
      (?r "Find regexpt" project-find-regexp)))
   (compilation-always-kill t))
+
+;;;; Reformatter
+(use-package reformatter
+  :straight t)
 
 ;;;; Python
 
@@ -578,10 +622,12 @@
   (list prsteele-python-mode-lsp-server-path))
 
 (use-package lsp-pyright
+  :straight t
   :custom
   (lsp-pyright-multi-root nil))
 
 (use-package python
+  :straight t
   :bind
   (:map python-mode-map
         (("C-c C-l" . python-shell-send-buffer)))
@@ -598,6 +644,7 @@
 ;; `flyspell-mode' and `auto-fill-mode' from a suitable ancestor mode.
 
 (use-package rst
+  :straight t
   :hook
   ((rst-mode . flyspell-mode)
    (rst-mode . auto-fill-mode)))
@@ -608,11 +655,13 @@
 
 ;;;; SQL
 (use-package sql
+  :straight t
   :custom
   (sql-product "postgres"))
 
 ;;;; Smart mode line
 (use-package smart-mode-line
+  :straight t
   :custom
   (sml/theme 'respectful)
   (sml/vc-mode-show-backend t)
@@ -634,6 +683,7 @@
 ;; when I wrote it.
 
 (use-package which-func
+  :straight t
   :config
   (defconst
     my-which-func-current
@@ -651,7 +701,7 @@
     `("λ["
       (:propertize my-which-func-current
 		   local-map ,which-func-keymap
-		   mouse-face mode-line-highlight
+		   mouse-face mode-line-highligh
 		   help-echo "mouse-1: go to beginning\n\
 mouse-2: toggle rest visibility\n\
 mouse-3: go to end")
@@ -677,5 +727,6 @@ mouse-3: go to end")
 ;;;; which key
 ;; This will fire when you pause typing a key prefix
 (use-package which-key
+  :straight t
   :config (which-key-mode)
   :diminish which-key-mode)

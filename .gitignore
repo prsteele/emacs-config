@@ -17,6 +17,7 @@ elpa/
 transient/
 eln-cache
 projects
+straight/
 
 # Local customization
 custom.el
