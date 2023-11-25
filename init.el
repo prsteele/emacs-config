@@ -400,6 +400,9 @@
   :config
   (add-to-list 'eglot-server-programs `(haskell-mode . project-local-lsp-server-fn)))
 
+(use-package eldoc-box)
+(add-hook 'eglot-managed-mode-hook #'eldoc-box-hover-mode t)
+
 ;;;; Haskell
 
 ;; Define some reformatter commands
