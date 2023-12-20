@@ -313,6 +313,39 @@
   ;; (add-to-list 'company-backends 'company-c-headers)
   (setq company-idle-delay .2))
 
+;;; LSP modes
+
+;;;; Eglot
+
+(defvar-local project-local-eglot-server "no-server-configured" "The program to invoke to start an lsp server")
+(defvar-local project-local-eglot-server-args nil "The arguments to provide to an lsp server")
+
+(defun project-local-lsp-server-fn (was-interactive)
+  (let ((project (project-current)))
+    (if project
+        (cons
+         (expand-file-name (f-join (project-root project) project-local-eglot-server))
+         project-local-eglot-server-args)
+      (error "no project"))))
+
+(use-package eglot
+  :bind
+  (:map eglot-mode-map
+        ("C-." . 'xref-find-definitions)
+        ("C-," . 'xref-go-back)
+        ("C-c ?" . 'eglot-help-at-point)
+        ("C-c C-c" . 'eglot-code-actions)
+        ("C-c C-r" . 'eglot-rename))
+  :config
+  (add-to-list 'eglot-server-programs '(haskell-mode . project-local-lsp-server-fn))
+  (add-to-list 'eglot-server-programs '(python-mode . project-local-lsp-server-fn)))
+
+;;;; LSP
+
+
+(use-package lsp-mode
+  :straight t)
+
 ;;; Mode configuration
 
 ;;;; Ace jump
@@ -421,29 +454,6 @@
   :custom
   (flymake-run-in-place nil))
 
-;;;; Eglot
-
-(defvar-local project-local-eglot-server "no-server-configured" "The program to invoke to start an lsp server")
-(defvar-local project-local-eglot-server-args nil "The arguments to provide to an lsp server")
-
-(defun project-local-lsp-server-fn (was-interactive)
-  (let ((project (project-current)))
-    (if project
-        (cons
-         (expand-file-name (f-join (project-root project) project-local-eglot-server))
-         project-local-eglot-server-args)
-      (error "no project"))))
-
-(use-package eglot
-  :straight t
-  :bind
-  (:map eglot-mode-map
-        ("C-." . 'xref-find-definitions)
-        ("C-," . 'xref-go-back)
-        ("C-c ?" . 'eglot-help-at-point)
-        ("C-c C-c" . 'eglot-code-actions))
-  :config
-  (add-to-list 'eglot-server-programs `(haskell-mode . project-local-lsp-server-fn)))
 
 (use-package eldoc-box
   :straight t)
@@ -654,11 +664,10 @@
   (:map python-mode-map
         (("C-c C-l" . python-shell-send-buffer)))
   :hook
-  ((python-mode . lsp))
+  ((python-mode . eglot-ensure))
   ((python-mode . isort-format-on-save-mode))
   ((python-mode . black-format-on-save-mode))
-  :config
-  (add-to-list 'eglot-server-programs '(python-mode . eglot-python-lsp-server-fn)))
+  )
 
 ;;;; rst -- reStructuredText
 
