@@ -294,6 +294,14 @@
                                                    )))
   (recentf-mode))
 
+;;; Projects
+
+(defun find-project-local-executable (name)
+  "Try to find the executable relative to the current project, falling back to `exec-path'"
+  (if-let ((project (project-current)))
+      (expand-file-name (f-join (project-root project) name))
+    (executable-find name)))
+
 ;;; Auto-complete
 
 (use-package company
@@ -488,6 +496,17 @@
   :hook
   ((latex-mode . auto-fill-mode)
    (latex-mode . flyspell-mode)))
+
+;;;; Lean
+(use-package lean4-mode
+  :straight (lean4-mode
+	     :type git
+	     :host github
+             :repo "bustercopley/lean4-mode"
+	     ;; :repo "leanprover/lean4-mode"
+	     :files ("*.el" "data"))
+  :config
+  (defun lean4-get-executable (name) (find-project-local-executable name)))
 
 ;;;; Magit
 (use-package magit
