@@ -170,7 +170,7 @@
 ;; Highlight matching parenthesis
 (show-paren-mode 't)
 
-;; Load the first avaiable font
+;; Load the first available font
 (letrec ((go (lambda (fonts)
             (if-let ((font (car fonts)))
                 (condition-case nil
