@@ -64,6 +64,9 @@
 ;; C-x C-x is easier on the hands
 (bind-key* "C-x C-x" #'execute-extended-command)
 
+(bind-key* (kbd "<home>") #'beginning-of-buffer)
+(bind-key* (kbd "<end>") #'end-of-buffer)
+
 ;; Set a reasonable default PATH
 (use-package exec-path-from-shell
   :straight t
