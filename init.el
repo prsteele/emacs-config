@@ -523,6 +523,8 @@
              :repo "bustercopley/lean4-mode"
 	     ;; :repo "leanprover/lean4-mode"
 	     :files ("*.el" "data"))
+  :bind
+  ("<RET>" . newline-and-indent)
   :config
   (defun lean4-get-executable (name) (find-project-local-executable name))
   :hook
