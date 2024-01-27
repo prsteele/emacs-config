@@ -308,6 +308,14 @@
 (use-package reformatter
   :straight t)
 
+(defcustom nixfmt-command
+  "nixpkgs-fmt"
+  "The command to run when applying ormolu formatting"
+  :type 'string
+  :safe 'stringp
+  :local 't
+  :group 'prsteele)
+
 (defcustom ormolu-command
   "ormolu"
   "The command to run when applying ormolu formatting"
@@ -331,6 +339,11 @@
   :safe 'stringp
   :local 't
   :group 'prsteele)
+
+(reformatter-define nix-format
+  :program nixfmt-command
+  :args '()
+  :lighter " nixfmt")
 
 (reformatter-define ormolu-format
   :program ormolu-command
@@ -357,7 +370,9 @@
         ("C-," . 'xref-go-back)
         ("C-c ?" . 'eglot-help-at-point)
         ("C-c C-c" . 'eglot-code-actions)
-        ("C-c C-r" . 'eglot-rename)))
+        ("C-c C-r" . 'eglot-rename))
+  :hook
+  (nix-mode . eglot-ensure))
 
 ;;;; LSP
 (use-package lsp-mode
@@ -583,6 +598,12 @@
       "* %?\nEntered on %U\n  %i\n  %a")
      ("r" "Research" entry (file+headline "~/org/research.org" "Research"))
      ("c" "Courses" entry (file+headline "~/org/courses.org" "Courses")))))
+
+;;;; Nix-mode
+(use-package nix-mode
+  :straight t
+  :hook
+  ((nix-mode . nix-format-on-save-mode)))
 
 ;;;; prog-mode
 
