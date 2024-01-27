@@ -64,6 +64,9 @@
 ;; C-x C-x is easier on the hands
 (bind-key* "C-x C-x" #'execute-extended-command)
 
+(bind-key* (kbd "<home>") #'beginning-of-buffer)
+(bind-key* (kbd "<end>") #'end-of-buffer)
+
 ;; Set a reasonable default PATH
 (use-package exec-path-from-shell
   :straight t
@@ -163,11 +166,10 @@
 (global-display-line-numbers-mode t)
 (column-number-mode)
 
-
 ;; Highlight matching parenthesis
 (show-paren-mode 't)
 
-;; Load the first avaiable font
+;; Load the first available font
 (letrec ((go (lambda (fonts)
             (if-let ((font (car fonts)))
                 (condition-case nil
@@ -198,19 +200,6 @@
 (add-hook 'text-mode-hook #'delete-trailing-whitespace)
 (setq require-final-newline t)
 
-(use-package shell
-  :straight t
-  :hook
-  ((shell-mode . disable-trailing-whitespace)))
-
-(use-package term
-  :straight t
-  :hook
-  ((term-mode . disable-trailing-whitespace)))
-
-(use-package comint
-  :hook
-  ((comint-mode . disable-trailing-whitespace)))
 
 ;; Not sure if these are actually useful yet, but we'll enable
 ;; recursive minibuffers
@@ -224,11 +213,39 @@
 ;;;; Vertico
 
 ;; Minibuffer completion
+
+
+;;;; Recent files
+(use-package recentf
+  :straight t
+  :after dash
+  :config
+  (setq recentf-exclude (-concat recentf-exclude '("\\elpa"
+                                                   "private/tmp" ; to avoid custom files
+                                                   "txt/roam"
+                                                   )))
+  (recentf-mode))
+
+;;; Projects
+
+(defun find-project-local-executable (name)
+  "Try to find the executable relative to the current project, falling back to `exec-path'"
+  (if-let ((project (project-current))
+           (local-name (expand-file-name (f-join (project-root project) name)))
+           (f-exists-p local-name))
+      local-name
+    (executable-find name)))
+
+;;; Completion
+
+;;; Vertico
+
 (use-package vertico
   :straight t
   :init
   (vertico-mode)
   )
+
 (use-package vertico-directory
   :bind
   (:map vertico-map
@@ -262,12 +279,9 @@
 ;; The Embark package provides a sort of right-click context menu for the thing-at-point.
 (use-package embark
   :straight t
-  :bind ("C-c E" . #'embark-act))
+  :bind ("C-c e" . #'embark-act))
 
 ;;;; Consult
-
-;; Completion and selection
-
 (use-package consult
   :straight t
   :bind
@@ -280,27 +294,94 @@
   (xref-show-xrefs-function #'consult-xref)
   (xref-show-definitions-function #'consult-xref))
 
-;;;; Recent files
-(use-package recentf
+;;;; Corfu: in-buffer completion
+(use-package corfu
   :straight t
-  :after dash
-  :config
-  (setq recentf-exclude (-concat recentf-exclude '("\\elpa"
-                                                   "private/tmp" ; to avoid custom files
-                                                   "txt/roam"
-                                                   )))
-  (recentf-mode))
+  :custom
+  (corfu-auto t)
+  :init
+  (global-corfu-mode))
 
-;;; Auto-complete
+;;; Formatting
 
-(use-package company
-  :straight t
-  :diminish company-mode
+;;;; Reformatter
+(use-package reformatter
+  :straight t)
+
+(defcustom nixfmt-command
+  "nixpkgs-fmt"
+  "The command to run when applying ormolu formatting"
+  :type 'string
+  :safe 'stringp
+  :local 't
+  :group 'prsteele)
+
+(defcustom ormolu-command
+  "ormolu"
+  "The command to run when applying ormolu formatting"
+  :type 'string
+  :safe 'stringp
+  :local 't
+  :group 'prsteele)
+
+(defcustom isort-command
+  "isort"
+  "The command to run when applying isort formatting"
+  :type 'string
+  :safe 'stringp
+  :local 't
+  :group 'prsteele)
+
+(defcustom black-command
+  "black"
+  "The command to run when applying black formatting"
+  :type 'string
+  :safe 'stringp
+  :local 't
+  :group 'prsteele)
+
+(reformatter-define nix-format
+  :program nixfmt-command
+  :args '()
+  :lighter " nixfmt")
+
+(reformatter-define ormolu-format
+  :program ormolu-command
+  :args '()
+  :lighter " ormolu")
+
+(reformatter-define isort-format
+  :program isort-command
+  :args '("-")
+  :lighter " isort")
+
+(reformatter-define black-format
+  :program black-command
+  :args '("-")
+  :lighter " black")
+
+;;; LSP modes
+
+;;;; Eglot
+(use-package eglot
+  :bind
+  (:map eglot-mode-map
+        ("C-." . 'xref-find-definitions)
+        ("C-," . 'xref-go-back)
+        ("C-c ?" . 'eglot-help-at-point)
+        ("C-c C-c" . 'eglot-code-actions)
+        ("C-c C-r" . 'eglot-rename))
   :hook
-  (after-init . global-company-mode)
-  :config
-  ;; (add-to-list 'company-backends 'company-c-headers)
-  (setq company-idle-delay .2))
+  (nix-mode . eglot-ensure))
+
+;;;; LSP
+(use-package lsp-mode
+  :straight t)
+
+(use-package lsp-pyright
+  :straight t
+  :custom
+  (lsp-pyright-multi-root nil))
 
 ;;; Mode configuration
 
@@ -308,6 +389,11 @@
 (use-package ace-jump-mode
   :straight t
   :bind (("C-c SPC" . 'ace-jump-mode)))
+
+;;;; Comint
+(use-package comint
+  :hook
+  ((comint-mode . disable-trailing-whitespace)))
 
 ;;;; Compilation mode
 
@@ -383,9 +469,13 @@
   (coq-compile-before-require t)
   :custom-face
   (proof-locked-face ((t (:extend t :background "#073642"))))
-  (proof-queue-face ((t (:extend t :background "#d33682"))))
-  :hook
-  ((coq-mode . company-coq-mode)))
+  (proof-queue-face ((t (:extend t :background "#d33682")))))
+
+;;;; Direnv
+(use-package direnv
+  :straight t
+  :config
+  (direnv-mode))
 
 ;;;; Eldoc
 (use-package eldoc
@@ -395,65 +485,23 @@
 ;;;; elisp
 (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
 
-
 ;;;; Flycheck
-
 (use-package flycheck
   :straight t
   :diminish flycheck-mode)
 
 ;;;; Flymake
-
 (use-package flymake
   :straight t
   :diminish
   :custom
   (flymake-run-in-place nil))
 
-;;;; Eglot
-
-(defvar-local project-local-eglot-server "no-server-configured" "The program to invoke to start an lsp server")
-(defvar-local project-local-eglot-server-args nil "The arguments to provide to an lsp server")
-
-(defun project-local-lsp-server-fn (was-interactive)
-  (let ((project (project-current)))
-    (if project
-        (cons
-         (expand-file-name (f-join (project-root project) project-local-eglot-server))
-         project-local-eglot-server-args)
-      (error "no project"))))
-
-(use-package eglot
-  :straight t
-  :bind
-  (:map eglot-mode-map
-        ("C-." . 'xref-find-definitions)
-        ("C-," . 'xref-go-back)
-        ("C-c ?" . 'eglot-help-at-point)
-        ("C-c C-c" . 'eglot-code-actions))
-  :config
-  (add-to-list 'eglot-server-programs `(haskell-mode . project-local-lsp-server-fn)))
-
 (use-package eldoc-box
   :straight t)
 (add-hook 'eglot-managed-mode-hook #'eldoc-box-hover-mode t)
 
 ;;;; Haskell
-
-;; Define some reformatter commands
-
-(defcustom ormolu-command
-  "ormolu"
-  "The command to run when applying ormolu formatting"
-  :type 'string
-  :safe 'stringp
-  :group 'prsteele)
-
-(reformatter-define ormolu-format
-  :program ormolu-command
-  :args '()
-  :lighter " ormolu")
-
 (use-package haskell-mode
   :straight t
   :hook
@@ -463,10 +511,6 @@
    (haskell-mode . ormolu-format-on-save-mode))
 
   :config
-  (setq haskell-process-wrapper-function
-        (lambda (argv) (append (list "nix-shell" "-I" "." "--command" )
-                               (list (mapconcat 'identity argv " ")))))
-
   ;; Turn off broken flymake functions
   (setq flymake-allowed-file-name-masks
 	(remove '("\\.l?hs\\'" haskell-flymake-init)
@@ -485,6 +529,21 @@
   :hook
   ((latex-mode . auto-fill-mode)
    (latex-mode . flyspell-mode)))
+
+;;;; Lean
+(use-package lean4-mode
+  :straight (lean4-mode
+	     :type git
+	     :host github
+             :repo "bustercopley/lean4-mode"
+	     ;; :repo "leanprover/lean4-mode"
+	     :files ("*.el" "data"))
+  :bind
+  ("<RET>" . newline-and-indent)
+  :config
+  (defun lean4-get-executable (name) (find-project-local-executable name))
+  :hook
+  ((lean4-mode . (lambda () (corfu-mode -1)))))
 
 ;;;; Magit
 (use-package magit
@@ -540,6 +599,12 @@
      ("r" "Research" entry (file+headline "~/org/research.org" "Research"))
      ("c" "Courses" entry (file+headline "~/org/courses.org" "Courses")))))
 
+;;;; Nix-mode
+(use-package nix-mode
+  :straight t
+  :hook
+  ((nix-mode . nix-format-on-save-mode)))
+
 ;;;; prog-mode
 
 ;; There are some good global defaults for any ~prog-mode~-derived mode:
@@ -583,60 +648,17 @@
      (?r "Find regexpt" project-find-regexp)))
   (compilation-always-kill t))
 
-;;;; Reformatter
-(use-package reformatter
-  :straight t)
-
 ;;;; Python
-
-;; Both black and isortare incredibly useful to have enabled on save.
-;;
-;; https://github.com/psf/black
-;; https://github.com/PyCQA/isort
-
-(defvar-local isort-command "isort" "The command to run when applying isort formatting")
-
-(reformatter-define isort-format
-  :program isort-command
-  :args '("-")
-  :lighter " isort")
-
-(defvar-local black-command "black" "The command to run when applying isort formatting")
-
-(reformatter-define black-format
-  :program black-command
-  :args '("-")
-  :lighter " black")
-
-;; help LSP
-
-(defcustom prsteele-python-mode-lsp-server-path
-  "pyls"
-  "The path to the Python language server program"
-  :type 'string
-  :safe 'stringp
-  :group 'prsteele)
-
-(defun eglot-python-lsp-server-fn (was-interactive)
-  "A function to compute the LSP server for Python"
-  (list prsteele-python-mode-lsp-server-path))
-
-(use-package lsp-pyright
-  :straight t
-  :custom
-  (lsp-pyright-multi-root nil))
-
 (use-package python
   :straight t
   :bind
   (:map python-mode-map
         (("C-c C-l" . python-shell-send-buffer)))
   :hook
-  ((python-mode . lsp))
+  ((python-mode . eglot-ensure))
   ((python-mode . isort-format-on-save-mode))
   ((python-mode . black-format-on-save-mode))
-  :config
-  (add-to-list 'eglot-server-programs '(python-mode . eglot-python-lsp-server-fn)))
+  )
 
 ;;;; rst -- reStructuredText
 
@@ -652,6 +674,12 @@
 ;;;; SCons
 (add-to-list 'auto-mode-alist '("SConstruct" . python-mode))
 (add-to-list 'auto-mode-alist '("SConscript" . python-mode))
+
+;;;; shell
+(use-package shell
+  :straight t
+  :hook
+  ((shell-mode . disable-trailing-whitespace)))
 
 ;;;; SQL
 (use-package sql
@@ -669,6 +697,12 @@
   (sml/shorten-modes t)
   (sml/name-width 30)
   (sml/mode-width 'full))
+
+;;;; term
+(use-package term
+  :straight t
+  :hook
+  ((term-mode . disable-trailing-whitespace)))
 
 ;;;; Text
 (use-package text-mode
