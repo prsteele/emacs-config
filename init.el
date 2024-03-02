@@ -311,9 +311,9 @@
 (use-package reformatter
   :straight t)
 
-(defcustom nixfmt-command
-  "nixpkgs-fmt"
-  "The command to run when applying ormolu formatting"
+(defcustom json-format-command
+  "jq"
+  "The command to run when applying JSON formatting"
   :type 'string
   :safe 'stringp
   :local 't
@@ -343,10 +343,18 @@
   :local 't
   :group 'prsteele)
 
-(reformatter-define nix-format
-  :program nixfmt-command
-  :args '()
-  :lighter " nixfmt")
+(defcustom ruff-command
+  "ruff"
+  "The command to run when applying Ruff formatting"
+  :type 'string
+  :safe 'stringp
+  :local 't
+  :group 'prsteele)
+
+(reformatter-define json-format
+  :program json-format-command
+  :args '(".")
+  :lighter " jq")
 
 (reformatter-define ormolu-format
   :program ormolu-command
@@ -362,6 +370,11 @@
   :program black-command
   :args '("-")
   :lighter " black")
+
+(reformatter-define ruff-format
+  :program ruff-command
+  :args '("format" "-")
+  :lighter " ruff")
 
 ;;; LSP modes
 
@@ -523,6 +536,11 @@
 	(remove '("\\.l?hs\\'" haskell-flymake-init)
 		flymake-allowed-file-name-masks)))
 
+;;;; JSON
+(use-package js
+  :hook
+  (js-json-mode . json-format-on-save-mode))
+
 ;;;; LaTeX
 
 (use-package latex-mode
@@ -610,7 +628,9 @@
 (use-package nix-mode
   :straight t
   :hook
-  ((nix-mode . nix-format-on-save-mode)))
+  ((nix-mode . (lambda () (add-hook 'before-save-hook 'nix-format-before-save 'local))))
+  :custom
+  (nix-nixfmt-bin "nixpkgs-fmt"))
 
 ;;;; prog-mode
 
@@ -664,7 +684,7 @@
   :hook
   ((python-mode . eglot-ensure))
   ((python-mode . isort-format-on-save-mode))
-  ((python-mode . black-format-on-save-mode))
+  ((python-mode . ruff-format-on-save-mode))
   )
 
 ;;;; rst -- reStructuredText
