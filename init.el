@@ -177,13 +177,21 @@
                            (message (concat "set font '" font "'")))
                   (error (funcall go (cdr fonts))))
               (message "no fonts loaded")))))
-  (funcall go '("Noto Sans Mono 12" "SF Mono 12")))
+  (funcall go '(
+                "FiraCode Nerd Font Mono 12"
+                "FiraMono 12"
+                "NotoSansM Nerd Font 12"
+                "SF Mono 12")))
 
-;; use solarized
-(use-package solarized-theme
-  :straight t
+;; use monokai https://github.com/
+(use-package monokai-theme
+  :straight (monokai-theme
+	     :type git
+	     :host github
+             :repo "oneKelvinSmith/monokai-emacs"
+	     :files ("*.el"))
   :init
-  (load-theme 'solarized-dark t))
+  (load-theme 'monokai t))
 
 ;; make delimiters and identifiers have unique colors
 (use-package rainbow-delimiters
