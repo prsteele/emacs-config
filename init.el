@@ -400,6 +400,10 @@
 
 ;;;; Compilation mode
 
+(use-package compile
+  :hook
+  ((compilation-mode . disable-trailing-whitespace)))
+
 ;; This allows compilation buffers to play nicely with colorization.
 ;;
 ;; See the following:
