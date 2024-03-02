@@ -277,6 +277,9 @@
 ;;;; Embark
 
 ;; The Embark package provides a sort of right-click context menu for the thing-at-point.
+(use-package embark-consult
+  :straight t)
+
 (use-package embark
   :straight t
   :bind ("C-c e" . #'embark-act))
