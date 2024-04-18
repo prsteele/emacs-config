@@ -177,13 +177,21 @@
                            (message (concat "set font '" font "'")))
                   (error (funcall go (cdr fonts))))
               (message "no fonts loaded")))))
-  (funcall go '("Noto Sans Mono 12" "SF Mono 12")))
+  (funcall go '(
+                "FiraCode Nerd Font Mono 12"
+                "FiraMono 12"
+                "NotoSansM Nerd Font 12"
+                "SF Mono 12")))
 
-;; use solarized
-(use-package solarized-theme
-  :straight t
+;; use monokai https://github.com/
+(use-package monokai-theme
+  :straight (monokai-theme
+	     :type git
+	     :host github
+             :repo "oneKelvinSmith/monokai-emacs"
+	     :files ("*.el"))
   :init
-  (load-theme 'solarized-dark t))
+  (load-theme 'monokai t))
 
 ;; make delimiters and identifiers have unique colors
 (use-package rainbow-delimiters
@@ -277,6 +285,9 @@
 ;;;; Embark
 
 ;; The Embark package provides a sort of right-click context menu for the thing-at-point.
+(use-package embark-consult
+  :straight t)
+
 (use-package embark
   :straight t
   :bind ("C-c e" . #'embark-act))
@@ -308,9 +319,9 @@
 (use-package reformatter
   :straight t)
 
-(defcustom nixfmt-command
-  "nixpkgs-fmt"
-  "The command to run when applying ormolu formatting"
+(defcustom json-format-command
+  "jq"
+  "The command to run when applying JSON formatting"
   :type 'string
   :safe 'stringp
   :local 't
@@ -340,10 +351,18 @@
   :local 't
   :group 'prsteele)
 
-(reformatter-define nix-format
-  :program nixfmt-command
-  :args '()
-  :lighter " nixfmt")
+(defcustom ruff-command
+  "ruff"
+  "The command to run when applying Ruff formatting"
+  :type 'string
+  :safe 'stringp
+  :local 't
+  :group 'prsteele)
+
+(reformatter-define json-format
+  :program json-format-command
+  :args '(".")
+  :lighter " jq")
 
 (reformatter-define ormolu-format
   :program ormolu-command
@@ -360,6 +379,11 @@
   :args '("-")
   :lighter " black")
 
+(reformatter-define ruff-format
+  :program ruff-command
+  :args '("format" "-")
+  :lighter " ruff")
+
 ;;; LSP modes
 
 ;;;; Eglot
@@ -370,9 +394,7 @@
         ("C-," . 'xref-go-back)
         ("C-c ?" . 'eglot-help-at-point)
         ("C-c C-c" . 'eglot-code-actions)
-        ("C-c C-r" . 'eglot-rename))
-  :hook
-  (nix-mode . eglot-ensure))
+        ("C-c C-r" . 'eglot-rename)))
 
 ;;;; LSP
 (use-package lsp-mode
@@ -393,9 +415,13 @@
 ;;;; Comint
 (use-package comint
   :hook
-  ((comint-mode . disable-trailing-whitespace)))
+  (comint-mode . disable-trailing-whitespace))
 
 ;;;; Compilation mode
+
+(use-package compile
+  :hook
+  (compilation-mode . disable-trailing-whitespace))
 
 ;; This allows compilation buffers to play nicely with colorization.
 ;;
@@ -505,16 +531,21 @@
 (use-package haskell-mode
   :straight t
   :hook
-  ((haskell-mode . (lambda ()
-                     (hack-local-variables)
-                     (eglot-ensure)))
-   (haskell-mode . ormolu-format-on-save-mode))
+  (haskell-mode . (lambda ()
+                    (hack-local-variables)
+                    (eglot-ensure)))
+  (haskell-mode . ormolu-format-on-save-mode)
 
   :config
   ;; Turn off broken flymake functions
   (setq flymake-allowed-file-name-masks
 	(remove '("\\.l?hs\\'" haskell-flymake-init)
 		flymake-allowed-file-name-masks)))
+
+;;;; JSON
+(use-package js
+  :hook
+  (js-json-mode . json-format-on-save-mode))
 
 ;;;; LaTeX
 
@@ -527,8 +558,8 @@
   (tex-font-lock-suscript 'ignore)
 
   :hook
-  ((latex-mode . auto-fill-mode)
-   (latex-mode . flyspell-mode)))
+  (latex-mode . auto-fill-mode)
+  (latex-mode . flyspell-mode))
 
 ;;;; Lean
 (use-package lean4-mode
@@ -543,7 +574,7 @@
   :config
   (defun lean4-get-executable (name) (find-project-local-executable name))
   :hook
-  ((lean4-mode . (lambda () (corfu-mode -1)))))
+  (lean4-mode . (lambda () (corfu-mode -1))))
 
 ;;;; Magit
 (use-package magit
@@ -558,8 +589,8 @@
 (use-package markdown-mode
   :straight t
   :hook
-  ((markdown-mode . flyspell-mode)
-   (markdown-mode . auto-fill-mode))
+  (markdown-mode . flyspell-mode)
+  (markdown-mode . auto-fill-mode)
   :config
   (add-to-list 'auto-mode-alist '("\\.md" . markdown-mode)))
 
@@ -577,8 +608,8 @@
    ("C-c c" . org-capture))
 
   :hook
-  ((org-mode . auto-fill-mode)
-   (org-mode . flyspell-mode))
+  (org-mode . auto-fill-mode)
+  (org-mode . flyspell-mode)
 
   :custom
   (org-log-done 'time)
@@ -603,7 +634,10 @@
 (use-package nix-mode
   :straight t
   :hook
-  ((nix-mode . nix-format-on-save-mode)))
+  (nix-mode . (lambda () (add-hook 'before-save-hook 'nix-format-before-save 'local)))
+  (nix-mode . eglot-ensure)
+  :custom
+  (nix-nixfmt-bin "nixpkgs-fmt"))
 
 ;;;; prog-mode
 
@@ -624,10 +658,10 @@
         ("C-c ?" . 'eglot-help-at-point))
 
   :hook
-  ((prog-mode . display-line-numbers-mode)
-   (prog-mode . electric-pair-mode)
-   (prog-mode . rainbow-delimiters-mode)
-   (prog-mode . rainbow-identifiers-mode))
+  (prog-mode . display-line-numbers-mode)
+  (prog-mode . electric-pair-mode)
+  (prog-mode . rainbow-delimiters-mode)
+  (prog-mode . rainbow-identifiers-mode)
 
   :custom
   (show-trailing-whitespace 't))
@@ -655,10 +689,9 @@
   (:map python-mode-map
         (("C-c C-l" . python-shell-send-buffer)))
   :hook
-  ((python-mode . eglot-ensure))
-  ((python-mode . isort-format-on-save-mode))
-  ((python-mode . black-format-on-save-mode))
-  )
+  (python-mode . eglot-ensure)
+  (python-mode . isort-format-on-save-mode)
+  (python-mode . ruff-format-on-save-mode))
 
 ;;;; rst -- reStructuredText
 
@@ -668,8 +701,8 @@
 (use-package rst
   :straight t
   :hook
-  ((rst-mode . flyspell-mode)
-   (rst-mode . auto-fill-mode)))
+  (rst-mode . flyspell-mode)
+  (rst-mode . auto-fill-mode))
 
 ;;;; SCons
 (add-to-list 'auto-mode-alist '("SConstruct" . python-mode))
@@ -679,7 +712,7 @@
 (use-package shell
   :straight t
   :hook
-  ((shell-mode . disable-trailing-whitespace)))
+  (shell-mode . disable-trailing-whitespace))
 
 ;;;; SQL
 (use-package sql
@@ -702,13 +735,13 @@
 (use-package term
   :straight t
   :hook
-  ((term-mode . disable-trailing-whitespace)))
+  (term-mode . disable-trailing-whitespace))
 
 ;;;; Text
 (use-package text-mode
   :hook
-  ((text-mode . auto-fill-mode)
-   (text-mode . flyspell-mode)))
+  (text-mode . auto-fill-mode)
+  (text-mode . flyspell-mode))
 
 ;;;; Which function
 
