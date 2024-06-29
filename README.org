@@ -1,0 +1,1016 @@
+* Introduction
+
+This is a literate source file; the source code can be extracted with
+~org-babel-tangle~.
+
+** Preamble
+
+First, we load some useful utility libraries.
+
+File manipulation:
+
+#+begin_src emacs-lisp
+  (use-package f
+    :straight t)
+#+end_src
+
+String manipulation:
+
+#+begin_src emacs-lisp
+  (use-package s
+    :straight t)
+#+end_src
+
+Common lisp functions
+
+#+begin_src emacs-lisp
+  (use-package cl-lib
+    :straight t)
+#+end_src
+
+To avoid GC pauses, increase the GC threshold; the default values
+assume we have little memory.
+
+#+begin_src emacs-lisp
+  (setq gc-cons-threshold 100000000)
+#+end_src
+
+Finally, some libraries assume ~tramp~ is loaded.
+
+#+begin_src emacs-lisp
+  (require 'tramp)
+#+end_src
+
+** Customization
+
+We use a ~custom.el~ file to hold our customizations.
+
+#+begin_src emacs-lisp
+  (setq custom-file "~/.emacs.d/custom.el")
+  (when (not (file-exists-p custom-file))
+    (message "No custom.el found, creating...")
+    (f-touch custom-file))
+  (load custom-file)
+#+end_src
+
+Define a group for local customization.
+
+#+begin_src emacs-lisp
+  (defgroup prsteele nil
+    "My customizations."
+    :prefix "prsteele-"
+    :group 'applications)
+#+end_src
+
+** Global bindings
+
+~C-x C-x~ is easier to type than ~M-x~.
+
+#+begin_src emacs-lisp
+  (bind-key* "C-x C-x" #'execute-extended-command)
+#+end_src
+
+Bind HOME and END to jump to the start and end of the current buffer.
+
+#+begin_src emacs-lisp
+  (bind-key* (kbd "<home>") #'beginning-of-buffer)
+  (bind-key* (kbd "<end>") #'end-of-buffer)
+#+end_src
+
+I usually want two buffers visible, side-by-side:
+#+begin_src emacs-lisp
+  (defun revert-to-two-windows ()
+    "Delete all other windows and split it into two."
+    (interactive)
+    (delete-other-windows)
+    (split-window-right))
+
+  (bind-key "C-x 1" #'revert-to-two-windows)
+  (bind-key "C-x !" #'delete-other-windows)
+#+end_src
+
+** Environment
+
+Load ~PATH~ from our shell.
+
+#+begin_src emacs-lisp
+  (use-package exec-path-from-shell
+    :straight t
+    :config
+    (exec-path-from-shell-initialize))
+#+end_src
+
+Respect system keychains, for e.g. pulling from Github.
+
+#+begin_src emacs-lisp
+  (use-package keychain-environment
+    :straight t
+    :config
+    (keychain-refresh-environment))
+#+end_src
+
+** General settings
+
+Turn off the startup screen,
+#+begin_src emacs-lisp
+   (setq inhibit-startup-screen t)
+#+end_src
+
+don't explain scratch buffers,
+#+begin_src emacs-lisp
+  (setq initial-scratch-message nil)
+#+end_src
+
+don't make pop-ups,
+#+begin_src emacs-lisp
+  (setq use-dialog-box nil)
+#+end_src
+
+don't require double-spacing for sentences when filling regions,
+#+begin_src emacs-lisp
+  (setq sentence-end-double-space nil)
+#+end_src
+
+and don't make noise
+#+begin_src emacs-lisp
+  (setq ring-bell-function 'ignore)
+#+end_src
+
+If we copy something new, push the existing copied text into the kill
+ring:
+#+begin_src emacs-lisp
+  (setq save-interprogram-paste-before-kill t)
+#+end_src
+
+Avoid undo operations affecting the mark:
+#+begin_src emacs-lisp
+  (setq mark-even-if-inactive nil)
+#+end_src
+
+Make ~C-k~ kill the newline, too:
+#+begin_src emacs-lisp
+  (setq kill-whole-line t)
+#+end_src
+
+Make searching case sensitive:
+#+begin_src emacs-lisp
+  (setq case-fold-search nil)
+#+end_src
+
+Don't prompt for a command to run ~compile~ if we have already done
+so; additionally, attempt to scroll the compilation buffer to the
+first error:
+#+begin_src emacs-lisp
+  (setq
+   compilation-read-command nil
+   compilation-scroll-output 'first-error)
+#+end_src
+
+Allow ~y~ and ~n~ to be used instead of ~yes~ and ~no~:
+#+begin_src emacs-lisp
+  (setq use-short-answers t)
+#+end_src
+
+Making scrolling faster:
+#+begin_src emacs-lisp
+  (setq fast-but-imprecise-scrolling t)
+#+end_src
+
+Prefer updated elisp files, over stale compiled ones:
+#+begin_src emacs-lisp
+  (setq load-prefer-newer t)
+#+end_src
+
+Don't ask for confirmation on exit.
+#+begin_src emacs-lisp
+  (setq confirm-kill-processes nil)
+#+end_src
+
+Make asynchronous warnings just go to ~*Warnings*~:
+#+begin_src emacs-lisp
+  (setq native-comp-async-report-warnings-errors 'silent)
+#+end_src
+
+Use Unicode ellipsis for truncation markers:
+#+begin_src emacs-lisp
+  (setq truncate-string-ellipsis "…")
+#+end_src
+
+Auto-focus ~*Help*~:
+#+begin_src emacs-lisp
+  (setq help-window-select t)
+#+end_src
+
+Use spaces, not tabs:
+#+begin_src emacs-lisp
+  (setq-default indent-tabs-mode nil)
+#+end_src
+
+Use UTF-8:
+#+begin_src emacs-lisp
+  (set-charset-priority 'unicode)
+  (prefer-coding-system 'utf-8-unix)
+#+end_src
+
+Allow deleting highlighted regions:
+#+begin_src emacs-lisp
+  (delete-selection-mode t)
+#+end_src
+
+Don't warn about some disabled-by-default functions:
+#+begin_src emacs-lisp
+  (mapc
+   #'(lambda (x) (put x 'disabled nil))
+   '(upcase-region
+     downcase-region
+     narrow-to-region))
+#+end_src
+
+Don't create backup files, lock files, etc.
+#+begin_src emacs-lisp
+  (setq
+   make-backup-files nil
+   auto-save-default nil
+   create-lockfiles nil)
+#+end_src
+
+Delete trailing whitespace in most modes, and add a final newline:
+#+begin_src emacs-lisp
+  (defun disable-trailing-whitespace () (setq show-trailing-whitespace nil))
+  (add-hook 'prog-mode-hook #'delete-trailing-whitespace)
+  (add-hook 'text-mode-hook #'delete-trailing-whitespace)
+  (setq require-final-newline t)
+#+end_src
+
+Enable nested minibuffers:
+#+begin_src emacs-lisp
+  (setq enable-recursive-minibuffers t)
+  (minibuffer-depth-indicate-mode)
+#+end_src
+
+** Appearance
+
+Show line and column numbers:
+#+begin_src emacs-lisp
+  (global-display-line-numbers-mode t)
+  (column-number-mode)
+#+end_src
+
+Highlight matching parenthesis:
+#+begin_src emacs-lisp
+  (show-paren-mode 't)
+#+end_src
+
+Load the first font we can find. (Different fonts are available on
+different systems.)
+#+begin_src emacs-lisp
+  (letrec ((go (lambda (fonts)
+              (if-let ((font (car fonts)))
+        	  (condition-case nil
+        	      (progn (set-frame-font font)
+        		     (message (concat "set font '" font "'")))
+        	    (error (funcall go (cdr fonts))))
+        	(message "no fonts loaded")))))
+    (funcall go '(
+        	  "FiraCode Nerd Font Mono 12"
+        	  "FiraMono 12"
+        	  "NotoSansM Nerd Font 12"
+        	  "SF Mono 12")))
+#+end_src
+
+Use the Monokai theme:
+#+begin_src emacs-lisp
+  (use-package monokai-theme
+    :straight (monokai-theme
+             :type git
+             :host github
+               :repo "oneKelvinSmith/monokai-emacs"
+             :files ("*.el"))
+    :init
+    (load-theme 'monokai t))
+#+end_src
+
+Color nested parenthesis:
+#+begin_src emacs-lisp
+  (use-package rainbow-delimiters
+    :straight t)
+#+end_src
+
+Color each identifier (pseudo) uniquely:
+#+begin_src emacs-lisp
+  (use-package rainbow-identifiers
+    :straight t)
+#+end_src
+
+Handle poorly-sized frames:
+#+begin_src emacs-lisp
+  (setq frame-resize-pixelwise t)
+#+end_src
+
+*** Mode line
+
+#+begin_src emacs-lisp
+  (use-package smart-mode-line
+    :straight t
+    :custom
+    (sml/theme 'respectful)
+    (sml/vc-mode-show-backend t)
+    (sml/shorten-directory t)
+    (sml/shorten-modes t)
+    (sml/name-width 30)
+    (sml/mode-width 'full))
+#+end_src
+
+
+** Navigation and completion
+
+Vertico provides good minibuffer completion.
+#+begin_src emacs-lisp
+  (use-package vertico
+    :straight t
+    :init
+    (vertico-mode))
+
+  (use-package vertico-directory
+    :bind
+    (:map vertico-map
+          ("RET" . vertico-directory-enter)
+          ("C-l" . vertico-directory-delete-word)))
+
+  (use-package vertico-buffer
+    :init
+    (vertico-buffer-mode)
+    :custom
+    (vertico-buffer-display-action '(display-buffer-below-selected (window-height . 13))))
+#+end_src
+
+Use Orderless to allow for fuzzy completion.
+#+begin_src emacs-lisp
+  (use-package orderless
+    :straight t
+    :init
+    (setq
+     completion-styles '(orderless)
+     completion-category-default nil
+     completion-category-overrides '((file (styles partial-completion)))))
+#+end_src
+
+Find recently-opened files:
+#+begin_src emacs-lisp
+  (use-package recentf
+    :straight t
+    :after dash
+    :config
+    (setq recentf-exclude (-concat recentf-exclude '("\\elpa"
+        					     "private/tmp" ; to avoid custom files
+        					     "txt/roam"
+        					     )))
+    (recentf-mode))
+#+end_src
+
+Add margin notes in completion minibuffers:
+#+begin_src emacs-lisp
+  (use-package marginalia
+    :straight t
+    :config (marginalia-mode))
+#+end_src
+
+
+
+Use Embark to get contextual actions at point.
+#+begin_src emacs-lisp
+  (use-package embark
+    :straight t
+    :bind ("C-c e" . #'embark-act))
+#+end_src
+
+Tie Embark and Consult together, which for some reason needs to be run
+before asking for ~consult~.
+#+begin_src emacs-lisp
+  (use-package embark-consult
+    :straight t)
+#+end_src
+
+Use Consult to improve buffer selection, imenu, and more.
+#+begin_src emacs-lisp
+  (use-package consult
+    :straight t
+    :bind
+    (("C-x b" . #'consult-buffer)
+     ("C-c i" . #'consult-imenu)
+     ("C-c r" . #'consult-recent-file)
+     ("M-g g" . #'consult-goto-line))
+    :custom
+    (completion-in-region-function #'consult-completion-in-region)
+    (xref-show-xrefs-function #'consult-xref)
+    (xref-show-definitions-function #'consult-xref))
+#+end_src
+
+
+
+Use Corfu for completion.
+#+begin_src emacs-lisp
+  (use-package corfu
+    :straight t
+    :custom
+    (corfu-auto t)
+    :init
+    (global-corfu-mode))
+#+end_src
+
+** Auto-formatting
+
+The ~reformatter~ package makes it easy to define new formatters.
+#+begin_src emacs-lisp
+  (use-package reformatter
+    :straight t)
+#+end_src
+
+We define formatters for a variety of languages. For each, we define a
+customizable variable to name the program to use. This makes it
+possible to e.g. point to executables installed in a local environment.
+
+JSON:
+#+begin_src emacs-lisp
+  (defcustom json-format-command
+    "jq"
+    "The command to run when applying JSON formatting"
+    :type 'string
+    :safe 'stringp
+    :local 't
+    :group 'prsteele)
+
+  (reformatter-define json-format
+    :program json-format-command
+    :args '(".")
+    :lighter " jq")
+#+end_src
+
+Ormolu (Haskell):
+#+begin_src emacs-lisp
+  (defcustom ormolu-command
+    "ormolu"
+    "The command to run when applying ormolu formatting"
+    :type 'string
+    :safe 'stringp
+    :local 't
+    :group 'prsteele)
+
+  (reformatter-define ormolu-format
+    :program ormolu-command
+    :args '()
+    :lighter " ormolu")
+#+end_src
+
+Isort (Python):
+#+begin_src emacs-lisp
+  (defcustom isort-command
+    "isort"
+    "The command to run when applying isort formatting"
+    :type 'string
+    :safe 'stringp
+    :local 't
+    :group 'prsteele)
+
+  (reformatter-define isort-format
+    :program isort-command
+    :args '("-")
+    :lighter " isort")
+#+end_src
+
+Black (Python):
+#+begin_src emacs-lisp
+  (defcustom black-command
+    "black"
+    "The command to run when applying black formatting"
+    :type 'string
+    :safe 'stringp
+    :local 't
+    :group 'prsteele)
+
+  (reformatter-define black-format
+    :program black-command
+    :args '("-")
+    :lighter " black")
+#+end_src
+
+Ruff (Python):
+#+begin_src emacs-lisp
+  (defcustom ruff-command
+    "ruff"
+    "The command to run when applying Ruff formatting"
+    :type 'string
+    :safe 'stringp
+    :local 't
+    :group 'prsteele)
+
+  (reformatter-define ruff-format
+    :program ruff-command
+    :args '("format" "-")
+    :lighter " ruff")
+#+end_src
+
+** LSP
+
+Configure Eglot and ~lsp-mode~, but prefer Eglot.
+
+Eglot:
+#+begin_src emacs-lisp
+  (use-package eglot
+    :bind
+    (:map eglot-mode-map
+          ("C-." . 'xref-find-definitions)
+          ("C-," . 'xref-go-back)
+          ("C-c ?" . 'eglot-help-at-point)
+          ("C-c C-c" . 'eglot-code-actions)
+          ("C-c C-r" . 'eglot-rename)))
+#+end_src
+
+LSP:
+#+begin_src emacs-lisp
+  (use-package lsp-mode
+    :straight t)
+
+  (use-package lsp-pyright
+    :straight t
+    :custom
+    (lsp-pyright-multi-root nil))
+#+end_src
+
+** Miscellaneous modes
+
+Without any particular organization, configuration for various modes.
+
+*** Ace jump
+
+#+begin_src emacs-lisp
+  (use-package ace-jump-mode
+    :straight (ace-jump-mode
+               :type git
+               :host github
+               :repo "prsteele/ace-jump-mode")
+    :bind (("C-c SPC" . 'ace-jump-mode)))
+#+end_src
+
+*** Comint
+
+#+begin_src emacs-lisp
+  (use-package comint
+    :hook
+    (comint-mode . disable-trailing-whitespace))
+#+end_src
+
+*** Compile
+
+#+begin_src emacs-lisp
+  (use-package compile
+    :hook
+    (compilation-mode . disable-trailing-whitespace))
+#+end_src
+
+This allows compilation buffers to play nicely with colorization. See the following:
+
+- https://emacs.stackexchange.com/questions/24698/ansi-escape-sequences-in-compilation-mode
+- http://endlessparentheses.com/ansi-colors-in-the-compilation-buffer-output.html
+- https://oleksandrmanzyuk.wordpress.com/2011/11/05/better-emacs-shell-part-i
+
+#+begin_src emacs-lisp
+  (use-package ansi-color
+    :straight t
+    :init
+    (defun endless/colorize-compilation ()
+      "Colorize from `compilation-filter-start' to `point'."
+      (let ((inhibit-read-only t))
+        (ansi-color-apply-on-region
+         compilation-filter-start (point))))
+
+    (add-hook 'compilation-filter-hook
+              #'endless/colorize-compilation)
+
+    (defun regexp-alternatives (regexps)
+      "Return the alternation of a list of regexps."
+      (mapconcat (lambda (regexp)
+        	   (concat "\\(?:" regexp "\\)"))
+        	 regexps "\\|"))
+
+    (defvar non-sgr-control-sequence-regexp nil
+      "Regexp that matches non-SGR control sequences.")
+
+    (setq non-sgr-control-sequence-regexp
+          (regexp-alternatives
+           '(;; icon name escape sequences
+             "\033\\][0-2];.*?\007"
+             ;; non-SGR CSI escape sequences
+             "\033\\[\\??[0-9;]*[^0-9;m]"
+             ;; noop
+             "\012\033\\[2K\033\\[1F"
+             )))
+
+    (defun filter-non-sgr-control-sequences-in-region (begin end)
+      (save-excursion
+        (goto-char begin)
+        (while (re-search-forward
+        	non-sgr-control-sequence-regexp end t)
+          (replace-match ""))))
+
+    (defun filter-non-sgr-control-sequences-in-output (ignored)
+      (let ((start-marker
+             (or comint-last-output-start
+        	 (point-min-marker)))
+            (end-marker
+             (process-mark
+              (get-buffer-process (current-buffer)))))
+        (filter-non-sgr-control-sequences-in-region
+         start-marker
+         end-marker)))
+
+    (add-hook 'comint-output-filter-functions
+              'filter-non-sgr-control-sequences-in-output))
+#+end_src
+
+*** Coq
+
+#+begin_src emacs-lisp
+  (use-package proof-general
+    :straight t
+    :bind
+    (:map coq-mode-map
+          (("RET" . newline-and-indent)))
+    :custom
+    (coq-compile-before-require t)
+    :custom-face
+    (proof-locked-face ((t (:extend t :background "#073642"))))
+    (proof-queue-face ((t (:extend t :background "#d33682")))))
+#+end_src
+
+*** Direnv
+
+Support activating ~.envrc~ files in Emacs buffers.
+
+#+begin_src emacs-lisp
+  (use-package direnv
+    :straight t
+    :config
+    (direnv-mode))
+#+end_src
+
+*** Eldoc
+
+#+begin_src emacs-lisp
+  (use-package eldoc
+    :straight t
+    :diminish
+    :config
+    (add-hook 'eglot-managed-mode-hook #'eldoc-box-hover-mode t)
+    (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode))
+
+  (use-package eldoc-box
+    :straight t)
+#+end_src
+
+*** Flycheck
+
+#+begin_src emacs-lisp
+  (use-package flycheck
+    :straight t
+    :diminish flycheck-mode)
+#+end_src
+
+*** Flymake
+
+#+begin_src emacs-lisp
+  (use-package flymake
+    :straight t
+    :diminish
+    :custom
+    (flymake-run-in-place nil))
+#+end_src
+
+*** Haskell
+
+#+begin_src emacs-lisp
+  (use-package haskell-mode
+    :straight t
+    :hook
+    (haskell-mode . (lambda ()
+        	      (hack-local-variables)
+        	      (eglot-ensure)))
+    (haskell-mode . ormolu-format-on-save-mode)
+
+    :config
+    ;; Turn off broken flymake functions
+    (setq flymake-allowed-file-name-masks
+        (remove '("\\.l?hs\\'" haskell-flymake-init)
+        	flymake-allowed-file-name-masks))
+    :bind
+    (:map haskell-mode-map
+          ("C-c C-l" . #'haskell-process-load-file)))
+#+end_src
+
+#+begin_src emacs-lisp
+  (use-package js
+    :hook
+    (js-json-mode . json-format-on-save-mode))
+#+end_src
+
+*** LaTeX
+
+#+begin_src emacs-lisp
+  (use-package latex-mode
+    :custom
+    (font-latex-script-display 'nil)
+    (font-latex-fontify-script 'nil)
+    (font-latex-fontify-sectioning 'color)
+    (show-trailing-whitespace 't)
+    (tex-font-lock-suscript 'ignore)
+
+    :hook
+    (latex-mode . auto-fill-mode)
+    (latex-mode . flyspell-mode))
+#+end_src
+
+*** Lean
+
+First, we create a helper function:
+#+begin_src emacs-lisp
+  (defun find-project-local-executable (name)
+    "Try to find the executable relative to the current project, falling back to `exec-path'"
+    (if-let ((project (project-current))
+             (local-name (expand-file-name (f-join (project-root project) name)))
+             (f-exists-p local-name))
+        local-name
+      (executable-find name)))
+#+end_src
+
+#+begin_src emacs-lisp
+  (use-package lean4-mode
+    :straight (lean4-mode
+             :type git
+             :host github
+               :repo "bustercopley/lean4-mode"
+             ;; :repo "leanprover/lean4-mode"
+             :files ("*.el" "data"))
+    :bind
+    ("<RET>" . newline-and-indent)
+    :config
+    (defun lean4-get-executable (name) (find-project-local-executable name))
+    :hook
+    (lean4-mode . (lambda () (corfu-mode -1))))
+#+end_src
+
+*** Magit
+
+#+begin_src emacs-lisp
+  (use-package magit
+    :straight t
+    :bind
+    ("C-c m" . magit-status)
+
+    :custom
+    (magit-last-seen-setup-instructions "1.4.0"))
+#+end_src
+
+*** Markdown
+
+#+begin_src emacs-lisp
+  (use-package markdown-mode
+    :straight t
+    :hook
+    (markdown-mode . flyspell-mode)
+    (markdown-mode . auto-fill-mode)
+    :config
+    (add-to-list 'auto-mode-alist '("\\.md" . markdown-mode)))
+#+end_src
+
+*** Nix
+
+#+begin_src emacs-lisp
+  (use-package nix-mode
+    :straight t
+    :hook
+    (nix-mode . (lambda () (add-hook 'before-save-hook 'nix-format-before-save 'local)))
+    (nix-mode . eglot-ensure)
+    :custom
+    (nix-nixfmt-bin "nixpkgs-fmt"))
+#+end_src
+
+*** Org
+
+I have some customization around capture templates that are based off
+an old coworker's configuration; see
+- https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.html
+
+
+#+begin_src emacs-lisp
+  (use-package org
+    :straight t
+    :bind
+    (("C-c l" . org-store-link)
+     ("C-c a" . org-agenda)
+     ("C-c c" . org-capture))
+
+    :hook
+    (org-mode . auto-fill-mode)
+    (org-mode . flyspell-mode)
+
+    :custom
+    (org-structure-template-alist '(("a" . "export ascii")
+                                   ("c" . "center")
+                                   ("C" . "comment")
+                                   ("e" . "src emacs-lisp")
+                                   ("E" . "export")
+                                   ("h" . "export html")
+                                   ("l" . "export latex")
+                                   ("q" . "quote")
+                                   ("s" . "src")
+                                   ("v" . "verse")))
+
+    (org-log-done 'time)
+    (org-agenda-files (list "~/org/agenda.org"
+        		    "~/org/todo.org"
+        		    "~/org/journal.org"
+        		    "~/org/research.org"
+        		    "~/org/courses.org"))
+    (org-refile-targets (quote ((nil :maxlevel . 9)
+        			(org-agenda-files :maxlevel . 9)
+        			("~/.emacs.d/readme.org" :maxlevel . 9))))
+
+    (org-capture-templates
+     '(("t" "Todo" entry (file+headline "~/org/todo.org" "Tasks")
+        "* TODO %?\n\nCreated at %U")
+       ("j" "Journal" entry (file+datetree "~/org/journal.org")
+        "* %?\nEntered on %U\n  %i\n  %a")
+       ("r" "Research" entry (file+headline "~/org/research.org" "Research"))
+       ("c" "Courses" entry (file+headline "~/org/courses.org" "Courses")))))
+#+end_src
+
+*** Prog
+
+#+begin_src emacs-lisp
+  (use-package prog-mode
+    :after (rainbow-delimiters rainbow-identifiers)
+    :bind
+    (:map prog-mode-map
+          ("C-." . 'xref-find-definitions)
+          ("C-," . 'xref-pop-marker-stack)
+          ("C-c ?" . 'eglot-help-at-point))
+
+    :hook
+    (prog-mode . display-line-numbers-mode)
+    (prog-mode . electric-pair-mode)
+    (prog-mode . rainbow-delimiters-mode)
+    (prog-mode . rainbow-identifiers-mode)
+
+    :custom
+    (show-trailing-whitespace 't))
+#+end_src
+
+*** Project
+
+#+begin_src emacs-lisp
+  (use-package project
+    :straight t
+    :bind (("C-c k" . #'project-kill-buffers)
+           ("C-c m" . #'project-compile)
+           ("C-x f" . #'find-file)
+           ("C-c f" . #'project-find-file)
+           ("C-c F" . #'project-switch-project))
+    :custom
+    (project-switch-commands
+     '((?f "Find file" project-find-file)
+       (?g "Magit" magit-project-status)
+       (?d "Dired" project-dired)
+       (?r "Find regexpt" project-find-regexp)))
+    (compilation-always-kill t))
+#+end_src
+
+*** Python
+
+#+begin_src emacs-lisp
+  (use-package python
+    :straight t
+    :bind
+    (:map python-mode-map
+          (("C-c C-l" . python-shell-send-buffer)))
+    :hook
+    (python-mode . eglot-ensure)
+    (python-mode . isort-format-on-save-mode)
+    (python-mode . ruff-format-on-save-mode)
+    :config
+    (add-to-list 'auto-mode-alist '("SConstruct" . python-mode))
+    (add-to-list 'auto-mode-alist '("SConscript" . python-mode)))
+#+end_src
+
+*** reStructuredText
+
+#+begin_src emacs-lisp
+  (use-package rst
+    :straight t
+    :hook
+    (rst-mode . flyspell-mode)
+    (rst-mode . auto-fill-mode))
+#+end_src
+
+*** Scheme
+
+#+begin_src emacs-lisp
+  (use-package scheme
+    :bind
+    (:map scheme-mode-map
+          (("C-c C-l" . xscheme-send-buffer))))
+#+end_src
+
+*** Shell
+
+#+begin_src emacs-lisp
+  (use-package shell
+    :straight t
+    :hook
+    (shell-mode . disable-trailing-whitespace))
+#+end_src
+
+*** SQL
+
+#+begin_src emacs-lisp
+  (use-package sql
+    :straight t
+    :custom
+    (sql-product "postgres"))
+#+end_src
+
+*** Term
+
+#+begin_src emacs-lisp
+  (use-package term
+    :straight t
+    :hook
+    (term-mode . disable-trailing-whitespace))
+#+end_src
+
+*** Text
+
+#+begin_src emacs-lisp
+  (use-package text-mode
+    :hook
+    (text-mode . auto-fill-mode)
+    (text-mode . flyspell-mode))
+#+end_src
+
+*** Which-function
+
+The modifications to this are an attempt to work around some bad
+interactions with some modes; I wish I had commented this when I wrote
+it.
+
+#+begin_src emacs-lisp
+  (use-package which-func
+    :straight t
+    :config
+    (defconst
+      my-which-func-current
+      '(:eval (replace-regexp-in-string
+             "%" "%%"
+               (let ((current-function (gethash (selected-window) which-func-table)))
+        	 (if current-function
+        	     (propertize
+        	      current-function
+        	      'face 'font-lock-function-name-face)
+        	   (propertize "---" 'face 'shadow))))))
+
+    (defconst
+      my-which-func-format
+      `("λ["
+        (:propertize my-which-func-current
+        	   local-map ,which-func-keymap
+        	   mouse-face mode-line-highligh
+        	   help-echo "mouse-1: go to beginning\n\
+  mouse-2: toggle rest visibility\n\
+  mouse-3: go to end")
+        "]"))
+
+    (defconst my-which-func-header-line-format
+      '(which-function-mode ("" my-which-func-format)))
+
+    (defadvice which-func-ff-hook (after header-line activate)
+      (when which-func-mode
+        ;; We need to remove the which-function-mode configuration from the
+        ;; mode line. It currently resides in mode-line-misc-info
+        (setq
+         mode-line-misc-info
+         (delete
+          (assoc 'which-function-mode mode-line-misc-info)
+          mode-line-misc-info))
+        ;; Set the header line
+        (setq
+         header-line-format
+         my-which-func-header-line-format))))
+#+end_src
+
+*** Which-key
+
+#+begin_src emacs-lisp
+  (use-package which-key
+    :straight t
+    :config (which-key-mode)
+    :diminish which-key-mode)
+#+end_src

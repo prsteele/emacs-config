@@ -21,3 +21,6 @@ straight/
 
 # Local customization
 custom.el
+
+# Generated files
+README.el
