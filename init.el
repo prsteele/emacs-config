@@ -29,19 +29,16 @@
 ;; Do this early to avoid flicker
 
 ;; Turn off toolbars, menubars, scrollbars, and tooltips
-(when (window-system)
-  (menu-bar-mode -1)
-  (tool-bar-mode -1)
-  (scroll-bar-mode -1)
-  (tooltip-mode -1))
-
-;; ...and don't let them come back in new frames
-(add-hook 'server-after-make-frame-hook
-          '(lambda ()
+(cl-flet ((f ()
+            (when (window-system)
              (menu-bar-mode -1)
              (tool-bar-mode -1)
              (scroll-bar-mode -1)
-             (tooltip-mode -1)))
+             (tooltip-mode -1))))
+  ;; Turn off decoration in the current frame
+  (f)
+  ;; and future frames
+  (add-hook 'server-after-make-frame-hook (lambda () (f))))
 
 ;;; Preamble
 (setq gc-cons-threshold 100000000)
