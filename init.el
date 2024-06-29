@@ -540,7 +540,10 @@
   ;; Turn off broken flymake functions
   (setq flymake-allowed-file-name-masks
 	(remove '("\\.l?hs\\'" haskell-flymake-init)
-		flymake-allowed-file-name-masks)))
+		flymake-allowed-file-name-masks))
+  :bind
+  (:map haskell-mode-map
+        ("C-c C-l" . #'haskell-process-load-file)))
 
 ;;;; JSON
 (use-package js
