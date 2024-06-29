@@ -707,6 +707,12 @@
   (rst-mode . flyspell-mode)
   (rst-mode . auto-fill-mode))
 
+;;;; Scheme
+(use-package scheme
+  :bind
+  (:map scheme-mode-map
+        (("C-c C-l" . xscheme-send-buffer))))
+
 ;;;; SCons
 (add-to-list 'auto-mode-alist '("SConstruct" . python-mode))
 (add-to-list 'auto-mode-alist '("SConscript" . python-mode))
