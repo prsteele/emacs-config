@@ -42,7 +42,6 @@
 
 ;;; Preamble
 (setq gc-cons-threshold 100000000)
-(setenv "LD_PRELOAD" "")
 
 ;;; Customization
 (defgroup prsteele nil
