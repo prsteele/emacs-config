@@ -3,7 +3,7 @@
 This is a literate source file; the source code can be extracted with
 ~org-babel-tangle~.
 
-** Preamble
+* Preamble
 
 First, we load some useful utility libraries.
 
@@ -406,8 +406,6 @@ Use Consult to improve buffer selection, imenu, and more.
     (xref-show-definitions-function #'consult-xref))
 #+end_src
 
-
-
 Use Corfu for completion.
 #+begin_src emacs-lisp
   (use-package corfu
@@ -537,11 +535,11 @@ LSP:
     (lsp-pyright-multi-root nil))
 #+end_src
 
-** Miscellaneous modes
+* Mode configuration
 
 Without any particular organization, configuration for various modes.
 
-*** Ace jump
+** Ace jump
 
 #+begin_src emacs-lisp
   (use-package ace-jump-mode
@@ -552,7 +550,7 @@ Without any particular organization, configuration for various modes.
     :bind (("C-c SPC" . 'ace-jump-mode)))
 #+end_src
 
-*** Comint
+** Comint
 
 #+begin_src emacs-lisp
   (use-package comint
@@ -560,7 +558,7 @@ Without any particular organization, configuration for various modes.
     (comint-mode . disable-trailing-whitespace))
 #+end_src
 
-*** Compile
+** Compile
 
 #+begin_src emacs-lisp
   (use-package compile
@@ -628,7 +626,7 @@ This allows compilation buffers to play nicely with colorization. See the follow
               'filter-non-sgr-control-sequences-in-output))
 #+end_src
 
-*** Coq
+** Coq
 
 #+begin_src emacs-lisp
   (use-package proof-general
@@ -643,7 +641,7 @@ This allows compilation buffers to play nicely with colorization. See the follow
     (proof-queue-face ((t (:extend t :background "#d33682")))))
 #+end_src
 
-*** Direnv
+** Direnv
 
 Support activating ~.envrc~ files in Emacs buffers.
 
@@ -654,7 +652,7 @@ Support activating ~.envrc~ files in Emacs buffers.
     (direnv-mode))
 #+end_src
 
-*** Eldoc
+** Eldoc
 
 #+begin_src emacs-lisp
   (use-package eldoc
@@ -668,7 +666,7 @@ Support activating ~.envrc~ files in Emacs buffers.
     :straight t)
 #+end_src
 
-*** Flycheck
+** Flycheck
 
 #+begin_src emacs-lisp
   (use-package flycheck
@@ -676,7 +674,7 @@ Support activating ~.envrc~ files in Emacs buffers.
     :diminish flycheck-mode)
 #+end_src
 
-*** Flymake
+** Flymake
 
 #+begin_src emacs-lisp
   (use-package flymake
@@ -686,7 +684,7 @@ Support activating ~.envrc~ files in Emacs buffers.
     (flymake-run-in-place nil))
 #+end_src
 
-*** Haskell
+** Haskell
 
 #+begin_src emacs-lisp
   (use-package haskell-mode
@@ -713,7 +711,7 @@ Support activating ~.envrc~ files in Emacs buffers.
     (js-json-mode . json-format-on-save-mode))
 #+end_src
 
-*** LaTeX
+** LaTeX
 
 #+begin_src emacs-lisp
   (use-package latex-mode
@@ -729,7 +727,7 @@ Support activating ~.envrc~ files in Emacs buffers.
     (latex-mode . flyspell-mode))
 #+end_src
 
-*** Lean
+** Lean
 
 First, we create a helper function:
 #+begin_src emacs-lisp
@@ -758,7 +756,7 @@ First, we create a helper function:
     (lean4-mode . (lambda () (corfu-mode -1))))
 #+end_src
 
-*** Magit
+** Magit
 
 #+begin_src emacs-lisp
   (use-package magit
@@ -770,7 +768,7 @@ First, we create a helper function:
     (magit-last-seen-setup-instructions "1.4.0"))
 #+end_src
 
-*** Markdown
+** Markdown
 
 #+begin_src emacs-lisp
   (use-package markdown-mode
@@ -782,7 +780,7 @@ First, we create a helper function:
     (add-to-list 'auto-mode-alist '("\\.md" . markdown-mode)))
 #+end_src
 
-*** Nix
+** Nix
 
 #+begin_src emacs-lisp
   (use-package nix-mode
@@ -794,7 +792,7 @@ First, we create a helper function:
     (nix-nixfmt-bin "nixpkgs-fmt"))
 #+end_src
 
-*** Org
+** Org
 
 I have some customization around capture templates that are based off
 an old coworker's configuration; see
@@ -844,7 +842,7 @@ an old coworker's configuration; see
        ("c" "Courses" entry (file+headline "~/org/courses.org" "Courses")))))
 #+end_src
 
-*** Prog
+** Prog
 
 #+begin_src emacs-lisp
   (use-package prog-mode
@@ -865,7 +863,7 @@ an old coworker's configuration; see
     (show-trailing-whitespace 't))
 #+end_src
 
-*** Project
+** Project
 
 #+begin_src emacs-lisp
   (use-package project
@@ -884,7 +882,7 @@ an old coworker's configuration; see
     (compilation-always-kill t))
 #+end_src
 
-*** Python
+** Python
 
 #+begin_src emacs-lisp
   (use-package python
@@ -901,7 +899,7 @@ an old coworker's configuration; see
     (add-to-list 'auto-mode-alist '("SConscript" . python-mode)))
 #+end_src
 
-*** reStructuredText
+** reStructuredText
 
 #+begin_src emacs-lisp
   (use-package rst
@@ -911,7 +909,7 @@ an old coworker's configuration; see
     (rst-mode . auto-fill-mode))
 #+end_src
 
-*** Scheme
+** Scheme
 
 #+begin_src emacs-lisp
   (use-package scheme
@@ -920,7 +918,7 @@ an old coworker's configuration; see
           (("C-c C-l" . xscheme-send-buffer))))
 #+end_src
 
-*** Shell
+** Shell
 
 #+begin_src emacs-lisp
   (use-package shell
@@ -929,7 +927,7 @@ an old coworker's configuration; see
     (shell-mode . disable-trailing-whitespace))
 #+end_src
 
-*** SQL
+** SQL
 
 #+begin_src emacs-lisp
   (use-package sql
@@ -938,7 +936,7 @@ an old coworker's configuration; see
     (sql-product "postgres"))
 #+end_src
 
-*** Term
+** Term
 
 #+begin_src emacs-lisp
   (use-package term
@@ -947,7 +945,7 @@ an old coworker's configuration; see
     (term-mode . disable-trailing-whitespace))
 #+end_src
 
-*** Text
+** Text
 
 #+begin_src emacs-lisp
   (use-package text-mode
@@ -956,7 +954,7 @@ an old coworker's configuration; see
     (text-mode . flyspell-mode))
 #+end_src
 
-*** Which-function
+** Which-function
 
 The modifications to this are an attempt to work around some bad
 interactions with some modes; I wish I had commented this when I wrote
@@ -1006,7 +1004,7 @@ it.
          my-which-func-header-line-format))))
 #+end_src
 
-*** Which-key
+** Which-key
 
 #+begin_src emacs-lisp
   (use-package which-key
