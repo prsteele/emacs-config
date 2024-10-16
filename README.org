@@ -280,17 +280,18 @@ Load the first font we can find. (Different fonts are available on
 different systems.)
 #+begin_src emacs-lisp
   (letrec ((go (lambda (fonts)
-              (if-let ((font (car fonts)))
-        	  (condition-case nil
-        	      (progn (set-frame-font font)
-        		     (message (concat "set font '" font "'")))
-        	    (error (funcall go (cdr fonts))))
-        	(message "no fonts loaded")))))
+                 (if-let ((font (car fonts)))
+          	   (condition-case nil
+          	       (progn (set-frame-font font)
+          		      (message (concat "set font '" font "'")))
+          	     (error (funcall go (cdr fonts))))
+          	 (message "no fonts loaded")))))
     (funcall go '(
-        	  "FiraCode Nerd Font Mono 12"
-        	  "FiraMono 12"
-        	  "NotoSansM Nerd Font 12"
-        	  "SF Mono 12")))
+          	"FiraCode Nerd Font Mono 12"
+          	"FiraMono 12"
+          	"NotoSansM Nerd Font 12"
+          	"SF Mono 12"
+                  )))
 #+end_src
 
 Use the Monokai theme:
