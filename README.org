@@ -964,7 +964,9 @@ imports in Org.
   (use-package sql
     :straight t
     :custom
-    (sql-product "postgres"))
+    (sql-product "postgres")
+    :config
+    (add-to-list 'auto-mode-alist '("\\.duckdb" . sql-mode)))
 #+end_src
 
 ** Term
