@@ -916,7 +916,7 @@ imports in Org.
 ** Python
 
 #+begin_src emacs-lisp
-  (use-package python
+  (use-package python-mode
     :straight t
     :bind
     (:map python-mode-map
