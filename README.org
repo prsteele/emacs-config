@@ -815,46 +815,62 @@ an old coworker's configuration; see
 
 
 #+begin_src emacs-lisp
-  (use-package org
-    :straight t
-    :bind
-    (("C-c l" . org-store-link)
-     ("C-c a" . org-agenda)
-     ("C-c c" . org-capture))
+    (use-package org
+      :straight t
+      :bind
+      (("C-c l" . org-store-link)
+       ("C-c a" . org-agenda)
+       ("C-c c" . org-capture))
 
-    :hook
-    (org-mode . auto-fill-mode)
-    (org-mode . flyspell-mode)
+      :hook
+      (org-mode . auto-fill-mode)
+      (org-mode . flyspell-mode)
 
-    :custom
-    (org-structure-template-alist '(("a" . "export ascii")
-                                   ("c" . "center")
-                                   ("C" . "comment")
-                                   ("e" . "src emacs-lisp")
-                                   ("E" . "export")
-                                   ("h" . "export html")
-                                   ("l" . "export latex")
-                                   ("q" . "quote")
-                                   ("s" . "src")
-                                   ("v" . "verse")))
+      :custom
+      (org-structure-template-alist '(("a" . "export ascii")
+                                     ("c" . "center")
+                                     ("C" . "comment")
+                                     ("l" . "src emacs-lisp")
+                                     ("e" . "example")
+                                     ("E" . "export")
+                                     ("h" . "export html")
+                                     ("q" . "quote")
+                                     ("s" . "src")
+                                     ("v" . "verse")))
 
-    (org-log-done 'time)
-    (org-agenda-files (list "~/org/agenda.org"
-        		    "~/org/todo.org"
-        		    "~/org/journal.org"
-        		    "~/org/research.org"
-        		    "~/org/courses.org"))
-    (org-refile-targets (quote ((nil :maxlevel . 9)
-        			(org-agenda-files :maxlevel . 9)
-        			("~/.emacs.d/readme.org" :maxlevel . 9))))
+      (org-log-done 'time)
+      (org-agenda-files (list "~/org/agenda.org"
+          		    "~/org/todo.org"
+          		    "~/org/journal.org"
+          		    "~/org/research.org"
+          		    "~/org/courses.org"))
+      (org-refile-targets (quote ((nil :maxlevel . 9)
+          			(org-agenda-files :maxlevel . 9)
+          			("~/.emacs.d/readme.org" :maxlevel . 9))))
 
-    (org-capture-templates
-     '(("t" "Todo" entry (file+headline "~/org/todo.org" "Tasks")
-        "* TODO %?\n\nCreated at %U")
-       ("j" "Journal" entry (file+datetree "~/org/journal.org")
-        "* %?\nEntered on %U\n  %i\n  %a")
-       ("r" "Research" entry (file+headline "~/org/research.org" "Research"))
-       ("c" "Courses" entry (file+headline "~/org/courses.org" "Courses")))))
+      (org-capture-templates
+       '(("t" "Todo" entry (file+headline "~/org/todo.org" "Tasks")
+          "* TODO %?\n\nCreated at %U")
+         ("j" "Journal" entry (file+datetree "~/org/journal.org")
+          "* %?\nEntered on %U\n  %i\n  %a")
+         ("r" "Research" entry (file+headline "~/org/research.org" "Research"))
+         ("c" "Courses" entry (file+headline "~/org/courses.org" "Courses"))))
+      (org-imenu-depth 3))
+#+end_src
+
+We define a helpful function for inserting pairs of code-example
+imports in Org.
+
+#+begin_src emacs-lisp
+  (defun insert-code-output-pair (file type)
+    (interactive "fFile: \nMtype: ")
+    (let* ((rel-file (f-relative file))
+           (rel-target (f-relative (f-join "out" (s-concat (f-filename file) ".out"))))
+           (source (s-concat "#+INCLUDE: \"" rel-file "\" src " type))
+           (dest (s-concat "#+INCLUDE: \"" rel-target "\" example")))
+      (insert source)
+      (insert "\n")
+      (insert dest)))
 #+end_src
 
 ** Prog
