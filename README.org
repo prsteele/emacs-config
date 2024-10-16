@@ -41,6 +41,14 @@ Finally, some libraries assume ~tramp~ is loaded.
   (require 'tramp)
 #+end_src
 
+** Server
+
+Start an Emacs server.
+
+#+begin_src emacs-lisp
+  (server-start)
+#+end_src
+
 ** Customization
 
 We use a ~custom.el~ file to hold our customizations.
