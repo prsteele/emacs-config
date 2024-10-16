@@ -536,7 +536,13 @@ Eglot:
           ("C-," . 'xref-go-back)
           ("C-c ?" . 'eglot-help-at-point)
           ("C-c C-c" . 'eglot-code-actions)
-          ("C-c C-r" . 'eglot-rename)))
+          ("C-c C-r" . 'eglot-rename))
+    :config
+    (with-eval-after-load 'eglot
+      (add-to-list 'eglot-server-programs
+                   '(uiua-ts-mode . ("uiua" "lsp")))
+      (add-to-list 'eglot-server-programs
+                   '(uiua-mode . ("uiua" "lsp")))))
 #+end_src
 
 LSP:
@@ -985,6 +991,24 @@ imports in Org.
     :hook
     (text-mode . auto-fill-mode)
     (text-mode . flyspell-mode))
+#+end_src
+
+** Uiua
+
+#+begin_src emacs-lisp
+    (use-package uiua-ts-mode
+      :straight (uiua-ts-mode
+                 :type git
+                 :host github
+                 :repo "crmsnbleyd/uiua-ts-mode")
+      :mode "\\.ua\\'"
+      :hook
+      (uiua-ts-mode . (lambda ()
+                        (rainbow-delimiters-mode -1)
+                        (rainbow-identifiers-mode -1)
+                        (buffer-face-set '(:family "Uiua386"))
+                        (disable-trailing-whitespace)
+                        (eglot-ensure))))
 #+end_src
 
 ** Which-function
