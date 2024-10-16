@@ -97,6 +97,13 @@ I usually want two buffers visible, side-by-side:
   (bind-key "C-x !" #'delete-other-windows)
 #+end_src
 
+I don't like accidentally calling ~mark-page~, and I never intend to
+call it.
+document. Let's unbind it.
+#+begin_src emacs-lisp
+  (global-unset-key (kbd "C-x C-p"))
+#+end_src
+
 ** Environment
 
 Load ~PATH~ from our shell.
