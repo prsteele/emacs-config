@@ -712,7 +712,9 @@ Support activating ~.envrc~ files in Emacs buffers.
     (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode))
 
   (use-package eldoc-box
-    :straight t)
+    :straight t
+    :hook
+    (eldoc-box-buffer . disable-trailing-whitespace))
 #+end_src
 
 ** Flycheck
