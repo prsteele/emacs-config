@@ -1107,3 +1107,11 @@ it.
     :config (which-key-mode)
     :diminish which-key-mode)
 #+end_src
+
+** YAML
+
+#+begin_src emacs-lisp
+  (use-package yaml-ts-mode
+    :hook
+    (yaml-ts-mode . (lambda () (setq tab-width ))))
+#+end_src
