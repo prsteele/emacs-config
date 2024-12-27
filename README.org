@@ -524,6 +524,22 @@ Ruff (Python):
     :lighter " ruff")
 #+end_src
 
+pgformatter (SQL):
+#+begin_src emacs-lisp
+  (defcustom sql-command
+    "pg_format"
+    "The command to run when applying sql formatting"
+    :type 'string
+    :safe 'stringp
+    :local 't
+    :group 'prsteele)
+
+  (reformatter-define sql-format
+    :program sql-command
+    :args '("-")
+    :lighter " format")
+#+end_src
+
 ** LSP
 
 Configure Eglot and ~lsp-mode~, but prefer Eglot.
@@ -973,7 +989,9 @@ imports in Org.
     :custom
     (sql-product "postgres")
     :config
-    (add-to-list 'auto-mode-alist '("\\.duckdb" . sql-mode)))
+    (add-to-list 'auto-mode-alist '("\\.duckdb" . sql-mode))
+    :hook
+    (sql-mode . sql-format-on-save-mode))
 #+end_src
 
 ** Term
