@@ -1028,19 +1028,25 @@ imports in Org.
 ** Uiua
 
 #+begin_src emacs-lisp
-    (use-package uiua-ts-mode
-      :straight (uiua-ts-mode
-                 :type git
-                 :host github
-                 :repo "crmsnbleyd/uiua-ts-mode")
-      :mode "\\.ua\\'"
-      :hook
-      (uiua-ts-mode . (lambda ()
-                        (rainbow-delimiters-mode -1)
-                        (rainbow-identifiers-mode -1)
-                        (buffer-face-set '(:family "Uiua386"))
-                        (disable-trailing-whitespace)
-                        (eglot-ensure))))
+  (use-package uiua-ts-mode
+    :straight (uiua-ts-mode
+               :type git
+               :host github
+               :repo "crmsnbleyd/uiua-ts-mode")
+    :mode "\\.ua\\'"
+    :hook
+    (uiua-ts-mode . (lambda ()
+                      (rainbow-delimiters-mode -1)
+                      (rainbow-identifiers-mode -1)
+                      (buffer-face-set '(:family "Uiua386"))
+                      (disable-trailing-whitespace)
+                      (eglot-ensure)))
+    (uiua-mode . (lambda ()
+                   (rainbow-delimiters-mode -1)
+                   (rainbow-identifiers-mode -1)
+                   (buffer-face-set '(:family "Uiua386"))
+                   (disable-trailing-whitespace)
+                   (eglot-ensure))))
 #+end_src
 
 ** Which-function
