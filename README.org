@@ -690,6 +690,17 @@ Support activating ~.envrc~ files in Emacs buffers.
     (direnv-mode))
 #+end_src
 
+** Docker
+
+#+begin_src emacs-lisp
+  (use-package docker-compose-mode
+    :straight t
+    :config
+    (add-to-list 'auto-mode-alist '("docker-compose.yml\\'" . docker-compose-mode))
+    :hook
+    (docker-compose-mode . (lambda () (auto-fill-mode -1))))
+#+end_src
+
 ** Eldoc
 
 #+begin_src emacs-lisp
