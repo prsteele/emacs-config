@@ -943,7 +943,7 @@ imports in Org.
      '((?f "Find file" project-find-file)
        (?g "Magit" magit-project-status)
        (?d "Dired" project-dired)
-       (?r "Find regexpt" project-find-regexp)))
+       (?r "Find regexp" project-find-regexp)))
     (compilation-always-kill t))
 #+end_src
 
