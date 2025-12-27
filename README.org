@@ -319,10 +319,11 @@ different systems.)
                      (error (funcall go (cdr fonts))))
                  (message "no fonts loaded")))))
     (funcall go '(
-                "FiraCode Nerd Font Mono 12"
-                "FiraMono 12"
-                "NotoSansM Nerd Font 12"
-                "SF Mono 12"
+                  "FiraCode Nerd Font Mono 12"
+                  "VictorMono Nerd Font 12"
+                  "FiraMono 12"
+                  "NotoSansM Nerd Font 12"
+                  "SF Mono 12"
                   )))
 #+end_src
 
