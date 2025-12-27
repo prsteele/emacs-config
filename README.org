@@ -472,7 +472,8 @@ Ormolu (Haskell):
 
   (reformatter-define ormolu-format
     :program ormolu-command
-    :args '()
+    :args
+    `("--stdin-input-file" ,buffer-file-name)
     :lighter " ormolu")
 #+end_src
 
