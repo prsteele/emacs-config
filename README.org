@@ -277,12 +277,16 @@ Don't create backup files, lock files, etc.
    create-lockfiles nil)
 #+end_src
 
-Delete trailing whitespace in most modes, and add a final newline:
+Require that files contain a trailing newline.
 #+begin_src emacs-lisp
-  (defun disable-trailing-whitespace () (setq show-trailing-whitespace nil))
-  (add-hook 'prog-mode-hook #'delete-trailing-whitespace)
-  (add-hook 'text-mode-hook #'delete-trailing-whitespace)
   (setq require-final-newline t)
+#+end_src
+
+Create a function to disable visible trailing whitespace.
+
+#+begin_src emacs-lisp
+  (defun disable-trailing-whitespace ()
+    (setq show-trailing-whitespace nil))
 #+end_src
 
 Enable nested minibuffers:
@@ -1145,7 +1149,10 @@ originally clean.
 #+begin_src emacs-lisp
   (use-package whitespace-cleanup-mode
     :straight t
-    :config (global-whitespace-cleanup-mode))
+    :config (global-whitespace-cleanup-mode)
+    :hook
+    (text-mode . whitespace-cleanup-mode)
+    (prog-mode . whitespace-cleanup-mode))
 #+end_src
 
 ** YAML
