@@ -687,6 +687,9 @@ Support activating ~.envrc~ files in Emacs buffers.
 #+begin_src emacs-lisp
   (use-package direnv
     :straight t
+    :custom
+    (direnv-always-show-summary t)
+    (direnv-show-paths-in-summary nil)
     :config
     (direnv-mode))
 #+end_src
