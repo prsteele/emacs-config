@@ -300,7 +300,7 @@ Use the Monokai theme:
     :straight (monokai-theme
              :type git
              :host github
-               :repo "oneKelvinSmith/monokai-emacs"
+             :repo "oneKelvinSmith/monokai-emacs"
              :files ("*.el"))
     :init
     (load-theme 'monokai t))
@@ -1032,7 +1032,8 @@ imports in Org.
     :straight (uiua-ts-mode
                :type git
                :host github
-               :repo "crmsnbleyd/uiua-ts-mode")
+               :repo "crmsnbleyd/uiua-ts-mode"
+               :files ("*.el"))
     :mode "\\.ua\\'"
     :hook
     (uiua-ts-mode . (lambda ()
