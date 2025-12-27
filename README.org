@@ -804,20 +804,21 @@ Support activating ~.envrc~ files in Emacs buffers.
 ** Haskell
 
 #+begin_src emacs-lisp
-    (use-package haskell-mode
-      :straight t
-      :hook
-      (haskell-mode . ormolu-format-on-save-mode)
-      (haskell-mode . eglot-ensure)
+  (use-package haskell-mode
+    :straight t
+    :hook
+    (haskell-mode . ormolu-format-on-save-mode)
+    (haskell-mode . eglot-ensure)
 
-      :config
-      ;; Turn off broken flymake functions
-      (setq flymake-allowed-file-name-masks
+
+    :config
+    ;; Turn off broken flymake functions
+    (setq flymake-allowed-file-name-masks
           (remove '("\\.l?hs\\'" haskell-flymake-init)
                   flymake-allowed-file-name-masks))
-      :bind
-      (:map haskell-mode-map
-            ("C-c C-l" . #'haskell-process-load-file)))
+    :bind
+    (:map haskell-mode-map
+          ("C-c C-l" . #'haskell-process-load-file)))
 #+end_src
 
 #+begin_src emacs-lisp
