@@ -85,6 +85,12 @@ Bind HOME and END to jump to the start and end of the current buffer.
   (bind-key* (kbd "<end>") #'end-of-buffer)
 #+end_src
 
+I don't like accidentally calling ~mark-page~, and I never intend to
+call it. Let's unbind it.
+#+begin_src emacs-lisp
+  (global-unset-key (kbd "C-x C-p"))
+#+end_src
+
 I usually want two buffers visible, side-by-side:
 #+begin_src emacs-lisp
   (defun revert-to-two-windows ()
@@ -97,11 +103,33 @@ I usually want two buffers visible, side-by-side:
   (bind-key "C-x !" #'delete-other-windows)
 #+end_src
 
-I don't like accidentally calling ~mark-page~, and I never intend to
-call it.
-document. Let's unbind it.
+I would like that same arrangement when automatic splitting happens.
+The ~split-window-sensibly~ function almost does what we want, but it
+tries to split vertically before splitting horizontally. (If we simply
+set ~split-width-threshold~ to ~0~ and ~split-height-threshold~ to
+~nil~, we make too many columns on consecutive splits.)
+
 #+begin_src emacs-lisp
-  (global-unset-key (kbd "C-x C-p"))
+  (defun split-window-more-sensibly (&optional window)
+    "Split WINDOW in a way suitable for `display-buffer'.
+  See `split-window-sensibly' for the original implementation."
+    (let ((window (or window (selected-window))))
+      (or (and (window-splittable-p window t)
+             ;; Split window horizontally.
+             (with-selected-window window
+               (split-window-right)))
+        (and (window-splittable-p window)
+             ;; Split window vertically.
+             (with-selected-window window
+               (split-window-below))))))
+#+end_src
+
+We can now use ~split-window-more-sensibly~ as the splitter.
+
+#+begin_src emacs-lisp
+  (setq split-window-preferred-function #'split-window-sensibly)
+  (setq split-width-threshold 150)
+  (setq split-height-threshold nil)
 #+end_src
 
 ** Environment
