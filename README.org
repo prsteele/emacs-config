@@ -742,8 +742,8 @@ Support activating ~.envrc~ files in Emacs buffers.
     :straight t
     :hook
     (haskell-mode . (lambda ()
-        	      (hack-local-variables)
-        	      (eglot-ensure)))
+                      (hack-local-variables)
+                      (eglot-ensure)))
     (haskell-mode . ormolu-format-on-save-mode)
 
     :config
