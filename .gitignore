@@ -18,6 +18,7 @@ transient/
 eln-cache
 projects
 straight/
+url/
 
 # Local customization
 custom.el
