@@ -632,10 +632,25 @@ Without any particular organization, configuration for various modes.
 
 ** Compile
 
+If we're compiling something that tries to clear the screen, do so.
+This helps with "watching" output.
+
+#+begin_src emacs-lisp
+  (defun clear-in-region-p (text)
+    (string-match-p (regexp-quote "[J") text))
+
+  (defun clear-comint-hook (text)
+    (if (clear-in-region-p text)
+        (comint-clear-buffer))
+    text)
+#+end_src
+
 #+begin_src emacs-lisp
   (use-package compile
     :hook
-    (compilation-mode . disable-trailing-whitespace))
+    (compilation-mode . disable-trailing-whitespace)
+    :config
+    (add-hook 'comint-preoutput-filter-functions #'clear-comint-hook))
 #+end_src
 
 This allows compilation buffers to play nicely with colorization. See the following:
