@@ -623,6 +623,19 @@ Without any particular organization, configuration for various modes.
     :bind (("C-c SPC" . 'ace-jump-mode)))
 #+end_src
 
+** Breadcrumb
+
+#+begin_src emacs-lisp
+  (use-package breadcrumb
+    :straight (breadcrumb
+               :type git
+               :host github
+               :repo "joaotavora/breadcrumb"
+               :files ("*.el"))
+    :init
+    (breadcrumb-mode 't))
+#+end_src
+
 ** Comint
 
 #+begin_src emacs-lisp
