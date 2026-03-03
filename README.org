@@ -327,16 +327,17 @@ different systems.)
                   )))
 #+end_src
 
-Use the Monokai theme:
+Use the Catppuccin theme:
 #+begin_src emacs-lisp
-  (use-package monokai-theme
-    :straight (monokai-theme
-             :type git
-             :host github
-             :repo "oneKelvinSmith/monokai-emacs"
-             :files ("*.el"))
+  (use-package catppuccin-theme
+    :straight (catppuccin-theme
+               :type git
+               :host github
+               :repo "catppuccin/emacs"
+               :files ("*.el")
+               :local-repo "catppuccin-emacs")
     :init
-    (load-theme 'monokai t))
+    (load-theme 'catppuccin t))
 #+end_src
 
 Color nested parenthesis:
