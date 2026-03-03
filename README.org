@@ -813,6 +813,24 @@ Support activating ~.envrc~ files in Emacs buffers.
     (js-json-mode . json-format-on-save-mode))
 #+end_src
 
+** J
+
+#+begin_src emacs-lisp
+  (use-package j-mode
+    :straight t
+    :config
+    (setq j-console-cmd "j-console")
+    (custom-set-faces
+     '(j-verb-face ((t (:foreground "#f38ba8"))))
+     '(j-adverb-face ((t (:foreground "#f9e2af"))))
+     '(j-conjunction-face ((t (:foreground "#cba6f7"))))
+     '(j-other-face ((t (:foreground "#89b4fa")))))
+    :hook
+    (j-mode . (lambda ()
+                (rainbow-delimiters-mode 0)
+                (rainbow-identifiers-mode 0))))
+#+end_src
+
 ** LaTeX
 
 #+begin_src emacs-lisp
