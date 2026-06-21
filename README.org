@@ -392,7 +392,7 @@ Use Orderless to allow for fuzzy completion.
 Find recently-opened files:
 #+begin_src emacs-lisp
   (use-package recentf
-    :after dash
+    :after (dash)
     :config
     (setq recentf-exclude (-concat recentf-exclude '("\\elpa"
                                                      "private/tmp" ; to avoid custom files
@@ -552,39 +552,6 @@ pgformatter (SQL):
     :lighter " format")
 #+end_src
 
-** LSP
-
-Configure Eglot and ~lsp-mode~, but prefer Eglot.
-
-Eglot:
-#+begin_src emacs-lisp
-  (use-package eglot
-    :bind
-    (:map eglot-mode-map
-          ("C-." . 'xref-find-definitions)
-          ("C-," . 'xref-go-back)
-          ("C-c ?" . 'eglot-help-at-point)
-          ("C-c C-c" . 'eglot-code-actions)
-          ("C-c C-r" . 'eglot-rename))
-    :config
-    (with-eval-after-load 'eglot
-      (add-to-list 'eglot-server-programs
-                   '(uiua-ts-mode . ("uiua" "lsp")))
-      (add-to-list 'eglot-server-programs
-                   '(uiua-mode . ("uiua" "lsp")))))
-#+end_src
-
-LSP:
-#+begin_src emacs-lisp
-  (use-package lsp-mode
-    :straight t)
-
-  (use-package lsp-pyright
-    :straight t
-    :custom
-    (lsp-pyright-multi-root nil))
-#+end_src
-
 * Mode configuration
 
 Without any particular organization, configuration for various modes.
@@ -731,10 +698,29 @@ Support activating ~.envrc~ files in Emacs buffers.
     (docker-compose-mode . (lambda () (auto-fill-mode -1))))
 #+end_src
 
+** Eglot
+#+begin_src emacs-lisp
+  (use-package eglot
+    :bind
+    (:map eglot-mode-map
+          ("C-." . 'xref-find-definitions)
+          ("C-," . 'xref-go-back)
+          ("C-c ?" . 'eglot-help-at-point)
+          ("C-c C-c" . 'eglot-code-actions)
+          ("C-c C-r" . 'eglot-rename))
+    :config
+    (with-eval-after-load 'eglot
+      (add-to-list 'eglot-server-programs
+                   '(uiua-ts-mode . ("uiua" "lsp")))
+      (add-to-list 'eglot-server-programs
+                   '(uiua-mode . ("uiua" "lsp")))))
+#+end_src
+
 ** Eldoc
 
 #+begin_src emacs-lisp
   (use-package eldoc
+    :after (eglot)
     :diminish
     :config
     (add-hook 'eglot-managed-mode-hook #'eldoc-box-hover-mode t)
@@ -765,6 +751,7 @@ Support activating ~.envrc~ files in Emacs buffers.
 
 #+begin_src emacs-lisp
   (use-package haskell-mode
+    :after (eglot)
     :hook
     (haskell-mode . ormolu-format-on-save-mode)
     (haskell-mode . eglot-ensure)
@@ -868,6 +855,7 @@ First, we create a helper function:
 
 #+begin_src emacs-lisp
   (use-package nix-mode
+    :after (eglot)
     :hook
     (nix-mode . (lambda () (add-hook 'before-save-hook 'nix-format-before-save 'local)))
     (nix-mode . eglot-ensure)
@@ -942,7 +930,7 @@ imports in Org.
 
 #+begin_src emacs-lisp
   (use-package prog-mode
-    :after (rainbow-delimiters rainbow-identifiers)
+    :after (eglot rainbow-delimiters rainbow-identifiers)
     :bind
     (:map prog-mode-map
           ("C-." . 'xref-find-definitions)
@@ -981,6 +969,7 @@ imports in Org.
 
 #+begin_src emacs-lisp
   (use-package python-mode
+    :after (eglot)
     :bind
     (:map python-mode-map
           (("C-c C-l" . python-shell-send-buffer)))
@@ -1006,6 +995,7 @@ imports in Org.
 
 #+begin_src emacs-lisp
   (use-package rust-mode
+    :after (eglot)
     :hook
     (rust-mode . eglot-ensure))
 #+end_src
@@ -1060,6 +1050,7 @@ imports in Org.
 
 #+begin_src emacs-lisp
   (use-package uiua-ts-mode
+    :after (eglot)
     :mode "\\.ua\\'"
     :hook
     (uiua-ts-mode . (lambda ()
