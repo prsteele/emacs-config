@@ -1,7 +1,8 @@
 * Introduction
 
-This is a literate source file; the source code can be extracted with
-~org-babel-tangle~.
+This is a literate source file; the source code can be extracted with ~org-babel-tangle~. This is bootstrapped in [[file:init.el][init.el]].
+
+Some of this was inspired by [[https://github.com/patrickt/emacs][this configuration]].
 
 * Preamble
 
@@ -878,7 +879,6 @@ an old coworker's configuration; see
      ("C-c c" . org-capture))
 
     :hook
-    (org-mode . auto-fill-mode)
     (org-mode . flyspell-mode)
 
     :custom
