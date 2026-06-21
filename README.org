@@ -10,22 +10,19 @@ First, we load some useful utility libraries.
 File manipulation:
 
 #+begin_src emacs-lisp
-  (use-package f
-    :straight t)
+  (use-package f)
 #+end_src
 
 String manipulation:
 
 #+begin_src emacs-lisp
-  (use-package s
-    :straight t)
+  (use-package s)
 #+end_src
 
 Common lisp functions
 
 #+begin_src emacs-lisp
-  (use-package cl-lib
-    :straight t)
+  (use-package cl-lib)
 #+end_src
 
 To avoid GC pauses, increase the GC threshold; the default values
@@ -138,7 +135,6 @@ Load ~PATH~ from our shell.
 
 #+begin_src emacs-lisp
   (use-package exec-path-from-shell
-    :straight t
     :config
     (exec-path-from-shell-initialize))
 #+end_src
@@ -147,7 +143,6 @@ Respect system keychains, for e.g. pulling from Github.
 
 #+begin_src emacs-lisp
   (use-package keychain-environment
-    :straight t
     :config
     (keychain-refresh-environment))
 #+end_src
@@ -330,26 +325,18 @@ different systems.)
 Use the Catppuccin theme:
 #+begin_src emacs-lisp
   (use-package catppuccin-theme
-    :straight (catppuccin-theme
-               :type git
-               :host github
-               :repo "catppuccin/emacs"
-               :files ("*.el")
-               :local-repo "catppuccin-emacs")
     :init
     (load-theme 'catppuccin t))
 #+end_src
 
 Color nested parenthesis:
 #+begin_src emacs-lisp
-  (use-package rainbow-delimiters
-    :straight t)
+  (use-package rainbow-delimiters)
 #+end_src
 
 Color each identifier (pseudo) uniquely:
 #+begin_src emacs-lisp
-  (use-package rainbow-identifiers
-    :straight t)
+  (use-package rainbow-identifiers)
 #+end_src
 
 Handle poorly-sized frames:
@@ -361,7 +348,6 @@ Handle poorly-sized frames:
 
 #+begin_src emacs-lisp
   (use-package smart-mode-line
-    :straight t
     :custom
     (sml/theme 'respectful)
     (sml/vc-mode-show-backend t)
@@ -377,7 +363,6 @@ Handle poorly-sized frames:
 Vertico provides good minibuffer completion.
 #+begin_src emacs-lisp
   (use-package vertico
-    :straight t
     :init
     (vertico-mode))
 
@@ -397,7 +382,6 @@ Vertico provides good minibuffer completion.
 Use Orderless to allow for fuzzy completion.
 #+begin_src emacs-lisp
   (use-package orderless
-    :straight t
     :init
     (setq
      completion-styles '(orderless)
@@ -408,7 +392,6 @@ Use Orderless to allow for fuzzy completion.
 Find recently-opened files:
 #+begin_src emacs-lisp
   (use-package recentf
-    :straight t
     :after dash
     :config
     (setq recentf-exclude (-concat recentf-exclude '("\\elpa"
@@ -421,7 +404,6 @@ Find recently-opened files:
 Add margin notes in completion minibuffers:
 #+begin_src emacs-lisp
   (use-package marginalia
-    :straight t
     :config (marginalia-mode))
 #+end_src
 
@@ -430,21 +412,18 @@ Add margin notes in completion minibuffers:
 Use Embark to get contextual actions at point.
 #+begin_src emacs-lisp
   (use-package embark
-    :straight t
     :bind ("C-c e" . #'embark-act))
 #+end_src
 
 Tie Embark and Consult together, which for some reason needs to be run
 before asking for ~consult~.
 #+begin_src emacs-lisp
-  (use-package embark-consult
-    :straight t)
+  (use-package embark-consult)
 #+end_src
 
 Use Consult to improve buffer selection, imenu, and more.
 #+begin_src emacs-lisp
   (use-package consult
-    :straight t
     :bind
     (("C-x b" . #'consult-buffer)
      ("C-c i" . #'consult-imenu)
@@ -459,7 +438,6 @@ Use Consult to improve buffer selection, imenu, and more.
 Use Corfu for completion.
 #+begin_src emacs-lisp
   (use-package corfu
-    :straight t
     :custom
     (corfu-auto t)
     :init
@@ -470,8 +448,7 @@ Use Corfu for completion.
 
 The ~reformatter~ package makes it easy to define new formatters.
 #+begin_src emacs-lisp
-  (use-package reformatter
-    :straight t)
+  (use-package reformatter)
 #+end_src
 
 We define formatters for a variety of languages. For each, we define a
@@ -612,14 +589,10 @@ LSP:
 
 Without any particular organization, configuration for various modes.
 
-** Ace jump
+# ** Ace jump
 
 #+begin_src emacs-lisp
   (use-package ace-jump-mode
-    :straight (ace-jump-mode
-               :type git
-               :host github
-               :repo "prsteele/ace-jump-mode")
     :bind (("C-c SPC" . 'ace-jump-mode)))
 #+end_src
 
@@ -627,11 +600,6 @@ Without any particular organization, configuration for various modes.
 
 #+begin_src emacs-lisp
   (use-package breadcrumb
-    :straight (breadcrumb
-               :type git
-               :host github
-               :repo "joaotavora/breadcrumb"
-               :files ("*.el"))
     :init
     (breadcrumb-mode 't))
 #+end_src
@@ -675,7 +643,6 @@ This allows compilation buffers to play nicely with colorization. See the follow
 
 #+begin_src emacs-lisp
   (use-package ansi-color
-    :straight t
     :init
     (defun endless/colorize-compilation ()
       "Colorize from `compilation-filter-start' to `point'."
@@ -731,7 +698,6 @@ This allows compilation buffers to play nicely with colorization. See the follow
 
 #+begin_src emacs-lisp
   (use-package proof-general
-    :straight t
     :bind
     (:map coq-mode-map
           (("RET" . newline-and-indent)))
@@ -748,7 +714,6 @@ Support activating ~.envrc~ files in Emacs buffers.
 
 #+begin_src emacs-lisp
   (use-package direnv
-    :straight t
     :custom
     (direnv-always-show-summary t)
     (direnv-show-paths-in-summary nil)
@@ -760,7 +725,6 @@ Support activating ~.envrc~ files in Emacs buffers.
 
 #+begin_src emacs-lisp
   (use-package docker-compose-mode
-    :straight t
     :config
     (add-to-list 'auto-mode-alist '("docker-compose.yml\\'" . docker-compose-mode))
     :hook
@@ -771,14 +735,12 @@ Support activating ~.envrc~ files in Emacs buffers.
 
 #+begin_src emacs-lisp
   (use-package eldoc
-    :straight t
     :diminish
     :config
     (add-hook 'eglot-managed-mode-hook #'eldoc-box-hover-mode t)
     (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode))
 
   (use-package eldoc-box
-    :straight t
     :hook
     (eldoc-box-buffer . disable-trailing-whitespace))
 #+end_src
@@ -787,7 +749,6 @@ Support activating ~.envrc~ files in Emacs buffers.
 
 #+begin_src emacs-lisp
   (use-package flycheck
-    :straight t
     :diminish flycheck-mode)
 #+end_src
 
@@ -795,7 +756,6 @@ Support activating ~.envrc~ files in Emacs buffers.
 
 #+begin_src emacs-lisp
   (use-package flymake
-    :straight t
     :diminish
     :custom
     (flymake-run-in-place nil))
@@ -805,7 +765,6 @@ Support activating ~.envrc~ files in Emacs buffers.
 
 #+begin_src emacs-lisp
   (use-package haskell-mode
-    :straight t
     :hook
     (haskell-mode . ormolu-format-on-save-mode)
     (haskell-mode . eglot-ensure)
@@ -831,7 +790,6 @@ Support activating ~.envrc~ files in Emacs buffers.
 
 #+begin_src emacs-lisp
   (use-package j-mode
-    :straight t
     :config
     (setq j-console-cmd "j-console")
     (custom-set-faces
@@ -876,12 +834,6 @@ First, we create a helper function:
 
 #+begin_src emacs-lisp
   (use-package lean4-mode
-    :straight (lean4-mode
-             :type git
-             :host github
-               :repo "bustercopley/lean4-mode"
-             ;; :repo "leanprover/lean4-mode"
-             :files ("*.el" "data"))
     :bind
     ("<RET>" . newline-and-indent)
     :config
@@ -894,7 +846,6 @@ First, we create a helper function:
 
 #+begin_src emacs-lisp
   (use-package magit
-    :straight t
     :bind
     ("C-c m" . magit-status)
 
@@ -906,10 +857,9 @@ First, we create a helper function:
 
 #+begin_src emacs-lisp
   (use-package markdown-mode
-    :straight t
     :hook
     (markdown-mode . flyspell-mode)
-    (markdown-mode . auto-fill-mode)
+    (markdown-mode . visual-line-mode)
     :config
     (add-to-list 'auto-mode-alist '("\\.md" . markdown-mode)))
 #+end_src
@@ -918,7 +868,6 @@ First, we create a helper function:
 
 #+begin_src emacs-lisp
   (use-package nix-mode
-    :straight t
     :hook
     (nix-mode . (lambda () (add-hook 'before-save-hook 'nix-format-before-save 'local)))
     (nix-mode . eglot-ensure)
@@ -935,7 +884,6 @@ an old coworker's configuration; see
 
 #+begin_src emacs-lisp
   (use-package org
-    :straight t
     :bind
     (("C-c l" . org-store-link)
      ("C-c a" . org-agenda)
@@ -1015,7 +963,6 @@ imports in Org.
 
 #+begin_src emacs-lisp
   (use-package project
-    :straight t
     :bind (("C-c k" . #'project-kill-buffers)
            ("C-c m" . #'project-compile)
            ("C-x f" . #'find-file)
@@ -1034,7 +981,6 @@ imports in Org.
 
 #+begin_src emacs-lisp
   (use-package python-mode
-    :straight t
     :bind
     (:map python-mode-map
           (("C-c C-l" . python-shell-send-buffer)))
@@ -1051,10 +997,17 @@ imports in Org.
 
 #+begin_src emacs-lisp
   (use-package rst
-    :straight t
     :hook
     (rst-mode . flyspell-mode)
     (rst-mode . auto-fill-mode))
+#+end_src
+
+** Rust
+
+#+begin_src emacs-lisp
+  (use-package rust-mode
+    :hook
+    (rust-mode . eglot-ensure))
 #+end_src
 
 ** Scheme
@@ -1070,7 +1023,6 @@ imports in Org.
 
 #+begin_src emacs-lisp
   (use-package shell
-    :straight t
     :hook
     (shell-mode . disable-trailing-whitespace))
 #+end_src
@@ -1079,7 +1031,6 @@ imports in Org.
 
 #+begin_src emacs-lisp
   (use-package sql
-    :straight t
     :custom
     (sql-product "postgres")
     :config
@@ -1092,7 +1043,6 @@ imports in Org.
 
 #+begin_src emacs-lisp
   (use-package term
-    :straight t
     :hook
     (term-mode . disable-trailing-whitespace))
 #+end_src
@@ -1102,7 +1052,7 @@ imports in Org.
 #+begin_src emacs-lisp
   (use-package text-mode
     :hook
-    (text-mode . auto-fill-mode)
+    (text-mode . visual-line-mode)
     (text-mode . flyspell-mode))
 #+end_src
 
@@ -1110,11 +1060,6 @@ imports in Org.
 
 #+begin_src emacs-lisp
   (use-package uiua-ts-mode
-    :straight (uiua-ts-mode
-               :type git
-               :host github
-               :repo "crmsnbleyd/uiua-ts-mode"
-               :files ("*.el"))
     :mode "\\.ua\\'"
     :hook
     (uiua-ts-mode . (lambda ()
@@ -1139,7 +1084,6 @@ it.
 
 #+begin_src emacs-lisp
   (use-package which-func
-    :straight t
     :config
     (defconst
       my-which-func-current
@@ -1185,7 +1129,6 @@ it.
 
 #+begin_src emacs-lisp
   (use-package which-key
-    :straight t
     :config (which-key-mode)
     :diminish which-key-mode)
 #+end_src
@@ -1197,7 +1140,6 @@ originally clean.
 
 #+begin_src emacs-lisp
   (use-package whitespace-cleanup-mode
-    :straight t
     :config (global-whitespace-cleanup-mode)
     :hook
     (text-mode . whitespace-cleanup-mode)

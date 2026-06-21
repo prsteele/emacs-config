@@ -15,27 +15,8 @@
   ;; and future frames
   (add-hook 'server-after-make-frame-hook (lambda () (f))))
 
-;; Bootstrap straight.el, and hook it into use-package
-(defvar bootstrap-version)
-(let ((bootstrap-file
-       (expand-file-name
-        "straight/repos/straight.el/bootstrap.el"
-        (or (bound-and-true-p straight-base-dir)
-            user-emacs-directory)))
-      (bootstrap-version 7))
-  (unless (file-exists-p bootstrap-file)
-    (with-current-buffer
-        (url-retrieve-synchronously
-         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
-         'silent 'inhibit-cookies)
-      (goto-char (point-max))
-      (eval-print-last-sexp)))
-  (load bootstrap-file nil 'nomessage))
-(straight-use-package 'use-package)
-
 ;; Load org-based config
-(use-package org
-  :straight t)
+(use-package org)
 (eval-when-compile
   (require 'org)
   (require 'ob-tangle))
